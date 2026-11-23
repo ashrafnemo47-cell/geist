@@ -475,7 +475,9 @@ Additional details: ${val("details")}`;
   setLanguage("ar");
 });
 
-/* INTERACTIVE MOON AND STARS */
+/* =====================================
+   PHARAOH EGYPT - LIGHT NIGHT SKY
+===================================== */
 
 (() => {
   function createNightSky() {
@@ -483,48 +485,27 @@ Additional details: ${val("details")}`;
 
     const sky = document.createElement("div");
     sky.className = "night-sky";
+    sky.setAttribute("aria-hidden", "true");
 
+    // القمر
     const moon = document.createElement("div");
     moon.className = "night-moon";
-    moon.title = "اضغط لإخفاء السماء";
-
     sky.appendChild(moon);
 
-    // إنشاء النجوم
-    for (let i = 0; i < 55; i++) {
+    // نجوم خفيفة بعدد أقل لتحسين الأداء
+    for (let i = 0; i < 28; i++) {
       const star = document.createElement("span");
       star.className = "night-star";
 
       star.style.left = Math.random() * 100 + "%";
       star.style.top = Math.random() * 100 + "%";
-      star.style.animationDelay = Math.random() * 4 + "s";
+      star.style.animationDelay = Math.random() * 5 + "s";
 
       sky.appendChild(star);
     }
 
-    document.body.appendChild(sky);
-
-    // الضغط على القمر أو النجوم يخفي السماء
-    sky.addEventListener("click", (event) => {
-      if (
-        event.target.classList.contains("night-moon") ||
-        event.target.classList.contains("night-star")
-      ) {
-        sky.classList.add("hidden");
-      }
-    });
-
-    // إعادة إظهار السماء عند الرجوع للوضع الليلي
-    const observer = new MutationObserver(() => {
-      if (document.body.classList.contains("light-mode")) {
-        sky.classList.remove("hidden");
-      }
-    });
-
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ["class"]
-    });
+    // وضع السماء أول عنصر داخل الصفحة
+    document.body.prepend(sky);
   }
 
   if (document.readyState === "loading") {
