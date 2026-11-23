@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -41,6 +42,7 @@
       <button class="theme-toggle" id="themeToggle" aria-label="تغيير المظهر">
         ☀️
       </button>
+
       <a class="logo" href="#home">
         <span class="logo-icon">𓂀</span>
         <span>
@@ -67,6 +69,13 @@
       </button>
     </header>
 
+    <!-- LIVE DATE & TIME -->
+    <div class="egypt-datetime" dir="rtl">
+      <span id="liveDate"></span>
+      <span class="clock-divider">𓂀</span>
+      <span id="liveTime"></span>
+    </div>
+
     <main>
       <!-- HERO -->
       <section class="hero" id="home">
@@ -85,6 +94,7 @@
           <div class="pyramid-mark">◢　△　◢</div>
 
           <h1 class="pharaoh-title">PHARAOH <em>EGYPT</em></h1>
+
           <div class="hero-ribbon" data-i18n="heroRibbon">
             خدمات النقل السياحي والرحلات الخاصة داخل مصر
           </div>
@@ -262,33 +272,33 @@
             بزيارته.
           </p>
         </div>
-      <div class="pharaoh-animation" aria-label="PHARAOH EGYPT">
-  <span>P</span>
-  <span>H</span>
-  <span>A</span>
-  <span>R</span>
-  <span>A</span>
-  <span>O</span>
-  <span>H</span>
 
-  <span class="word-space"></span>
+        <div class="pharaoh-animation" aria-label="PHARAOH EGYPT">
+          <span>P</span>
+          <span>H</span>
+          <span>A</span>
+          <span>R</span>
+          <span>A</span>
+          <span>O</span>
+          <span>H</span>
 
-  <span>E</span>
-  <span>G</span>
-  <span>Y</span>
-  <span>P</span>
-  <span>T</span>
-</div>
+          <span class="word-space"></span>
+
+          <span>E</span>
+          <span>G</span>
+          <span>Y</span>
+          <span>P</span>
+          <span>T</span>
+        </div>
+
         <div class="destination-grid">
           <a
             class="destination large reveal"
             href="#booking"
-            style="
-              --photo: url(&quot;https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1100&q=85&quot;);
-            "
+            style="--photo: url('https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1100&q=85');"
           >
-            <small>01 / الأهرامات</small>
-            <b data-i18n="">The Pyramids</b>
+            <small>01 / PYRAMIDS</small>
+            <b data-i18n="placePyramids">الأهرامات</b>
             <span data-i18n="placeLuxorSub">الحضارة القديمة</span>
             <i>↗</i>
           </a>
@@ -296,9 +306,7 @@
           <a
             class="destination reveal"
             href="#booking"
-            style="
-              --photo: url(&quot;https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=900&q=85&quot;);
-            "
+            style="--photo: url('https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=900&q=85');"
           >
             <small>02 / ASWAN</small>
             <b data-i18n="placeAswan">أسوان</b>
@@ -309,9 +317,7 @@
           <a
             class="destination reveal"
             href="#booking"
-            style="
-              --photo: url(&quot;https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85&quot;);
-            "
+            style="--photo: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85');"
           >
             <small>03 / HURGHADA</small>
             <b data-i18n="placeHurghada">الغردقة</b>
@@ -322,9 +328,7 @@
           <a
             class="destination reveal"
             href="#booking"
-            style="
-              --photo: url(&quot;https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=900&q=85&quot;);
-            "
+            style="--photo: url('https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=900&q=85');"
           >
             <small>04 / CAIRO</small>
             <b data-i18n="placeCairo">القاهرة</b>
@@ -335,9 +339,7 @@
           <a
             class="destination reveal"
             href="#booking"
-            style="
-              --photo: url(&quot;https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=85&quot;);
-            "
+            style="--photo: url('https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=85');"
           >
             <small>05 / RED SEA</small>
             <b data-i18n="placeRedSea">البحر الأحمر</b>
@@ -500,6 +502,12 @@
                 </select>
               </label>
 
+              <!-- TRIP DATE -->
+              <label>
+                <span data-i18n="dateLabel">تاريخ الرحلة</span>
+                <input id="date" type="date" />
+              </label>
+
               <label>
                 <span data-i18n="peopleLabel">عدد المسافرين</span>
                 <select id="people">
@@ -515,7 +523,10 @@
 
               <label class="full">
                 <span data-i18n="pickupLabel">مكان الاستقبال / الفندق</span>
-                <input id="pickup" placeholder="اسم الفندق أو مكان الاستقبال" />
+                <input
+                  id="pickup"
+                  placeholder="اسم الفندق أو مكان الاستقبال"
+                />
               </label>
 
               <label class="full">
@@ -623,13 +634,14 @@
 
     <!-- FOOTER -->
     <footer>
-      <a class="footer-logo" href="#home"> 𓂀 PHARAOH EGYPT </a>
+      <a class="footer-logo" href="#home">𓂀 PHARAOH EGYPT</a>
 
-      <p data-i18n="footerText">اكتشف مصر معنا، واجعل رحلتك ذكرى لا تُنسى.</p>
+      <p data-i18n="footerText">
+        اكتشف مصر معنا، واجعل رحلتك ذكرى لا تُنسى.
+      </p>
 
       <!-- SOCIAL MEDIA -->
       <div class="social-links">
-        <!-- FACEBOOK -->
         <a
           href="https://www.facebook.com/"
           class="social-icon facebook"
@@ -645,7 +657,6 @@
           </svg>
         </a>
 
-        <!-- INSTAGRAM -->
         <a
           href="https://www.instagram.com/"
           class="social-icon instagram"
@@ -661,7 +672,6 @@
           </svg>
         </a>
 
-        <!-- WHATSAPP -->
         <a
           href="https://wa.me/201028348346"
           class="social-icon whatsapp"
