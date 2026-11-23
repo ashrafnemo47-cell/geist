@@ -3165,3 +3165,126 @@ body > *:not(.night-sky) {
     top: 90px;
   }
 }
+
+/* =====================================
+   PHARAOH EGYPT - SMOOTH NIGHT SKY
+===================================== */
+
+.night-sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.7s ease,
+    visibility 0.7s ease;
+}
+
+/* إبقاء محتوى الموقع فوق السماء */
+body > :not(.night-sky) {
+  isolation: isolate;
+}
+
+/* ظهور السماء في الوضع الليلي فقط */
+body.dark-mode .night-sky {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* القمر */
+.night-moon {
+  position: absolute;
+  top: 100px;
+  right: 9%;
+
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle at 35% 30%,
+    #ffffff 0%,
+    #fff6d5 40%,
+    #e9cf8b 75%,
+    #d2a94d 100%
+  );
+
+  box-shadow:
+    0 0 12px #fff1bd,
+    0 0 30px #f5d98a55;
+
+  animation: moonGentle 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* النجوم */
+.night-star {
+  position: absolute;
+
+  width: 2px;
+  height: 2px;
+
+  border-radius: 50%;
+  background: #fff5ce;
+
+  box-shadow: 0 0 5px #ffe8a0;
+
+  opacity: 0.25;
+
+  animation: starGlow 4s ease-in-out infinite alternate;
+}
+
+/* حركة القمر */
+@keyframes moonGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* وميض النجوم */
+@keyframes starGlow {
+  from {
+    opacity: 0.2;
+  }
+
+  to {
+    opacity: 0.9;
+  }
+}
+
+/* الموبايل */
+@media (max-width: 600px) {
+  .night-moon {
+    width: 48px;
+    height: 48px;
+    top: 95px;
+    right: 7%;
+  }
+
+  .night-star {
+    width: 1.5px;
+    height: 1.5px;
+  }
+}
+
+/* تقليل الحركة عند طلب ذلك */
+@media (prefers-reduced-motion: reduce) {
+  .night-moon,
+  .night-star {
+    animation: none !important;
+  }
+
+  .night-sky {
+    transition: none;
+  }
+}
+
