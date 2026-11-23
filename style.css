@@ -2632,27 +2632,40 @@ body::after {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  filter:
-    drop-shadow(0 3px 0 #80551e)
-    drop-shadow(0 7px 0 #493015)
-    drop-shadow(0 12px 12px rgba(0,0,0,.6))
-    drop-shadow(0 0 12px rgba(233,201,135,.25));
+  filter: drop-shadow(0 3px 0 #80551e) drop-shadow(0 7px 0 #493015)
+    drop-shadow(0 12px 12px rgba(0, 0, 0, 0.6))
+    drop-shadow(0 0 12px rgba(233, 201, 135, 0.25));
 
   animation: pharaohFloat 3s ease-in-out infinite;
   transform-style: preserve-3d;
 }
 
 /* توقيت مختلف لكل حرف */
-.pharaoh-animation span:nth-child(1) { animation-delay: 0s; }
-.pharaoh-animation span:nth-child(2) { animation-delay: .2s; }
-.pharaoh-animation span:nth-child(3) { animation-delay: .4s; }
-.pharaoh-animation span:nth-child(4) { animation-delay: .6s; }
-.pharaoh-animation span:nth-child(5) { animation-delay: .8s; }
-.pharaoh-animation span:nth-child(6) { animation-delay: 1s; }
-.pharaoh-animation span:nth-child(7) { animation-delay: 1.2s; }
+.pharaoh-animation span:nth-child(1) {
+  animation-delay: 0s;
+}
+.pharaoh-animation span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.pharaoh-animation span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.pharaoh-animation span:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.pharaoh-animation span:nth-child(5) {
+  animation-delay: 0.8s;
+}
+.pharaoh-animation span:nth-child(6) {
+  animation-delay: 1s;
+}
+.pharaoh-animation span:nth-child(7) {
+  animation-delay: 1.2s;
+}
 
 @keyframes pharaohFloat {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotateY(0deg) rotateX(0deg);
   }
 
@@ -2671,4 +2684,484 @@ body::after {
 .pharaoh-animation .word-space {
   width: 0.3em;
   animation: none;
+}
+
+/* =====================================
+   PHARAOH EGYPT - LIVE DATE & CLOCK
+===================================== */
+
+.egypt-datetime {
+  position: relative;
+  z-index: 15;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 86px;
+  padding: 12px 15px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  color: #ffe29a;
+  background: linear-gradient(
+    90deg,
+    rgba(3, 9, 22, 0.96),
+    rgba(7, 21, 47, 0.92),
+    rgba(3, 9, 22, 0.96)
+  );
+
+  border-bottom: 1px solid rgba(233, 183, 67, 0.35);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 0 12px #e9b74366;
+}
+
+.clock-divider {
+  color: #e9b743;
+  font-size: 19px;
+  text-shadow:
+    0 0 8px #e9b743,
+    0 0 18px #e9b74388;
+}
+
+@media (max-width: 760px) {
+  .egypt-datetime {
+    margin-top: 72px;
+    padding: 11px 8px;
+    gap: 9px;
+    font-size: 11px;
+  }
+
+  .clock-divider {
+    font-size: 16px;
+  }
+}
+
+/* =====================================
+   PHARAOH EGYPT - DAY & NIGHT MODE
+===================================== */
+
+/* انتقال هادئ */
+body,
+header,
+section,
+footer,
+nav,
+.card,
+.service-card,
+.destination-card,
+.gallery-item,
+.booking-card,
+.contact-card {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* =====================================
+   وضع النهار - خلفية بيضاء
+===================================== */
+
+body.light-mode {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #172033 !important;
+}
+
+/* خلفيات الأقسام */
+body.light-mode section,
+body.light-mode main,
+body.light-mode .about,
+body.light-mode .services,
+body.light-mode .destinations,
+body.light-mode .gallery,
+body.light-mode .booking,
+body.light-mode .contact {
+  background-color: #ffffff !important;
+  color: #172033 !important;
+}
+
+/* النصوص */
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode p,
+body.light-mode span,
+body.light-mode label,
+body.light-mode li,
+body.light-mode b,
+body.light-mode strong {
+  color: #172033;
+}
+
+/* النصوص الذهبية تظل ذهبية */
+body.light-mode em,
+body.light-mode .gold,
+body.light-mode .kicker,
+body.light-mode .section-kicker {
+  color: #b88625;
+}
+
+/* الهيدر */
+body.light-mode .header,
+body.light-mode header {
+  background: rgba(255, 255, 255, 0.97) !important;
+  color: #172033 !important;
+  border-bottom: 1px solid #e8dfcb;
+  box-shadow: 0 5px 22px rgba(0, 0, 0, 0.07);
+}
+
+/* القوائم */
+body.light-mode nav,
+body.light-mode .nav {
+  background-color: #ffffff;
+}
+
+body.light-mode nav a,
+body.light-mode .nav a {
+  color: #172033 !important;
+}
+
+/* الكروت */
+body.light-mode .card,
+body.light-mode .service-card,
+body.light-mode .destination-card,
+body.light-mode .booking-card,
+body.light-mode .contact-card,
+body.light-mode .about-card,
+body.light-mode .service-box {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border: 1px solid #eee5d3;
+  box-shadow: 0 8px 28px rgba(20, 30, 50, 0.08);
+}
+
+/* النصوص داخل الكروت */
+body.light-mode .card p,
+body.light-mode .service-card p,
+body.light-mode .destination-card p,
+body.light-mode .booking-card p {
+  color: #586273 !important;
+}
+
+/* حقول الحجز */
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border: 1px solid #d9dce3 !important;
+}
+
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder {
+  color: #89919e !important;
+}
+
+/* الأزرار */
+body.light-mode button,
+body.light-mode .btn {
+  color: #172033;
+}
+
+/* الفوتر */
+body.light-mode footer {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-top: 1px solid #eee5d3;
+}
+
+/* الساعة والتاريخ */
+body.light-mode .egypt-datetime {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-bottom: 1px solid #e8dfcb;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .clock-divider {
+  color: #b88625 !important;
+}
+
+/* =====================================
+   الصور - تبقى طبيعية وواضحة في الوضعين
+===================================== */
+
+body.light-mode img,
+body.light-mode picture,
+body.light-mode video {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* لا نغير خلفيات الصور أو طبقاتها */
+body.light-mode .gallery-item img,
+body.light-mode .destination-card img,
+body.light-mode .hero img {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* =====================================
+   الوضع الليلي - التصميم الأصلي
+===================================== */
+
+body.dark-mode {
+  color-scheme: dark;
+}
+
+/* =====================================
+   منع تأثير الوضع على الصور
+===================================== */
+
+.gallery-item img,
+.destination-card img,
+img {
+  transition: transform 0.4s ease;
+}
+
+/* =========================================
+   PHARAOH EGYPT - 3D MOVING NIGHT SKY
+========================================= */
+
+/* خلفية السماء */
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+/* طبقة النجوم */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(2px 2px at 8% 15%, #fff 98%, transparent),
+    radial-gradient(3px 3px at 20% 45%, #ffe9a0 98%, transparent),
+    radial-gradient(2px 2px at 35% 75%, #fff 98%, transparent),
+    radial-gradient(3px 3px at 48% 25%, #fff2c0 98%, transparent),
+    radial-gradient(2px 2px at 65% 60%, #fff 98%, transparent),
+    radial-gradient(3px 3px at 80% 18%, #ffe9a0 98%, transparent),
+    radial-gradient(2px 2px at 93% 80%, #fff 98%, transparent),
+    radial-gradient(2px 2px at 72% 90%, #fff 98%, transparent);
+
+  background-size: 100% 100%;
+  background-repeat: repeat;
+
+  opacity: 0;
+  animation: starTravel 18s ease-in-out infinite alternate,
+             starBlink 3s ease-in-out infinite alternate;
+  transition: opacity 1s ease;
+}
+
+/* القمر */
+body::after {
+  content: "";
+  position: fixed;
+  top: 110px;
+  right: 10%;
+  width: 95px;
+  height: 95px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle at 35% 30%,
+    #ffffff 0%,
+    #fff6cf 35%,
+    #e9c66e 72%,
+    #b98a36 100%
+  );
+
+  box-shadow:
+    0 0 18px #fff4bd,
+    0 0 40px #e9b743aa,
+    0 0 85px #e9b74366,
+    0 0 130px #e9b74333;
+
+  opacity: 0;
+  animation: moonTravel 9s ease-in-out infinite;
+  transition: opacity 1s ease;
+}
+
+/* إظهار السماء في الوضع الليلي */
+body.dark-mode::before,
+body.dark-mode::after {
+  opacity: 1;
+}
+
+/* حركة النجوم */
+@keyframes starTravel {
+  0% {
+    background-position: 0 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    background-position: 35px -25px;
+    transform: translate3d(8px, -10px, 0);
+  }
+
+  100% {
+    background-position: -30px 25px;
+    transform: translate3d(-8px, 10px, 0);
+  }
+}
+
+/* لمعان النجوم */
+@keyframes starBlink {
+  0% { opacity: 0.35; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.55; }
+}
+
+/* حركة القمر ثلاثية الأبعاد */
+@keyframes moonTravel {
+  0%, 100% {
+    transform: perspective(700px)
+      translate3d(0, 0, 0)
+      rotateY(-15deg);
+  }
+
+  50% {
+    transform: perspective(700px)
+      translate3d(-18px, -16px, 20px)
+      rotateY(15deg);
+  }
+}
+
+/* النهار: بدون قمر أو نجوم */
+body.light-mode::before,
+body.light-mode::after {
+  opacity: 0;
+  animation: none;
+}
+
+/* الموبايل */
+@media (max-width: 600px) {
+  body::after {
+    width: 65px;
+    height: 65px;
+    top: 90px;
+    right: 7%;
+  }
+}
+
+/* تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none !important;
+  }
+}
+
+/* PHARAOH EGYPT - INTERACTIVE NIGHT SKY */
+
+.night-sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+body.dark-mode .night-sky {
+  opacity: 1;
+}
+
+body.light-mode .night-sky {
+  opacity: 0;
+}
+
+.night-moon {
+  position: absolute;
+  top: 110px;
+  right: 10%;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+
+  background: radial-gradient(circle at 35% 30%,
+    #fff 0%, #fff5c5 38%, #e9c66e 75%, #b98a36 100%);
+
+  box-shadow:
+    0 0 20px #fff5bd,
+    0 0 55px #f5d98a,
+    0 0 100px #e9b74388;
+
+  animation: moonFloat 7s ease-in-out infinite;
+}
+
+.night-star {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff9d9;
+  cursor: pointer;
+  pointer-events: auto;
+
+  box-shadow:
+    0 0 8px #fff,
+    0 0 18px #ffe9a0,
+    0 0 30px #e9b743;
+
+  animation: starFloat 4s ease-in-out infinite alternate;
+}
+
+.night-sky.hidden {
+  opacity: 0 !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes moonFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotateY(-12deg);
+  }
+  50% {
+    transform: translate3d(-15px, -15px, 15px) rotateY(12deg);
+  }
+}
+
+@keyframes starFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(.7);
+    opacity: .35;
+  }
+  100% {
+    transform: translate3d(12px, -15px, 10px) scale(1.5);
+    opacity: 1;
+  }
+}
+
+/* اجعل محتوى الموقع فوق السماء */
+body > *:not(.night-sky) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .night-moon {
+    width: 65px;
+    height: 65px;
+    top: 90px;
+  }
 }
