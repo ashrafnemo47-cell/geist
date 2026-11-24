@@ -500,19 +500,21 @@
                 </select>
               </label>
 
-              <label>
-                <span data-i18n="destinationLabel">الوجهة *</span>
-                <select id="destination" required>
-                  <option value="الأقصر / Luxor">الأقصر / Luxor</option>
-                  <option value="أسوان / Aswan">أسوان / Aswan</option>
-                  <option value="الغردقة / Hurghada">الغردقة / Hurghada</option>
-                  <option value="القاهرة / Cairo">القاهرة / Cairo</option>
-                  <option value="البحر الأحمر / Red Sea">
-                    البحر الأحمر / Red Sea
-                  </option>
-                  <option value="وجهة أخرى / Other">وجهة أخرى / Other</option>
-                </select>
-              </label>
+             
+<label>
+  <span data-i18n="destinationLabel">المحافظة *</span>
+  <select id="destination" name="destination" required>
+    <option value="">اختر المحافظة</option>
+  </select>
+</label>
+
+<label>
+  <span data-i18n="attractionLabel">المعلم السياحي *</span>
+  <select id="attraction" name="attraction" required disabled>
+    <option value="">اختر المحافظة أولاً</option>
+  </select>
+</label>
+
 
               <!-- TRIP DATE -->
               <label>
