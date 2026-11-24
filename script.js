@@ -1,3 +1,4 @@
+
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const translations = {
     en: {
+      navMap: "Egypt Tourist Map",
       navHome: "Home",
       navAbout: "About",
       navServices: "Services",
@@ -126,11 +128,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================================
-  // تغيير اللغة
+  // تغيير اللغة وحفظها
   // =====================================
 
   function setLanguage(next) {
     lang = next === "en" ? "en" : "ar";
+
+    try {
+      localStorage.setItem("pharaoh_language", lang);
+    } catch (error) {}
 
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
@@ -182,6 +188,16 @@ document.addEventListener("DOMContentLoaded", () => {
       setLanguage(lang === "ar" ? "en" : "ar");
     });
   }
+
+  // =====================================
+  // مزامنة اللغة بين الصفحات المفتوحة
+  // =====================================
+
+  window.addEventListener("storage", (event) => {
+    if (event.key === "pharaoh_language" && event.newValue) {
+      setLanguage(event.newValue);
+    }
+  });
 
   // =====================================
   // التاريخ والساعة حسب جهاز الزائر
@@ -387,7 +403,7 @@ Additional details: ${val("details")}`;
   }
 
   // =====================================
-  // نظام الليل والنهار والألوان
+  // نظام الليل والنهار
   // =====================================
 
   const themeToggle = $("#themeToggle");
@@ -397,7 +413,6 @@ Additional details: ${val("details")}`;
     const currentTheme = theme === "light" ? "light" : "dark";
     const isLight = currentTheme === "light";
 
-    // تطبيق الوضع على الصفحة كلها
     root.dataset.theme = currentTheme;
     document.body.dataset.theme = currentTheme;
 
@@ -407,17 +422,14 @@ Additional details: ${val("details")}`;
     document.body.classList.toggle("light-mode", isLight);
     document.body.classList.toggle("dark-mode", !isLight);
 
-    // ضبط ألوان المتصفح
     root.style.colorScheme = currentTheme;
 
-    // تغيير لون شريط المتصفح
     const themeColor = $('meta[name="theme-color"]');
 
     if (themeColor) {
       themeColor.setAttribute("content", isLight ? "#f5f0e5" : "#06132c");
     }
 
-    // تغيير شكل زر الوضع
     if (themeToggle) {
       themeToggle.textContent = isLight ? "🌙" : "☀️";
 
@@ -433,46 +445,51 @@ Additional details: ${val("details")}`;
     }
   }
 
-  // استعادة الوضع المحفوظ
   function getSavedTheme() {
     try {
-      const saved = localStorage.getItem("pharaoh-theme");
+      const saved = localStorage.getItem("pharaoh_theme");
 
       if (saved === "light" || saved === "dark") {
         return saved;
       }
-    } catch (error) {
-      // استخدام الوضع الافتراضي
-    }
+    } catch (error) {}
 
     return "dark";
   }
 
-  // تشغيل الوضع المحفوظ عند فتح الموقع
   applyTheme(getSavedTheme());
 
-  // تبديل الوضع عند الضغط
   if (themeToggle) {
     themeToggle.addEventListener("click", () => {
       const currentTheme = root.dataset.theme || "dark";
-
       const newTheme = currentTheme === "dark" ? "light" : "dark";
 
       applyTheme(newTheme);
 
       try {
-        localStorage.setItem("pharaoh-theme", newTheme);
-      } catch (error) {
-        // يظل التغيير فعالاً حتى لو تعذر الحفظ
-      }
+        localStorage.setItem("pharaoh_theme", newTheme);
+      } catch (error) {}
     });
   }
 
+  // مزامنة الوضع بين الصفحات المفتوحة
+  window.addEventListener("storage", (event) => {
+    if (event.key === "pharaoh_theme" && event.newValue) {
+      applyTheme(event.newValue);
+    }
+  });
+
   // =====================================
-  // تشغيل اللغة العربية عند فتح الموقع
+  // تشغيل اللغة المحفوظة
   // =====================================
 
-  setLanguage("ar");
+  let savedLanguage = "ar";
+
+  try {
+    savedLanguage = localStorage.getItem("pharaoh_language") || "ar";
+  } catch (error) {}
+
+  setLanguage(savedLanguage);
 });
 
 /* =====================================
@@ -487,12 +504,10 @@ Additional details: ${val("details")}`;
     sky.className = "night-sky";
     sky.setAttribute("aria-hidden", "true");
 
-    // القمر
     const moon = document.createElement("div");
     moon.className = "night-moon";
     sky.appendChild(moon);
 
-    // نجوم خفيفة بعدد أقل لتحسين الأداء
     for (let i = 0; i < 28; i++) {
       const star = document.createElement("span");
       star.className = "night-star";
@@ -504,7 +519,6 @@ Additional details: ${val("details")}`;
       sky.appendChild(star);
     }
 
-    // وضع السماء أول عنصر داخل الصفحة
     document.body.prepend(sky);
   }
 
