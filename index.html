@@ -23,6 +23,24 @@
   </head>
 
   <body>
+   
+<!-- INTRO VIDEO -->
+<div id="intro-screen">
+  <video
+    id="intro-video"
+    autoplay
+    muted
+    playsinline
+    preload="auto"
+  >
+    <source src="./main.mp4" type="video/mp4" />
+    المتصفح لا يدعم تشغيل الفيديو.
+  </video>
+
+</div>
+
+      <button id="skip-intro">تخطي المقدمة</button>
+    </div>
     <div class="royal-atmosphere">
       <div class="aurora aurora-one"></div>
       <div class="aurora aurora-two"></div>
@@ -35,6 +53,8 @@
       <span>𓂀</span>
       <b>PHARAOH EGYPT</b>
     </div>
+
+    <!-- باقي محتوى موقعك كما هو -->
 
     <!-- HEADER -->
     <header class="header">
@@ -57,9 +77,7 @@
         <a href="#about" data-i18n="navAbout">عن الشركة</a>
         <a href="#services" data-i18n="navServices">خدماتنا</a>
         <a href="#destinations" data-i18n="navPlaces">الوجهات</a>
-      <a href="destinations.html" data-i18n="navMap">
-  خريطة مصر السياحية
-</a>
+        <a href="destinations.html" data-i18n="navMap"> خريطة مصر السياحية </a>
         <a href="#gallery" data-i18n="navGallery">معرض الصور</a>
         <a href="#booking" data-i18n="navBooking">احجز الآن</a>
         <a href="#contact" data-i18n="navContact">تواصل معنا</a>
@@ -500,21 +518,19 @@
                 </select>
               </label>
 
-             
-<label>
-  <span data-i18n="destinationLabel">المحافظة *</span>
-  <select id="destination" name="destination" required>
-    <option value="">اختر المحافظة</option>
-  </select>
-</label>
+              <label>
+                <span data-i18n="destinationLabel">المحافظة *</span>
+                <select id="destination" name="destination" required>
+                  <option value="">اختر المحافظة</option>
+                </select>
+              </label>
 
-<label>
-  <span data-i18n="attractionLabel">المعلم السياحي *</span>
-  <select id="attraction" name="attraction" required disabled>
-    <option value="">اختر المحافظة أولاً</option>
-  </select>
-</label>
-
+              <label>
+                <span data-i18n="attractionLabel">المعلم السياحي *</span>
+                <select id="attraction" name="attraction" required disabled>
+                  <option value="">اختر المحافظة أولاً</option>
+                </select>
+              </label>
 
               <!-- TRIP DATE -->
               <label>
