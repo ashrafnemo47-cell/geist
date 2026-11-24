@@ -1,516 +1,524 @@
+
 "use strict";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const $ = (selector) => document.querySelector(selector);
+// ==========================================
+// PHARAOH EGYPT - MAP SYSTEM
+// Arabic / English - Day / Night
+// ==========================================
 
-  let lang = "ar";
+const $ = (selector) => document.querySelector(selector);
 
-  // =====================================
-  // الترجمات
-  // =====================================
+const translations = {
+  ar: {
+    backHome: "العودة للموقع الرئيسي",
+    bookTrip: "احجز رحلتك",
+    heroTitle: 'اكتشف <span>مصر</span> من خلال خريطتها',
+    heroText: "اختر المحافظة واكتشف المدن والأماكن السياحية والرحلات ومواقعها على الخريطة",
+    govTitle: "محافظات مصر الـ27",
+    searchPlaceholder: "ابحث عن محافظة...",
+    mapTitle: "الخريطة التفاعلية لمصر",
+    mapNote: "حرّك الخريطة بالماوس، واستخدم عجلة الماوس للتقريب والتبعيد. اضغط على أي علامة لاكتشاف المحافظة.",
+    placesTitle: "أماكن ومعالم سياحية",
+    bookGovernorate: "احجز رحلة إلى هذه المحافظة",
+    placeDescription: "اكتشف هذا المكان السياحي واحجز رحلتك إليه.",
+    gps: "افتح الموقع GPS",
+    bookPlace: "احجز هذه الرحلة",
+    popup: "اضغط لاكتشاف المحافظة",
+    footerText: "اكتشف جمال مصر",
+    noResults: "لا توجد نتائج",
+    day: "☀️ وضع النهار",
+    night: "🌙 وضع الليل"
+  },
 
-  const translations = {
-    en: {
-      navHome: "Home",
-      navAbout: "About",
-      navServices: "Services",
-      navPlaces: "Destinations",
-      navGallery: "Gallery",
-      navBooking: "Book Now",
-      navContact: "Contact",
+  en: {
+    backHome: "Back to Home",
+    bookTrip: "Book Your Trip",
+    heroTitle: 'Discover <span>Egypt</span> Through Its Map',
+    heroText: "Choose a governorate to discover cities, tourist attractions, trips and their locations on the map.",
+    govTitle: "Egypt's 27 Governorates",
+    searchPlaceholder: "Search governorates...",
+    mapTitle: "Interactive Map of Egypt",
+    mapNote: "Drag the map with your mouse and use the scroll wheel to zoom. Click any marker to discover a governorate.",
+    placesTitle: "Tourist Attractions",
+    bookGovernorate: "Book a Trip to This Governorate",
+    placeDescription: "Discover this tourist destination and book your trip.",
+    gps: "Open GPS Location",
+    bookPlace: "Book This Trip",
+    popup: "Click to discover this governorate",
+    footerText: "Discover the Beauty of Egypt",
+    noResults: "No results found",
+    day: "☀️ Day Mode",
+    night: "🌙 Night Mode"
+  }
+};
 
-      heroEyebrow: "LUXOR, EGYPT · YOUR GATEWAY TO ANCIENT HISTORY",
-      heroRibbon: "Tourist transportation & private trips across Egypt",
-      heroText:
-        "Discover the magic of Egypt from the heart of Luxor. Enjoy tours, private transfers and airport pickups — a comfortable experience from the very first message.",
-      heroBook: "PLAN YOUR TRIP NOW ↗",
-      heroExplore: "EXPLORE DESTINATIONS",
-      heroPrivate: "Private trips",
-      heroFlexible: "Flexible schedules",
-      heroEasy: "Easy booking",
+// ==========================================
+// المحافظة - الاسم الإنجليزي والوصف والأماكن
+// ==========================================
 
-      aboutKicker: "WELCOME TO EGYPT",
-      aboutTitle:
-        "Your journey is more than a transfer, <em>it is an experience to remember.</em>",
-      aboutText:
-        "At PHARAOH EGYPT, we help you discover Egypt through tourist transportation and private trips. Choose your destination and trip details, and we'll contact you to arrange an experience that fits your needs.",
-      aboutPoint1: "Your comfort matters",
-      aboutPoint2: "Many destinations",
-      aboutPoint3: "Direct communication",
-      aboutLink: "Start planning your trip ↗",
+const englishData = {
+  "القاهرة": ["Cairo", "Egypt's capital, home to museums, historic landmarks and cultural attractions.", ["Salah El-Din Citadel", "The Egyptian Museum", "Khan El-Khalili", "Al-Muizz Street"]],
+  "الإسكندرية": ["Alexandria", "A beautiful historic coastal city on the Mediterranean Sea.", ["Bibliotheca Alexandrina", "Qaitbay Citadel", "Pompey's Pillar", "Alexandria Corniche"]],
+  "بورسعيد": ["Port Said", "A coastal city at the northern entrance of the Suez Canal.", ["Port Said Beach", "Port Said Museum", "Suez Canal"]],
+  "السويس": ["Suez", "A coastal governorate at the southern entrance of the Suez Canal.", ["Ain Sokhna", "Suez Beach", "Ataka Mountain"]],
+  "دمياط": ["Damietta", "A coastal governorate known for its beaches and Nile estuary.", ["Ras El Bar", "New Damietta", "Ras El Bar Promenade"]],
+  "الدقهلية": ["Dakahlia", "A governorate in the northeastern Nile Delta.", ["Mansoura", "Lake Manzala"]],
+  "الشرقية": ["Sharqia", "A governorate with archaeological and historical sites in the eastern Delta.", ["Tell Basta", "San El-Hagar"]],
+  "القليوبية": ["Qalyubia", "Located in the Greater Nile Delta region.", ["Al-Qanater Al-Khayriya", "Al-Qanater Gardens"]],
+  "كفر الشيخ": ["Kafr El-Sheikh", "Known for its coastal areas, lakes and natural landscapes.", ["Baltim", "Lake Burullus", "Burullus Tower"]],
+  "الغربية": ["Gharbia", "A governorate with historic towns and rural landscapes in the Delta.", ["Tanta", "Samannoud"]],
+  "المنوفية": ["Monufia", "A governorate located in the heart of the Nile Delta.", ["Shibin El-Kom", "Menouf", "Sadat City"]],
+  "البحيرة": ["Beheira", "Western Nile Delta governorate with historic towns and attractions.", ["Rosetta", "Edku", "Wadi El Natrun", "Damanhur"]],
+  "الإسماعيلية": ["Ismailia", "A city on the Suez Canal with lakes and natural attractions.", ["Lake Timsah", "Malaaha Gardens", "Suez Canal"]],
+  "الجيزة": ["Giza", "Famous for the Pyramids and ancient Egyptian monuments.", ["Giza Pyramids", "Great Sphinx", "Saqqara", "Dahshur"]],
+  "بني سويف": ["Beni Suef", "A governorate in northern Upper Egypt.", ["Meidum Pyramid", "Nile Areas"]],
+  "الفيوم": ["Fayoum", "Famous for its lakes, waterfalls and nature reserves.", ["Lake Qarun", "Wadi El Rayan", "Wadi Al-Hitan", "Tunis Village"]],
+  "المنيا": ["Minya", "Home to important archaeological sites from ancient Egyptian history.", ["Tell El-Amarna", "Beni Hassan", "Tuna El-Gebel"]],
+  "أسيوط": ["Assiut", "A historic governorate in Upper Egypt.", ["Deir El-Muharraq", "El-Qusiya"]],
+  "سوهاج": ["Sohag", "Home to important archaeological, Coptic and historic landmarks.", ["Abydos", "Akhmim", "White Monastery"]],
+  "قنا": ["Qena", "Home to important temples and archaeological sites in Upper Egypt.", ["Dendera Temple", "Qus", "Naqada"]],
+  "الأقصر": ["Luxor", "An open-air museum with world-famous temples and ancient tombs.", ["Karnak Temple", "Luxor Temple", "Valley of the Kings", "Hatshepsut Temple", "West Bank"]],
+  "أسوان": ["Aswan", "A Nile destination famous for temples, islands and Nubian culture.", ["Philae Temple", "Aswan High Dam", "Botanical Island", "Abu Simbel Temple", "Nubian Village"]],
+  "البحر الأحمر": ["Red Sea", "One of Egypt's leading destinations for beaches, diving and marine tourism.", ["Hurghada", "El Gouna", "Safaga", "El Quseir", "Marsa Alam", "Ras Gharib"]],
+  "الوادي الجديد": ["New Valley", "A governorate of oases, deserts and archaeological sites.", ["Kharga Oasis", "Dakhla Oasis", "Farafra Oasis", "White Desert"]],
+  "مطروح": ["Matrouh", "A coastal governorate with Mediterranean beaches and Siwa Oasis.", ["Marsa Matrouh", "El Alamein", "Siwa", "Sallum", "Sidi Abdel Rahman"]],
+  "شمال سيناء": ["North Sinai", "Home to coastal and natural areas in the northern Sinai Peninsula.", ["Arish", "Lake Bardawil", "Rafah"]],
+  "جنوب سيناء": ["South Sinai", "A famous destination for beaches, diving and mountain adventures.", ["Sharm El-Sheikh", "Dahab", "Nuweiba", "Taba", "Saint Catherine"]]
+};
 
-      servicesKicker: "WHAT WE OFFER",
-      servicesTitle: "Our <em>Services</em>",
-      servicesIntro:
-        "Everything you need to travel and explore Egypt, all in one place.",
-      service1: "Luxor sightseeing tours",
-      service1p:
-        "Discover Luxor and Karnak temples, the Valley of the Kings and both banks of the Nile.",
-      service2: "Private transfers",
-      service2p:
-        "Transportation for individuals, families and groups, arranged around your needs.",
-      service3: "Intercity trips",
-      service3p:
-        "Travel from Luxor to Aswan, Hurghada, Cairo and other destinations.",
-      service4: "Airport & hotel transfers",
-      service4p:
-        "Airport pickups and drop-offs to hotels and your accommodation.",
+// ==========================================
+// بيانات المحافظات
+// ==========================================
 
-      destKicker: "CHOOSE YOUR DESTINATION",
-      destTitle: "Egypt… <em>a world of stories</em>",
-      destIntro:
-        "From ancient pharaonic sites to Red Sea beaches, choose the place you've dreamed of visiting.",
-      placeLuxor: "Luxor",
-      placeLuxorSub: "The capital of ancient history",
-      placeAswan: "Aswan",
-      placeAswanSub: "Nile serenity in the south",
-      placeHurghada: "Hurghada",
-      placeHurghadaSub: "Red Sea and beaches",
-      placeCairo: "Cairo",
-      placeCairoSub: "Pyramids and the heart of Egypt",
-      placePyramids: "The Pyramids",
-      placeRedSea: "Red Sea",
-      placeRedSeaSub: "Coastal escapes and relaxation",
+const rawGovernorates = [
+  ["القاهرة",30.0444,31.2357,"عاصمة مصر، وتضم المتاحف والمواقع التاريخية والثقافية.",["قلعة صلاح الدين","المتحف المصري","خان الخليلي","شارع المعز"]],
+  ["الإسكندرية",31.2001,29.9187,"مدينة ساحلية تاريخية جميلة على البحر المتوسط.",["مكتبة الإسكندرية","قلعة قايتباي","عمود السواري","كورنيش الإسكندرية"]],
+  ["بورسعيد",31.2653,32.3019,"مدينة ساحلية عند المدخل الشمالي لقناة السويس.",["شاطئ بورسعيد","متحف بورسعيد","قناة السويس"]],
+  ["السويس",29.9668,32.5498,"محافظة ساحلية عند المدخل الجنوبي لقناة السويس.",["العين السخنة","شاطئ السويس","جبل عتاقة"]],
+  ["دمياط",31.4175,31.8144,"محافظة ساحلية تشتهر بشواطئها وموقعها عند مصب النيل.",["رأس البر","دمياط الجديدة","لسان رأس البر"]],
+  ["الدقهلية",31.0364,31.3807,"محافظة في شمال شرق دلتا النيل.",["المنصورة","بحيرة المنزلة"]],
+  ["الشرقية",30.5877,31.502,"تضم مواقع أثرية وتاريخية في شرق الدلتا.",["تل بسطة","صان الحجر"]],
+  ["القليوبية",30.4667,31.1833,"تقع في منطقة دلتا النيل الكبرى.",["القناطر الخيرية","حدائق القناطر"]],
+  ["كفر الشيخ",31.1107,30.9388,"تضم مناطق ساحلية وبحيرات ومناطق طبيعية.",["بلطيم","بحيرة البرلس","برج البرلس"]],
+  ["الغربية",30.7865,31.0004,"تضم مدنًا تاريخية ومناطق ريفية في الدلتا.",["طنطا","سمنود"]],
+  ["المنوفية",30.553,31.01,"محافظة تقع في قلب دلتا النيل.",["شبين الكوم","منوف","مدينة السادات"]],
+  ["البحيرة",30.8481,30.3436,"محافظة في غرب دلتا النيل وتضم مدنًا ومناطق تاريخية.",["رشيد","إدكو","وادي النطرون","دمنهور"]],
+  ["الإسماعيلية",30.5965,32.2715,"مدينة على قناة السويس وتضم بحيرات ومناطق طبيعية.",["بحيرة التمساح","حدائق الملاحة","قناة السويس"]],
+  ["الجيزة",29.987,31.2118,"تشتهر بالأهرامات والآثار المصرية القديمة.",["أهرامات الجيزة","أبو الهول","سقارة","دهشور"]],
+  ["بني سويف",29.0661,31.0994,"محافظة في شمال صعيد مصر.",["هرم ميدوم","مناطق النيل"]],
+  ["الفيوم",29.3084,30.8428,"تشتهر بالبحيرات والشلالات والمحميات الطبيعية.",["بحيرة قارون","وادي الريان","وادي الحيتان","قرية تونس"]],
+  ["المنيا",28.1099,30.7503,"تضم مواقع أثرية مهمة من عصور مصر القديمة.",["تل العمارنة","بني حسن","تونا الجبل"]],
+  ["أسيوط",27.1783,31.1859,"محافظة تاريخية في صعيد مصر.",["دير المحرق","منطقة القوصية"]],
+  ["سوهاج",26.5591,31.6957,"تضم معالم أثرية وقبطية وتاريخية.",["أبيدوس","أخميم","الدير الأبيض"]],
+  ["قنا",26.1551,32.716,"تضم معابد ومواقع أثرية مهمة في صعيد مصر.",["معبد دندرة","قوص","نقادة"]],
+  ["الأقصر",25.6872,32.6396,"متحف مفتوح يضم معابد ومقابر أثرية عالمية.",["معبد الكرنك","معبد الأقصر","وادي الملوك","معبد حتشبسوت","البر الغربي"]],
+  ["أسوان",24.0889,32.8998,"وجهة سياحية على النيل تشتهر بالمعابد والجزر والطبيعة النوبية.",["معبد فيلة","السد العالي","جزيرة النباتات","معبد أبو سمبل","القرية النوبية"]],
+  ["البحر الأحمر",27.2579,33.8116,"من أهم مناطق السياحة البحرية والغوص والشواطئ في مصر.",["الغردقة","الجونة","سفاجا","القصير","مرسى علم","رأس غارب"]],
+  ["الوادي الجديد",25.439,30.5586,"تضم الواحات والصحاري والمواقع الأثرية.",["واحة الخارجة","واحة الداخلة","واحة الفرافرة","الصحراء البيضاء"]],
+  ["مطروح",31.3543,27.2373,"محافظة ساحلية تضم شواطئ البحر المتوسط وواحة سيوة.",["مرسى مطروح","العلمين","سيوة","السلوم","سيدي عبد الرحمن"]],
+  ["شمال سيناء",31.1313,33.7984,"تضم مناطق ساحلية وطبيعية في شمال شبه جزيرة سيناء.",["العريش","بحيرة البردويل","رفح"]],
+  ["جنوب سيناء",28.438,33.625,"وجهة سياحية مشهورة بالشواطئ والغوص والجبال.",["شرم الشيخ","دهب","نويبع","طابا","سانت كاترين"]]
+];
 
-      galleryKicker: "MOMENTS IN EGYPT",
-      galleryTitle: "Photo <em>Gallery</em>",
-      galleryIntro: "A glimpse of the places and experiences waiting for you.",
-      gallery1: "Timeless Egyptian monuments",
-      gallery2: "The Giza Pyramids",
-      gallery3: "The beauty of the Nile",
-      gallery4: "Magic of the south",
-      gallery5: "Red Sea beaches",
+const governorates = rawGovernorates.map((item) => ({
+  name: item[0],
+  lat: item[1],
+  lng: item[2],
+  description: item[3],
+  places: item[4]
+}));
 
-      bookingKicker: "YOUR FIRST STEP",
-      bookingTitle: "Plan your trip <em>with us</em>",
-      bookingIntro:
-        "Fill in your details and trip preferences. WhatsApp will open with a prepared message for you to review and send.",
-      formTitle: "Trip details",
-      formSub: "Please enter the information so we can contact you",
-      nameLabel: "Full name *",
-      phoneLabel: "Phone / WhatsApp number *",
-      emailLabel: "Email (optional)",
-      countryLabel: "Nationality / Country",
-      serviceLabel: "Service type *",
-      destinationLabel: "Destination *",
-      dateLabel: "Trip date",
-      peopleLabel: "Number of travelers",
-      pickupLabel: "Pickup location / Hotel",
-      detailsLabel: "Additional details or requests",
-      sendBtn: "Send booking request via WhatsApp",
-      privacyNote:
-        "Your information is not sent automatically. Review the message in WhatsApp before sending.",
+// ==========================================
+// اللغة المحفوظة
+// ==========================================
 
-      asideTitle: "Your next journey<br><em>starts right here.</em>",
-      asideText: "Tell us what you need and we'll help coordinate your trip.",
-      asideFeature1: "Direct contact through WhatsApp",
-      asideFeature2: "Choose your destination and date",
-      asideFeature3: "Trips for individuals and families",
+let currentLanguage = localStorage.getItem("pharaoh_language") || "ar";
 
-      contactKicker: "WE ARE HERE TO HELP",
-      contactTitle: "Contact us <em>and book your trip</em>",
-      contactText:
-        "Choose the contact number that works for you. We are happy to answer your questions and help you plan.",
-      footerText: "Discover Egypt with us and make your journey unforgettable.",
-    },
-  };
+if (!translations[currentLanguage]) {
+  currentLanguage = "ar";
+}
 
-  // =====================================
-  // حفظ النصوص العربية الأصلية
-  // =====================================
+let selectedGovernorate = null;
+
+function t(key) {
+  return translations[currentLanguage][key] || key;
+}
+
+function governorateName(gov) {
+  return currentLanguage === "en"
+    ? englishData[gov.name][0]
+    : gov.name;
+}
+
+function governorateDescription(gov) {
+  return currentLanguage === "en"
+    ? englishData[gov.name][1]
+    : gov.description;
+}
+
+function placeName(gov, index) {
+  return currentLanguage === "en"
+    ? englishData[gov.name][2][index] || gov.places[index]
+    : gov.places[index];
+}
+
+// ==========================================
+// إعداد الخريطة
+// ==========================================
+
+if (typeof L === "undefined") {
+  alert("تعذر تحميل الخريطة. تأكد من اتصال الإنترنت.");
+  throw new Error("Leaflet library was not loaded.");
+}
+
+const map = L.map("map", {
+  center: [27.5, 30.8],
+  zoom: 5,
+  minZoom: 4,
+  maxZoom: 16,
+  scrollWheelZoom: true
+});
+
+const mapTiles = L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }
+).addTo(map);
+
+const markers = new Map();
+const list = $("#governorates");
+
+const goldIcon = L.divIcon({
+  className: "",
+  html: `<div style="
+    width:23px;
+    height:23px;
+    background:#e9bd60;
+    border:3px solid white;
+    border-radius:50%;
+    box-shadow:0 0 15px #e9bd60;
+  "></div>`,
+  iconSize: [23, 23],
+  iconAnchor: [11, 11]
+});
+
+// ==========================================
+// روابط الحجز
+// ==========================================
+
+function createBookingUrl(destination) {
+  return "index.html?destination=" +
+    encodeURIComponent(destination) +
+    "#booking";
+}
+
+// ==========================================
+// نافذة تفاصيل المحافظة
+// ==========================================
+
+function openGovernorate(gov, shouldScroll = true) {
+  selectedGovernorate = gov;
+
+  $("#govName").textContent = governorateName(gov);
+  $("#govDescription").textContent = governorateDescription(gov);
+
+  const governorateBooking = $("#governorateBooking");
+
+  governorateBooking.href = createBookingUrl(gov.name);
+  governorateBooking.textContent = t("bookGovernorate");
+
+  const placesContainer = $("#places");
+  placesContainer.innerHTML = "";
+
+  gov.places.forEach((place, index) => {
+    const displayPlace = placeName(gov, index);
+
+    const card = document.createElement("article");
+    card.className = "place";
+
+    const title = document.createElement("h3");
+    title.textContent = displayPlace;
+
+    const description = document.createElement("p");
+    description.textContent = t("placeDescription");
+
+    const gpsLink = document.createElement("a");
+    gpsLink.className = "gps";
+    gpsLink.target = "_blank";
+    gpsLink.rel = "noopener noreferrer";
+
+    gpsLink.href =
+      "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent(displayPlace + " " + governorateName(gov) + " Egypt");
+
+    gpsLink.textContent = t("gps");
+
+    const bookingLink = document.createElement("a");
+    bookingLink.className = "booking-link";
+    bookingLink.href = createBookingUrl(place + " - " + gov.name);
+    bookingLink.textContent = t("bookPlace");
+
+    const actions = document.createElement("div");
+    actions.className = "place-actions";
+    actions.append(gpsLink, bookingLink);
+
+    card.append(title, description, actions);
+    placesContainer.appendChild(card);
+  });
+
+  $("#details").classList.add("show");
+
+  document.querySelectorAll(".gov-btn").forEach((button) => {
+    button.classList.toggle("active", button.dataset.name === gov.name);
+  });
+
+  const marker = markers.get(gov.name);
+
+  if (marker) {
+    marker.setPopupContent(
+      `<b>${governorateName(gov)}</b><br>${t("popup")}`
+    );
+
+    marker.openPopup();
+
+    if (shouldScroll) {
+      map.flyTo(marker.getLatLng(), 8, { duration: 1.2 });
+    }
+  }
+
+  if (shouldScroll) {
+    $("#details").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
+// ==========================================
+// إنشاء قائمة المحافظات
+// ==========================================
+
+function renderGovernorates() {
+  list.innerHTML = "";
+
+  governorates.forEach((gov) => {
+    const marker = markers.get(gov.name);
+
+    if (marker) {
+      marker.setPopupContent(
+        `<b>${governorateName(gov)}</b><br>${t("popup")}`
+      );
+    }
+
+    const button = document.createElement("button");
+
+    button.className = "gov-btn";
+    button.textContent = "📍 " + governorateName(gov);
+    button.dataset.name = gov.name;
+
+    if (selectedGovernorate === gov) {
+      button.classList.add("active");
+    }
+
+    button.addEventListener("click", () => {
+      openGovernorate(gov);
+    });
+
+    list.appendChild(button);
+  });
+
+  filterGovernorates();
+}
+
+// ==========================================
+// إضافة علامات الخريطة
+// ==========================================
+
+governorates.forEach((gov) => {
+  const marker = L.marker([gov.lat, gov.lng], {
+    icon: goldIcon
+  }).addTo(map);
+
+  marker.bindPopup(
+    `<b>${governorateName(gov)}</b><br>${t("popup")}`
+  );
+
+  marker.on("click", () => {
+    openGovernorate(gov);
+  });
+
+  markers.set(gov.name, marker);
+});
+
+// ==========================================
+// البحث بالعربي والإنجليزي
+// ==========================================
+
+function filterGovernorates() {
+  const value = $("#search").value.trim().toLowerCase();
+
+  let visibleCount = 0;
+
+  document.querySelectorAll(".gov-btn").forEach((button) => {
+    const gov = governorates.find(
+      (item) => item.name === button.dataset.name
+    );
+
+    const arabicName = gov.name.toLowerCase();
+    const englishName = englishData[gov.name][0].toLowerCase();
+
+    const matches =
+      arabicName.includes(value) ||
+      englishName.includes(value);
+
+    button.style.display = matches ? "block" : "none";
+
+    if (matches) visibleCount++;
+  });
+
+  let noResults = $("#noResults");
+
+  if (visibleCount === 0) {
+    if (!noResults) {
+      noResults = document.createElement("p");
+      noResults.id = "noResults";
+      noResults.style.color = "#aab8cb";
+      noResults.style.padding = "10px";
+      list.appendChild(noResults);
+    }
+
+    noResults.textContent = t("noResults");
+  } else if (noResults) {
+    noResults.remove();
+  }
+}
+
+$("#search").addEventListener("input", filterGovernorates);
+
+// ==========================================
+// تطبيق اللغة
+// ==========================================
+
+function setLanguage(language) {
+  if (!translations[language]) return;
+
+  currentLanguage = language;
+
+  localStorage.setItem("pharaoh_language", language);
+
+  document.documentElement.lang = language;
+  document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
 
   document.querySelectorAll("[data-i18n]").forEach((element) => {
-    if (element.dataset.original === undefined) {
-      element.dataset.original = element.innerHTML;
+    const key = element.dataset.i18n;
+    const translated = translations[language][key];
+
+    if (translated !== undefined) {
+      element.innerHTML = translated;
     }
   });
 
-  // =====================================
-  // تغيير اللغة
-  // =====================================
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+    const key = element.dataset.i18nPlaceholder;
+    element.placeholder = translations[language][key] || "";
+  });
 
-  function setLanguage(next) {
-    lang = next === "en" ? "en" : "ar";
+  $("#langBtn").textContent =
+    language === "ar" ? "English" : "العربية";
 
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  updateThemeButton();
+  renderGovernorates();
 
-    document.body.classList.toggle("ltr", lang === "en");
-
-    document.querySelectorAll("[data-i18n]").forEach((element) => {
-      const key = element.dataset.i18n;
-
-      if (lang === "en" && translations.en[key]) {
-        element.innerHTML = translations.en[key];
-      } else if (element.dataset.original !== undefined) {
-        element.innerHTML = element.dataset.original;
-      }
-    });
-
-    const langLabel = $("#langBtn b");
-
-    if (langLabel) {
-      langLabel.textContent = lang === "ar" ? "English" : "العربية";
-    }
-
-    const placeholders = {
-      name: ["اكتب اسمك", "Enter your name"],
-      phone: ["+20 1xxxxxxxxx", "+20 1xxxxxxxxx"],
-      country: ["مثال: مصر", "e.g. Egypt"],
-      pickup: ["اسم الفندق أو مكان الاستقبال", "Hotel name or pickup location"],
-      details: [
-        "اكتب أي تفاصيل تساعدنا في تجهيز رحلتك...",
-        "Tell us anything that will help us prepare your trip...",
-      ],
-    };
-
-    Object.entries(placeholders).forEach(([id, values]) => {
-      const element = $("#" + id);
-
-      if (element) {
-        element.placeholder = lang === "ar" ? values[0] : values[1];
-      }
-    });
-
-    updateEgyptDateTime();
+  if (selectedGovernorate) {
+    openGovernorate(selectedGovernorate, false);
   }
 
-  const langBtn = $("#langBtn");
-
-  if (langBtn) {
-    langBtn.addEventListener("click", () => {
-      setLanguage(lang === "ar" ? "en" : "ar");
-    });
-  }
-
-  // =====================================
-  // التاريخ والساعة حسب جهاز الزائر
-  // =====================================
-
-  function updateEgyptDateTime() {
-    const dateElement = $("#liveDate");
-    const timeElement = $("#liveTime");
-
-    if (!dateElement || !timeElement) return;
-
-    const now = new Date();
-    const locale = lang === "ar" ? "ar-EG" : "en-GB";
-
-    dateElement.textContent = now.toLocaleDateString(locale, {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
-    timeElement.textContent = now.toLocaleTimeString(locale, {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    });
-  }
-
-  updateEgyptDateTime();
-  setInterval(updateEgyptDateTime, 1000);
-
-  // =====================================
-  // شاشة التحميل
-  // =====================================
-
-  function hideLoader() {
-    setTimeout(() => {
-      const loader = $("#loader");
-
-      if (loader) {
-        loader.classList.add("hide");
-      }
-    }, 350);
-  }
-
-  if (document.readyState === "complete") {
-    hideLoader();
-  } else {
-    window.addEventListener("load", hideLoader);
-  }
-
-  // =====================================
-  // السنة الحالية
-  // =====================================
-
-  const year = $("#year");
-
-  if (year) {
-    year.textContent = new Date().getFullYear();
-  }
-
-  // =====================================
-  // القائمة الرئيسية
-  // =====================================
-
-  const menuBtn = $("#menuBtn");
-  const nav = $("#nav");
-
-  if (menuBtn && nav) {
-    menuBtn.addEventListener("click", () => {
-      nav.classList.toggle("open");
-    });
-
-    nav.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        nav.classList.remove("open");
-      });
-    });
-  }
-
-  // =====================================
-  // ظهور العناصر أثناء التمرير
-  // =====================================
-
-  if ("IntersectionObserver" in window) {
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.12,
-      },
-    );
-
-    document.querySelectorAll(".reveal").forEach((element) => {
-      revealObserver.observe(element);
-    });
-  } else {
-    document.querySelectorAll(".reveal").forEach((element) => {
-      element.classList.add("visible");
-    });
-  }
-
-  // =====================================
-  // تحديد أقل تاريخ للحجز
-  // =====================================
-
-  const dateInput = $("#date");
-
-  if (dateInput) {
-    const today = new Date();
-
-    const localDate = new Date(
-      today.getTime() - today.getTimezoneOffset() * 60000,
-    )
-      .toISOString()
-      .slice(0, 10);
-
-    dateInput.min = localDate;
-  }
-
-  // =====================================
-  // نموذج الحجز عبر واتساب
-  // =====================================
-
-  const bookingForm = $("#bookingForm");
-
-  if (bookingForm) {
-    bookingForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const required = ["name", "phone", "service", "destination"];
-
-      const missing = required.some((id) => {
-        const element = $("#" + id);
-        return !element || !element.value.trim();
-      });
-
-      const formError = $("#formError");
-
-      if (missing) {
-        if (formError) {
-          formError.textContent =
-            lang === "ar"
-              ? "من فضلك أكمل الاسم ورقم الهاتف ونوع الخدمة والوجهة."
-              : "Please complete your name, phone number, service type and destination.";
-        }
-
-        return;
-      }
-
-      if (formError) {
-        formError.textContent = "";
-      }
-
-      const val = (id) => {
-        const element = $("#" + id);
-
-        return (
-          (element && element.value.trim()) ||
-          (lang === "ar" ? "لم يحدد" : "Not specified")
-        );
-      };
-
-      const msg =
-        lang === "ar"
-          ? `طلب حجز جديد - PHARAOH EGYPT
-
-الاسم: ${val("name")}
-الهاتف: ${val("phone")}
-البريد: ${val("email")}
-الدولة: ${val("country")}
-الخدمة: ${val("service")}
-الوجهة: ${val("destination")}
-التاريخ: ${val("date")}
-عدد المسافرين: ${val("people")}
-مكان الاستقبال: ${val("pickup")}
-تفاصيل إضافية: ${val("details")}`
-          : `New booking request - PHARAOH EGYPT
-
-Name: ${val("name")}
-Phone: ${val("phone")}
-Email: ${val("email")}
-Country: ${val("country")}
-Service: ${val("service")}
-Destination: ${val("destination")}
-Date: ${val("date")}
-Travelers: ${val("people")}
-Pickup: ${val("pickup")}
-Additional details: ${val("details")}`;
-
-      const whatsappURL =
-        "https://wa.me/201028348346?text=" + encodeURIComponent(msg);
-
-      window.open(whatsappURL, "_blank", "noopener");
-    });
-  }
-
-  // =====================================
-  // نظام الليل والنهار والألوان
-  // =====================================
-
-  const themeToggle = $("#themeToggle");
-  const root = document.documentElement;
-
-  function applyTheme(theme) {
-    const currentTheme = theme === "light" ? "light" : "dark";
-    const isLight = currentTheme === "light";
-
-    // تطبيق الوضع على الصفحة كلها
-    root.dataset.theme = currentTheme;
-    document.body.dataset.theme = currentTheme;
-
-    root.classList.toggle("light-mode", isLight);
-    root.classList.toggle("dark-mode", !isLight);
-
-    document.body.classList.toggle("light-mode", isLight);
-    document.body.classList.toggle("dark-mode", !isLight);
-
-    // ضبط ألوان المتصفح
-    root.style.colorScheme = currentTheme;
-
-    // تغيير لون شريط المتصفح
-    const themeColor = $('meta[name="theme-color"]');
-
-    if (themeColor) {
-      themeColor.setAttribute("content", isLight ? "#f5f0e5" : "#06132c");
-    }
-
-    // تغيير شكل زر الوضع
-    if (themeToggle) {
-      themeToggle.textContent = isLight ? "🌙" : "☀️";
-
-      themeToggle.setAttribute(
-        "aria-label",
-        isLight ? "تفعيل الوضع الداكن" : "تفعيل الوضع الفاتح",
-      );
-
-      themeToggle.setAttribute(
-        "title",
-        isLight ? "الوضع الداكن" : "الوضع الفاتح",
-      );
-    }
-  }
-
-  // استعادة الوضع المحفوظ
-  function getSavedTheme() {
-    try {
-      const saved = localStorage.getItem("pharaoh-theme");
-
-      if (saved === "light" || saved === "dark") {
-        return saved;
-      }
-    } catch (error) {
-      // استخدام الوضع الافتراضي
-    }
-
-    return "dark";
-  }
-
-  // تشغيل الوضع المحفوظ عند فتح الموقع
-  applyTheme(getSavedTheme());
-
-  // تبديل الوضع عند الضغط
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      const currentTheme = root.dataset.theme || "dark";
-
-      const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-      applyTheme(newTheme);
-
-      try {
-        localStorage.setItem("pharaoh-theme", newTheme);
-      } catch (error) {
-        // يظل التغيير فعالاً حتى لو تعذر الحفظ
-      }
-    });
-  }
-
-  // =====================================
-  // تشغيل اللغة العربية عند فتح الموقع
-  // =====================================
-
-  setLanguage("ar");
+  window.dispatchEvent(
+    new CustomEvent("pharaoh-language-change", {
+      detail: { language }
+    })
+  );
+}
+
+$("#langBtn").addEventListener("click", () => {
+  setLanguage(currentLanguage === "ar" ? "en" : "ar");
 });
 
-/* =====================================
-   PHARAOH EGYPT - LIGHT NIGHT SKY
-===================================== */
+// ==========================================
+// الوضع الليلي والنهاري
+// ==========================================
 
-(() => {
-  function createNightSky() {
-    if (document.querySelector(".night-sky")) return;
+function getSavedTheme() {
+  const saved = localStorage.getItem("pharaoh_theme");
 
-    const sky = document.createElement("div");
-    sky.className = "night-sky";
-    sky.setAttribute("aria-hidden", "true");
+  return saved === "light" ? "light" : "dark";
+}
 
-    // القمر
-    const moon = document.createElement("div");
-    moon.className = "night-moon";
-    sky.appendChild(moon);
+function applyTheme(theme) {
+  const selectedTheme = theme === "light" ? "light" : "dark";
 
-    // نجوم خفيفة بعدد أقل لتحسين الأداء
-    for (let i = 0; i < 28; i++) {
-      const star = document.createElement("span");
-      star.className = "night-star";
+  document.documentElement.dataset.theme = selectedTheme;
 
-      star.style.left = Math.random() * 100 + "%";
-      star.style.top = Math.random() * 100 + "%";
-      star.style.animationDelay = Math.random() * 5 + "s";
+  localStorage.setItem("pharaoh_theme", selectedTheme);
 
-      sky.appendChild(star);
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+
+  if (metaTheme) {
+    metaTheme.content =
+      selectedTheme === "light" ? "#eef3f9" : "#061329";
+  }
+
+  updateThemeButton();
+
+  window.dispatchEvent(
+    new CustomEvent("pharaoh-theme-change", {
+      detail: { theme: selectedTheme }
+    })
+  );
+}
+
+function updateThemeButton() {
+  const theme = document.documentElement.dataset.theme || "dark";
+
+  $("#themeToggle").textContent =
+    theme === "dark" ? t("day") : t("night");
+}
+
+$("#themeToggle").addEventListener("click", () => {
+  const currentTheme =
+    document.documentElement.dataset.theme || "dark";
+
+  applyTheme(currentTheme === "dark" ? "light" : "dark");
+});
+
+// ==========================================
+// مزامنة الإعدادات مع الصفحة الرئيسية
+// ==========================================
+
+window.addEventListener("storage", (event) => {
+  if (event.key === "pharaoh_language" && event.newValue) {
+    if (translations[event.newValue]) {
+      setLanguage(event.newValue);
     }
-
-    // وضع السماء أول عنصر داخل الصفحة
-    document.body.prepend(sky);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", createNightSky);
-  } else {
-    createNightSky();
+  if (event.key === "pharaoh_theme" && event.newValue) {
+    applyTheme(event.newValue);
   }
-})();
+});
+
+// ==========================================
+// تشغيل الموقع
+// ==========================================
+
+applyTheme(getSavedTheme());
+setLanguage(currentLanguage);
+
+setTimeout(() => {
+  map.invalidateSize();
+}, 300);
+
+window.addEventListener("resize", () => {
+  map.invalidateSize();
+});
