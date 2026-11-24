@@ -2138,73 +2138,20 @@ body.light-mode .theme-toggle {
     transform: none;
   }
 }
-
-/* =========================================
-   PHARAOH EGYPT FULLSCREEN INTRO
-========================================= */
-
-#intro-screen {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  z-index: 999999;
-  background: #06132c;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  visibility: visible;
-}
-
-#intro-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  border: none;
-  outline: none;
-}
-
-/* إخفاء أدوات الفيديو */
-#intro-video::-webkit-media-controls,
-#intro-video::-webkit-media-controls-panel,
-#intro-video::-webkit-media-controls-overlay-play-button {
-  display: none !important;
-}
-
-/* اختفاء المقدمة بعد النهاية */
-#intro-screen.hide {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 1s ease, visibility 1s ease;
-}
-
-/* الهواتف */
 @media (max-width: 768px) {
   #intro-screen {
-    width: 100%;
-    height: 100vh;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
     height: 100dvh;
+    overflow: hidden;
   }
 
   #intro-video {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100dvh;
     object-fit: cover;
-    object-position: center;
-  }
-}
-
-/* الكمبيوتر */
-@media (min-width: 769px) {
-  #intro-video {
-    object-fit: cover;
+    object-position: center center;
+    max-width: 100%;
   }
 }
