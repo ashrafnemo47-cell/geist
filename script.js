@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
       countryLabel: "Nationality / Country",
       serviceLabel: "Service type *",
       destinationLabel: "Destination *",
+      attractionLabel: "Tourist attraction *",
       dateLabel: "Trip date",
       peopleLabel: "Number of travelers",
       pickupLabel: "Pickup location / Hotel",
@@ -128,38 +129,34 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================================
-  // تغيير اللغة وحفظها
+  // تغيير اللغة
   // =====================================
 
- 
-function setLanguage(next) {
-  lang = next === "en" ? "en" : "ar";
+  function setLanguage(next) {
+    lang = next === "en" ? "en" : "ar";
 
-  try {
-    localStorage.setItem("pharaoh_language", lang);
-  } catch (error) {}
+    try {
+      localStorage.setItem("pharaoh_language", lang);
+    } catch (error) {}
 
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.body.classList.toggle("ltr", lang === "en");
 
-  document.body.classList.toggle("ltr", lang === "en");
+    document.querySelectorAll("[data-i18n]").forEach((element) => {
+      const key = element.dataset.i18n;
 
-  document.querySelectorAll("[data-i18n]").forEach((element) => {
-    const key = element.dataset.i18n;
+      if (lang === "en" && translations.en[key]) {
+        element.innerHTML = translations.en[key];
+      } else if (element.dataset.original !== undefined) {
+        element.innerHTML = element.dataset.original;
+      }
+    });
 
-    if (lang === "en" && translations.en[key]) {
-      element.innerHTML = translations.en[key];
-    } else if (element.dataset.original !== undefined) {
-      element.innerHTML = element.dataset.original;
+    // تحديث أسماء المحافظات والمعالم
+    if (window.pharaohUpdateDestinationLanguage) {
+      window.pharaohUpdateDestinationLanguage();
     }
-  });
-
-  // تحديث أسماء المحافظات والمعالم حسب اللغة
-  if (window.pharaohUpdateDestinationLanguage) {
-    window.pharaohUpdateDestinationLanguage();
-  }
-}
-
 
     const langLabel = $("#langBtn b");
 
@@ -171,11 +168,14 @@ function setLanguage(next) {
       name: ["اكتب اسمك", "Enter your name"],
       phone: ["+20 1xxxxxxxxx", "+20 1xxxxxxxxx"],
       country: ["مثال: مصر", "e.g. Egypt"],
-      pickup: ["اسم الفندق أو مكان الاستقبال", "Hotel name or pickup location"],
+      pickup: [
+        "اسم الفندق أو مكان الاستقبال",
+        "Hotel name or pickup location"
+      ],
       details: [
         "اكتب أي تفاصيل تساعدنا في تجهيز رحلتك...",
-        "Tell us anything that will help us prepare your trip...",
-      ],
+        "Tell us anything that will help us prepare your trip..."
+      ]
     };
 
     Object.entries(placeholders).forEach(([id, values]) => {
@@ -198,7 +198,7 @@ function setLanguage(next) {
   }
 
   // =====================================
-  // مزامنة اللغة بين الصفحات المفتوحة
+  // مزامنة اللغة بين الصفحات
   // =====================================
 
   window.addEventListener("storage", (event) => {
@@ -208,7 +208,7 @@ function setLanguage(next) {
   });
 
   // =====================================
-  // التاريخ والساعة حسب جهاز الزائر
+  // التاريخ والساعة
   // =====================================
 
   function updateEgyptDateTime() {
@@ -303,7 +303,7 @@ function setLanguage(next) {
       },
       {
         threshold: 0.12,
-      },
+      }
     );
 
     document.querySelectorAll(".reveal").forEach((element) => {
@@ -316,7 +316,7 @@ function setLanguage(next) {
   }
 
   // =====================================
-  // تحديد أقل تاريخ للحجز
+  // أقل تاريخ للحجز
   // =====================================
 
   const dateInput = $("#date");
@@ -325,7 +325,7 @@ function setLanguage(next) {
     const today = new Date();
 
     const localDate = new Date(
-      today.getTime() - today.getTimezoneOffset() * 60000,
+      today.getTime() - today.getTimezoneOffset() * 60000
     )
       .toISOString()
       .slice(0, 10);
@@ -343,7 +343,13 @@ function setLanguage(next) {
     bookingForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      const required = ["name", "phone", "service", "destination"];
+      const required = [
+        "name",
+        "phone",
+        "service",
+        "destination",
+        "attraction"
+      ];
 
       const missing = required.some((id) => {
         const element = $("#" + id);
@@ -356,8 +362,8 @@ function setLanguage(next) {
         if (formError) {
           formError.textContent =
             lang === "ar"
-              ? "من فضلك أكمل الاسم ورقم الهاتف ونوع الخدمة والوجهة."
-              : "Please complete your name, phone number, service type and destination.";
+              ? "من فضلك أكمل الاسم ورقم الهاتف ونوع الخدمة والمحافظة والمعلم السياحي."
+              : "Please complete your name, phone number, service type, destination and tourist attraction.";
         }
 
         return;
@@ -385,7 +391,8 @@ function setLanguage(next) {
 البريد: ${val("email")}
 الدولة: ${val("country")}
 الخدمة: ${val("service")}
-الوجهة: ${val("destination")}
+المحافظة: ${val("destination")}
+المعلم السياحي: ${val("attraction")}
 التاريخ: ${val("date")}
 عدد المسافرين: ${val("people")}
 مكان الاستقبال: ${val("pickup")}
@@ -397,7 +404,8 @@ Phone: ${val("phone")}
 Email: ${val("email")}
 Country: ${val("country")}
 Service: ${val("service")}
-Destination: ${val("destination")}
+Governorate: ${val("destination")}
+Tourist attraction: ${val("attraction")}
 Date: ${val("date")}
 Travelers: ${val("people")}
 Pickup: ${val("pickup")}
@@ -435,7 +443,10 @@ Additional details: ${val("details")}`;
     const themeColor = $('meta[name="theme-color"]');
 
     if (themeColor) {
-      themeColor.setAttribute("content", isLight ? "#f5f0e5" : "#06132c");
+      themeColor.setAttribute(
+        "content",
+        isLight ? "#f5f0e5" : "#06132c"
+      );
     }
 
     if (themeToggle) {
@@ -443,12 +454,12 @@ Additional details: ${val("details")}`;
 
       themeToggle.setAttribute(
         "aria-label",
-        isLight ? "تفعيل الوضع الداكن" : "تفعيل الوضع الفاتح",
+        isLight ? "تفعيل الوضع الداكن" : "تفعيل الوضع الفاتح"
       );
 
       themeToggle.setAttribute(
         "title",
-        isLight ? "الوضع الداكن" : "الوضع الفاتح",
+        isLight ? "الوضع الداكن" : "الوضع الفاتح"
       );
     }
   }
@@ -480,7 +491,7 @@ Additional details: ${val("details")}`;
     });
   }
 
-  // مزامنة الوضع بين الصفحات المفتوحة
+  // مزامنة الوضع بين الصفحات
   window.addEventListener("storage", (event) => {
     if (event.key === "pharaoh_theme" && event.newValue) {
       applyTheme(event.newValue);
@@ -807,12 +818,20 @@ const pharaohEgyptPlaces = [
 ];
 
 // =========================================
-// بناء قائمة المحافظات
+// قراءة اللغة الحالية
 // =========================================
 
 function pharaohCurrentLanguage() {
-  return localStorage.getItem("pharaoh_language") || "ar";
+  try {
+    return localStorage.getItem("pharaoh_language") || "ar";
+  } catch (error) {
+    return "ar";
+  }
 }
+
+// =========================================
+// بناء قائمة المحافظات
+// =========================================
 
 function pharaohFillGovernorates() {
   const governorateSelect = document.getElementById("destination");
@@ -822,6 +841,7 @@ function pharaohFillGovernorates() {
 
   const language = pharaohCurrentLanguage();
   const oldGovernorate = governorateSelect.value;
+  const oldAttraction = attractionSelect.value;
 
   governorateSelect.innerHTML = "";
 
@@ -847,7 +867,18 @@ function pharaohFillGovernorates() {
     governorateSelect.value = oldGovernorate;
   }
 
-  pharaohFillAttractions();
+  const selectedGovernorate = pharaohEgyptPlaces.find(
+    g => g.ar === governorateSelect.value
+  );
+
+  const attractionExists = selectedGovernorate &&
+    selectedGovernorate.places.some(
+      place => place[0] === oldAttraction
+    );
+
+  pharaohFillAttractions(
+    attractionExists ? oldAttraction : ""
+  );
 }
 
 // =========================================
@@ -892,18 +923,22 @@ function pharaohFillAttractions(selectedPlace = "") {
     const option = document.createElement("option");
     option.value = ar;
     option.textContent = language === "en" ? en : ar;
+
     attractionSelect.appendChild(option);
   });
 
   attractionSelect.disabled = false;
 
-  if (selectedPlace) {
+  if (
+    selectedPlace &&
+    governorate.places.some(place => place[0] === selectedPlace)
+  ) {
     attractionSelect.value = selectedPlace;
   }
 }
 
 // =========================================
-// تشغيل القوائم
+// تشغيل القوائم واستقبال بيانات الخريطة
 // =========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -917,24 +952,29 @@ document.addEventListener("DOMContentLoaded", () => {
     pharaohFillAttractions();
   });
 
-  // استقبال بيانات الحجز القادمة من الخريطة
   const params = new URLSearchParams(window.location.search);
   const governorate = params.get("governorate");
   const attraction = params.get("attraction");
 
   if (governorate) {
-    governorateSelect.value = governorate;
-    pharaohFillAttractions(attraction || "");
+    const governorateExists = pharaohEgyptPlaces.some(
+      item => item.ar === governorate
+    );
 
-    const booking = document.getElementById("booking");
+    if (governorateExists) {
+      governorateSelect.value = governorate;
+      pharaohFillAttractions(attraction || "");
 
-    if (booking) {
-      setTimeout(() => {
-        booking.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }, 600);
+      const booking = document.getElementById("booking");
+
+      if (booking) {
+        setTimeout(() => {
+          booking.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }, 600);
+      }
     }
   }
 });
@@ -949,8 +989,6 @@ window.addEventListener("storage", (event) => {
   }
 });
 
-// استدعاء هذه الدالة من setLanguage عند تغيير اللغة
 window.pharaohUpdateDestinationLanguage = function () {
   pharaohFillGovernorates();
 };
-
