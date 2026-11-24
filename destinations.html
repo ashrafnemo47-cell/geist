@@ -45,9 +45,7 @@
       --shadow: 0 18px 45px rgba(35,55,80,.10);
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       min-height: 100vh;
@@ -61,13 +59,8 @@
       transition: background .35s, color .35s;
     }
 
-    button, input, a {
-      font-family: inherit;
-    }
-
-    button, a {
-      -webkit-tap-highlight-color: transparent;
-    }
+    button, input, a { font-family: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
 
     header {
       position: sticky;
@@ -329,9 +322,7 @@
       animation: show .4s ease;
     }
 
-    .details.show {
-      display: block;
-    }
+    .details.show { display: block; }
 
     @keyframes show {
       from { opacity: 0; transform: translateY(15px); }
@@ -392,9 +383,7 @@
       font-size: 17px;
     }
 
-    body.light-mode .places-title {
-      color: #89631c;
-    }
+    body.light-mode .places-title { color: #89631c; }
 
     .places {
       display: grid;
@@ -481,17 +470,10 @@
       line-height: 2;
     }
 
-    .leaflet-popup-content b {
-      color: var(--gold);
-    }
+    .leaflet-popup-content b { color: var(--gold); }
+    .leaflet-control-zoom a { color: #14243a !important; }
 
-    .leaflet-control-zoom a {
-      color: #14243a !important;
-    }
-
-    body.light-mode header {
-      background: rgba(255,255,255,.82);
-    }
+    body.light-mode header { background: rgba(255,255,255,.82); }
 
     @media (max-width: 850px) {
       header {
@@ -500,21 +482,10 @@
         justify-content: center;
       }
 
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        max-height: 340px;
-      }
-
-      #governorates {
-        grid-template-columns: repeat(2, minmax(0,1fr));
-      }
-
-      #map {
-        height: 440px;
-      }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { max-height: 340px; }
+      #governorates { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      #map { height: 440px; }
     }
 
     @media (max-width: 480px) {
@@ -556,17 +527,12 @@
   </section>
 
   <main class="layout">
-
     <aside class="sidebar glass">
       <h2 id="governoratesTitle">محافظات مصر الـ27</h2>
       <p class="sidebar-subtitle" id="sidebarSubtitle">اختر محافظة لعرض تفاصيلها</p>
 
-      <input
-        id="search"
-        type="search"
-        placeholder="ابحث عن محافظة..."
-        autocomplete="off"
-      >
+      <input id="search" type="search"
+        placeholder="ابحث عن محافظة..." autocomplete="off">
 
       <div id="governorates"></div>
     </aside>
@@ -584,7 +550,6 @@
         اضغط على أي علامة لاكتشاف المحافظة.
       </div>
     </section>
-
   </main>
 
   <section class="details glass" id="details">
@@ -936,7 +901,6 @@
         home: "⌂ العودة للموقع",
         booking: "✦ احجز رحلتك",
         language: "EN English",
-        theme: "☀️ النهار",
         heroTitle: 'اكتشف <span>مصر</span> من خلال خريطتها',
         heroDescription: "اختر المحافظة واكتشف المدن والأماكن السياحية والرحلات ومواقعها على الخريطة",
         governoratesTitle: "محافظات مصر الـ27",
@@ -960,7 +924,6 @@
         home: "⌂ Back to website",
         booking: "✦ Book your trip",
         language: "عربي Arabic",
-        theme: "☀️ Day",
         heroTitle: 'Discover <span>Egypt</span> through its map',
         heroDescription: "Choose a governorate to discover its cities, tourist attractions and locations on the map.",
         governoratesTitle: "Egypt's 27 Governorates",
@@ -990,10 +953,6 @@
       return words[language][key];
     }
 
-    // =========================================
-    // عناصر الصفحة
-    // =========================================
-
     const $ = (selector) => document.querySelector(selector);
 
     const list = $("#governorates");
@@ -1002,13 +961,21 @@
     const placesContainer = $("#places");
 
     // =========================================
-    // رابط الحجز
+    // رابط الحجز المتوافق مع script.js
     // =========================================
 
-    function createBookingUrl(destination) {
-      return "index.html?destination=" +
-        encodeURIComponent(destination) +
-        "#booking";
+    function createBookingUrl(governorate, attraction = "") {
+      const params = new URLSearchParams();
+
+      // اسم المحافظة بالعربي
+      params.set("governorate", governorate);
+
+      // اسم المكان السياحي بالعربي
+      if (attraction) {
+        params.set("attraction", attraction);
+      }
+
+      return `index.html?${params.toString()}#booking`;
     }
 
     // =========================================
@@ -1168,7 +1135,7 @@
     });
 
     // =========================================
-    // نافذة المحافظة والأماكن
+    // عرض المحافظة والأماكن
     // =========================================
 
     function renderGovernorateDetails(gov, scroll = false) {
@@ -1177,9 +1144,8 @@
       $("#govDescription").textContent =
         language === "ar" ? gov.description : gov.descriptionEn;
 
-      $("#governorateBooking").href = createBookingUrl(
-        language === "ar" ? gov.name : gov.en
-      );
+      // زر حجز المحافظة يرسل اسمها العربي
+      $("#governorateBooking").href = createBookingUrl(gov.name);
 
       placesContainer.innerHTML = "";
 
@@ -1206,7 +1172,10 @@
 
         const bookingLink = document.createElement("a");
         bookingLink.className = "booking-link";
-        bookingLink.href = createBookingUrl(placeName + " - " + (language === "ar" ? gov.name : gov.en));
+
+        // إرسال المحافظة والمكان باسميهما العربيين
+        bookingLink.href = createBookingUrl(gov.name, place[0]);
+
         bookingLink.textContent = "✦ " + t("placeBooking");
 
         const actions = document.createElement("div");
@@ -1283,7 +1252,7 @@
     }
 
     // =========================================
-    // تحديث اللغة والبيانات
+    // تحديث اللغة
     // =========================================
 
     const originalApplyLanguage = applyLanguage;
