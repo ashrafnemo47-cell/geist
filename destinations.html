@@ -2,31 +2,56 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#061329" />
-  <meta name="description" content="اكتشف محافظات مصر وأجمل الأماكن السياحية واحجز رحلتك مع PHARAOH EGYPT." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#061329">
+  <meta name="description" content="اكتشف محافظات مصر وأجمل الأماكن السياحية مع PHARAOH EGYPT">
   <title>PHARAOH EGYPT | خريطة مصر السياحية</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
+      color-scheme: dark;
       --gold: #e9bd60;
       --gold-light: #ffe5a3;
       --navy: #061329;
       --panel: #0c1d38;
       --panel-light: #102747;
-      --text: #fff;
+      --text: #ffffff;
       --muted: #aab8cb;
       --line: #e9bd6030;
+      --header: rgba(8,24,50,.94);
+      --input: #061329;
+      --hover: #243c5b;
+      --shadow: #0003;
     }
 
-    html { scroll-behavior: smooth; }
+    html[data-theme="light"] {
+      color-scheme: light;
+      --navy: #eef3f9;
+      --panel: #ffffff;
+      --panel-light: #f2f5fa;
+      --text: #17243a;
+      --muted: #64748b;
+      --line: #c69b453d;
+      --header: rgba(255,255,255,.96);
+      --input: #f7f9fc;
+      --hover: #e8edf5;
+      --shadow: #1b2a4415;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: "Cairo", sans-serif;
@@ -35,6 +60,13 @@
         var(--navy);
       color: var(--text);
       min-height: 100vh;
+      transition: background .3s, color .3s;
+    }
+
+    html[data-theme="light"] body {
+      background:
+        radial-gradient(circle at 50% 0%, #dce8f7 0%, transparent 48%),
+        var(--navy);
     }
 
     header {
@@ -45,8 +77,9 @@
       justify-content: space-between;
       gap: 15px;
       flex-wrap: wrap;
-      background: rgba(8, 24, 50, .94);
+      background: var(--header);
       border-bottom: 1px solid #e9bd6044;
+      backdrop-filter: blur(15px);
     }
 
     .logo {
@@ -56,18 +89,38 @@
       letter-spacing: 1px;
     }
 
-    header a, .header-booking {
-      color: var(--gold-light);
-      text-decoration: none;
-      border: 1px solid #e9bd6066;
-      padding: 9px 18px;
-      border-radius: 30px;
-      transition: .25s;
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
     }
 
-    header a:hover, .header-booking:hover {
+    header a,
+    .header-btn {
+      color: var(--gold-light);
+      background: transparent;
+      text-decoration: none;
+      border: 1px solid #e9bd6066;
+      padding: 9px 16px;
+      border-radius: 30px;
+      transition: .25s;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    html[data-theme="light"] header a,
+    html[data-theme="light"] .header-btn {
+      color: #805b15;
+    }
+
+    header a:hover,
+    .header-btn:hover {
       background: var(--gold);
-      color: var(--navy);
+      color: #061329;
+      transform: translateY(-2px);
     }
 
     .hero {
@@ -86,7 +139,9 @@
       margin: 10px 0;
     }
 
-    .hero h1 span { color: var(--gold); }
+    .hero h1 span {
+      color: var(--gold);
+    }
 
     .hero p {
       color: var(--muted);
@@ -104,12 +159,15 @@
       padding-bottom: 35px;
     }
 
-    .sidebar, .map-section, .details {
-      background: rgba(12, 29, 56, .94);
+    .sidebar,
+    .map-section,
+    .details {
+      background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 15px 45px #0003;
+      box-shadow: 0 15px 45px var(--shadow);
+      transition: background .3s, border-color .3s;
     }
 
     .sidebar {
@@ -130,20 +188,22 @@
       padding: 13px;
       border-radius: 10px;
       border: 1px solid #e9bd6055;
-      background: #061329;
-      color: white;
+      background: var(--input);
+      color: var(--text);
       outline: none;
       font-family: inherit;
       margin-bottom: 13px;
     }
 
-    #search:focus { border-color: var(--gold); }
+    #search:focus {
+      border-color: var(--gold);
+    }
 
     #governorates {
       overflow-y: auto;
       display: grid;
       gap: 7px;
-      padding-left: 3px;
+      padding: 0 3px;
     }
 
     .gov-btn {
@@ -151,7 +211,7 @@
       text-align: right;
       padding: 10px 12px;
       background: var(--panel-light);
-      color: white;
+      color: var(--text);
       border: 1px solid transparent;
       border-radius: 9px;
       cursor: pointer;
@@ -159,14 +219,17 @@
       transition: .25s;
     }
 
-    .gov-btn:hover, .gov-btn.active {
+    .gov-btn:hover,
+    .gov-btn.active {
       border-color: var(--gold);
-      background: #243c5b;
-      color: var(--gold-light);
+      background: var(--hover);
+      color: var(--gold);
       transform: translateX(-3px);
     }
 
-    .map-section { padding: 12px; }
+    .map-section {
+      padding: 12px;
+    }
 
     .map-heading {
       color: var(--gold);
@@ -198,11 +261,19 @@
       animation: show .4s ease;
     }
 
-    .details.show { display: block; }
+    .details.show {
+      display: block;
+    }
 
     @keyframes show {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .details-top {
@@ -225,7 +296,7 @@
     }
 
     .places-title {
-      color: var(--gold-light);
+      color: var(--gold);
       margin: 20px 0 12px;
     }
 
@@ -254,7 +325,9 @@
       margin-bottom: 7px;
     }
 
-    .place p { font-size: 12px; }
+    .place p {
+      font-size: 12px;
+    }
 
     .place-actions {
       display: flex;
@@ -263,7 +336,8 @@
       margin-top: 12px;
     }
 
-    .gps, .booking-link {
+    .gps,
+    .booking-link {
       display: inline-block;
       color: #061329;
       background: var(--gold);
@@ -279,7 +353,8 @@
       background: #f5f0e5;
     }
 
-    .gps:hover, .booking-link:hover {
+    .gps:hover,
+    .booking-link:hover {
       background: var(--gold-light);
       transform: translateY(-2px);
     }
@@ -306,7 +381,9 @@
       font-family: "Cairo", sans-serif;
     }
 
-    .leaflet-popup-content { text-align: center; }
+    .leaflet-popup-content {
+      text-align: center;
+    }
 
     footer {
       text-align: center;
@@ -316,21 +393,65 @@
       font-size: 13px;
     }
 
-    footer span { color: var(--gold); }
+    footer span {
+      color: var(--gold);
+    }
+
+    html[dir="ltr"] .gov-btn {
+      text-align: left;
+    }
+
+    html[dir="ltr"] .gov-btn:hover,
+    html[dir="ltr"] .gov-btn.active {
+      transform: translateX(3px);
+    }
+
+    html[dir="ltr"] .leaflet-popup-content {
+      direction: ltr;
+    }
 
     @media (max-width: 850px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { max-height: 350px; }
-      #governorates { grid-template-columns: repeat(2, 1fr); }
-      #map { height: 430px; }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        max-height: 350px;
+      }
+
+      #governorates {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      #map {
+        height: 430px;
+      }
     }
 
     @media (max-width: 480px) {
-      #map { height: 360px; }
-      .hero { padding-top: 25px; }
-      .details { padding: 15px; }
-      .logo { font-size: 19px; }
-      header { justify-content: center; }
+      #map {
+        height: 360px;
+      }
+
+      .hero {
+        padding-top: 25px;
+      }
+
+      .details {
+        padding: 15px;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      header {
+        justify-content: center;
+      }
+
+      .header-actions {
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -338,31 +459,45 @@
 <body>
   <header>
     <div class="logo">𓂀 PHARAOH EGYPT</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <a href="index.html">العودة للموقع الرئيسي</a>
-      <a class="header-booking" href="index.html#booking">احجز رحلتك</a>
+
+    <div class="header-actions">
+      <button class="header-btn" id="langBtn" type="button">English</button>
+      <button class="header-btn" id="themeToggle" type="button">☀️ وضع النهار</button>
+      <a href="index.html" data-i18n="backHome">العودة للموقع الرئيسي</a>
+      <a class="header-booking" href="index.html#booking" data-i18n="bookTrip">احجز رحلتك</a>
     </div>
   </header>
 
   <section class="hero">
     <small>DISCOVER EGYPT</small>
-    <h1>اكتشف <span>مصر</span> من خلال خريطتها</h1>
-    <p>
+    <h1 data-i18n="heroTitle">اكتشف <span>مصر</span> من خلال خريطتها</h1>
+    <p data-i18n="heroText">
       اختر المحافظة واكتشف المدن والأماكن السياحية والرحلات ومواقعها على الخريطة
     </p>
   </section>
 
   <main class="layout">
     <aside class="sidebar">
-      <h2>محافظات مصر الـ27</h2>
-      <input id="search" type="search" placeholder="ابحث عن محافظة..." />
+      <h2 data-i18n="govTitle">محافظات مصر الـ27</h2>
+
+      <input
+        id="search"
+        type="search"
+        placeholder="ابحث عن محافظة..."
+        data-i18n-placeholder="searchPlaceholder"
+      >
+
       <div id="governorates"></div>
     </aside>
 
     <section class="map-section">
-      <div class="map-heading">الخريطة التفاعلية لمصر</div>
+      <div class="map-heading" data-i18n="mapTitle">
+        الخريطة التفاعلية لمصر
+      </div>
+
       <div id="map"></div>
-      <div class="map-note">
+
+      <div class="map-note" data-i18n="mapNote">
         حرّك الخريطة بالماوس، واستخدم عجلة الماوس للتقريب والتبعيد.
         اضغط على أي علامة لاكتشاف المحافظة.
       </div>
@@ -375,297 +510,25 @@
         <h2 id="govName"></h2>
         <p id="govDescription"></p>
       </div>
+
       <a id="governorateBooking" class="governorate-booking" href="#">
         احجز رحلة إلى هذه المحافظة
       </a>
     </div>
 
-    <h3 class="places-title">أماكن ومعالم سياحية</h3>
+    <h3 class="places-title" data-i18n="placesTitle">
+      أماكن ومعالم سياحية
+    </h3>
+
     <div class="places" id="places"></div>
   </section>
 
   <footer>
-    PHARAOH EGYPT © 2026 — <span>اكتشف جمال مصر</span>
+    PHARAOH EGYPT © 2026 —
+    <span data-i18n="footerText">اكتشف جمال مصر</span>
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <script>
-    "use strict";
-
-    // بيانات محافظات مصر الـ27
-    // الإحداثيات تقريبية لمراكز المدن أو المحافظات.
-
-    const governorates = [
-      {
-        name: "القاهرة", lat: 30.0444, lng: 31.2357,
-        description: "عاصمة مصر، وتضم المتاحف والمواقع التاريخية والثقافية.",
-        places: ["قلعة صلاح الدين", "المتحف المصري", "خان الخليلي", "شارع المعز"]
-      },
-      {
-        name: "الإسكندرية", lat: 31.2001, lng: 29.9187,
-        description: "مدينة ساحلية تاريخية جميلة على البحر المتوسط.",
-        places: ["مكتبة الإسكندرية", "قلعة قايتباي", "عمود السواري", "كورنيش الإسكندرية"]
-      },
-      {
-        name: "بورسعيد", lat: 31.2653, lng: 32.3019,
-        description: "مدينة ساحلية عند المدخل الشمالي لقناة السويس.",
-        places: ["شاطئ بورسعيد", "متحف بورسعيد", "قناة السويس"]
-      },
-      {
-        name: "السويس", lat: 29.9668, lng: 32.5498,
-        description: "محافظة ساحلية عند المدخل الجنوبي لقناة السويس.",
-        places: ["العين السخنة", "شاطئ السويس", "جبل عتاقة"]
-      },
-      {
-        name: "دمياط", lat: 31.4175, lng: 31.8144,
-        description: "محافظة ساحلية تشتهر بشواطئها وموقعها عند مصب النيل.",
-        places: ["رأس البر", "دمياط الجديدة", "لسان رأس البر"]
-      },
-      {
-        name: "الدقهلية", lat: 31.0364, lng: 31.3807,
-        description: "محافظة في شمال شرق دلتا النيل.",
-        places: ["المنصورة", "بحيرة المنزلة"]
-      },
-      {
-        name: "الشرقية", lat: 30.5877, lng: 31.502,
-        description: "تضم مواقع أثرية وتاريخية في شرق الدلتا.",
-        places: ["تل بسطة", "صان الحجر"]
-      },
-      {
-        name: "القليوبية", lat: 30.4667, lng: 31.1833,
-        description: "تقع في منطقة دلتا النيل الكبرى.",
-        places: ["القناطر الخيرية", "حدائق القناطر"]
-      },
-      {
-        name: "كفر الشيخ", lat: 31.1107, lng: 30.9388,
-        description: "تضم مناطق ساحلية وبحيرات ومناطق طبيعية.",
-        places: ["بلطيم", "بحيرة البرلس", "برج البرلس"]
-      },
-      {
-        name: "الغربية", lat: 30.7865, lng: 31.0004,
-        description: "تضم مدنًا تاريخية ومناطق ريفية في الدلتا.",
-        places: ["طنطا", "سمنود"]
-      },
-      {
-        name: "المنوفية", lat: 30.553, lng: 31.01,
-        description: "محافظة تقع في قلب دلتا النيل.",
-        places: ["شبين الكوم", "منوف", "مدينة السادات"]
-      },
-      {
-        name: "البحيرة", lat: 30.8481, lng: 30.3436,
-        description: "محافظة في غرب دلتا النيل وتضم مدنًا ومناطق تاريخية.",
-        places: ["رشيد", "إدكو", "وادي النطرون", "دمنهور"]
-      },
-      {
-        name: "الإسماعيلية", lat: 30.5965, lng: 32.2715,
-        description: "مدينة على قناة السويس وتضم بحيرات ومناطق طبيعية.",
-        places: ["بحيرة التمساح", "حدائق الملاحة", "قناة السويس"]
-      },
-      {
-        name: "الجيزة", lat: 29.987, lng: 31.2118,
-        description: "تشتهر بالأهرامات والآثار المصرية القديمة.",
-        places: ["أهرامات الجيزة", "أبو الهول", "سقارة", "دهشور"]
-      },
-      {
-        name: "بني سويف", lat: 29.0661, lng: 31.0994,
-        description: "محافظة في شمال صعيد مصر.",
-        places: ["هرم ميدوم", "مناطق النيل"]
-      },
-      {
-        name: "الفيوم", lat: 29.3084, lng: 30.8428,
-        description: "تشتهر بالبحيرات والشلالات والمحميات الطبيعية.",
-        places: ["بحيرة قارون", "وادي الريان", "وادي الحيتان", "قرية تونس"]
-      },
-      {
-        name: "المنيا", lat: 28.1099, lng: 30.7503,
-        description: "تضم مواقع أثرية مهمة من عصور مصر القديمة.",
-        places: ["تل العمارنة", "بني حسن", "تونا الجبل"]
-      },
-      {
-        name: "أسيوط", lat: 27.1783, lng: 31.1859,
-        description: "محافظة تاريخية في صعيد مصر.",
-        places: ["دير المحرق", "منطقة القوصية"]
-      },
-      {
-        name: "سوهاج", lat: 26.5591, lng: 31.6957,
-        description: "تضم معالم أثرية وقبطية وتاريخية.",
-        places: ["أبيدوس", "أخميم", "الدير الأبيض"]
-      },
-      {
-        name: "قنا", lat: 26.1551, lng: 32.716,
-        description: "تضم معابد ومواقع أثرية مهمة في صعيد مصر.",
-        places: ["معبد دندرة", "قوص", "نقادة"]
-      },
-      {
-        name: "الأقصر", lat: 25.6872, lng: 32.6396,
-        description: "متحف مفتوح يضم معابد ومقابر أثرية عالمية.",
-        places: ["معبد الكرنك", "معبد الأقصر", "وادي الملوك", "معبد حتشبسوت", "البر الغربي"]
-      },
-      {
-        name: "أسوان", lat: 24.0889, lng: 32.8998,
-        description: "وجهة سياحية على النيل تشتهر بالمعابد والجزر والطبيعة النوبية.",
-        places: ["معبد فيلة", "السد العالي", "جزيرة النباتات", "معبد أبو سمبل", "القرية النوبية"]
-      },
-      {
-        name: "البحر الأحمر", lat: 27.2579, lng: 33.8116,
-        description: "من أهم مناطق السياحة البحرية والغوص والشواطئ في مصر.",
-        places: ["الغردقة", "الجونة", "سفاجا", "القصير", "مرسى علم", "رأس غارب"]
-      },
-      {
-        name: "الوادي الجديد", lat: 25.439, lng: 30.5586,
-        description: "تضم الواحات والصحاري والمواقع الأثرية.",
-        places: ["واحة الخارجة", "واحة الداخلة", "واحة الفرافرة", "الصحراء البيضاء"]
-      },
-      {
-        name: "مطروح", lat: 31.3543, lng: 27.2373,
-        description: "محافظة ساحلية تضم شواطئ البحر المتوسط وواحة سيوة.",
-        places: ["مرسى مطروح", "العلمين", "سيوة", "السلوم", "سيدي عبد الرحمن"]
-      },
-      {
-        name: "شمال سيناء", lat: 31.1313, lng: 33.7984,
-        description: "تضم مناطق ساحلية وطبيعية في شمال شبه جزيرة سيناء.",
-        places: ["العريش", "بحيرة البردويل", "رفح"]
-      },
-      {
-        name: "جنوب سيناء", lat: 28.438, lng: 33.625,
-        description: "وجهة سياحية مشهورة بالشواطئ والغوص والجبال.",
-        places: ["شرم الشيخ", "دهب", "نويبع", "طابا", "سانت كاترين"]
-      }
-    ];
-
-    const map = L.map("map", {
-      center: [27.5, 30.8],
-      zoom: 5,
-      minZoom: 4,
-      maxZoom: 16,
-      scrollWheelZoom: true
-    });
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-
-    const markers = new Map();
-    const list = document.getElementById("governorates");
-
-    const goldIcon = L.divIcon({
-      className: "",
-      html: `<div style="
-        width:23px;
-        height:23px;
-        background:#e9bd60;
-        border:3px solid white;
-        border-radius:50%;
-        box-shadow:0 0 15px #e9bd60;
-      "></div>`,
-      iconSize: [23, 23],
-      iconAnchor: [11, 11]
-    });
-
-    // تكوين رابط الحجز وإرسال اسم الوجهة إلى الصفحة الرئيسية
-    function createBookingUrl(destination) {
-      return "index.html?destination=" +
-        encodeURIComponent(destination) +
-        "#booking";
-    }
-
-    function openGovernorate(gov) {
-      document.getElementById("govName").textContent = gov.name;
-      document.getElementById("govDescription").textContent = gov.description;
-
-      const governorateBooking = document.getElementById("governorateBooking");
-      governorateBooking.href = createBookingUrl(gov.name);
-
-      const placesContainer = document.getElementById("places");
-      placesContainer.innerHTML = "";
-
-      gov.places.forEach((place) => {
-        const card = document.createElement("article");
-        card.className = "place";
-
-        const title = document.createElement("h3");
-        title.textContent = place;
-
-        const description = document.createElement("p");
-        description.textContent =
-          "اكتشف هذا المكان السياحي واحجز رحلتك إليه.";
-
-        // رابط GPS
-        const gpsLink = document.createElement("a");
-        gpsLink.className = "gps";
-        gpsLink.target = "_blank";
-        gpsLink.rel = "noopener noreferrer";
-        gpsLink.href =
-          "https://www.google.com/maps/search/?api=1&query=" +
-          encodeURIComponent(place + " " + gov.name + " Egypt");
-        gpsLink.textContent = "افتح الموقع GPS";
-
-        // رابط الحجز الخاص بالمكان والمحافظة
-        const bookingLink = document.createElement("a");
-        bookingLink.className = "booking-link";
-        bookingLink.href = createBookingUrl(place + " - " + gov.name);
-        bookingLink.textContent = "احجز هذه الرحلة";
-
-        const actions = document.createElement("div");
-        actions.className = "place-actions";
-        actions.append(gpsLink, bookingLink);
-
-        card.append(title, description, actions);
-        placesContainer.appendChild(card);
-      });
-
-      document.getElementById("details").classList.add("show");
-
-      document.querySelectorAll(".gov-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.name === gov.name);
-      });
-
-      const marker = markers.get(gov.name);
-
-      if (marker) {
-        map.flyTo(marker.getLatLng(), 8, { duration: 1.2 });
-        marker.openPopup();
-      }
-
-      document.getElementById("details").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-
-    // إنشاء العلامات وأزرار المحافظات
-    governorates.forEach((gov) => {
-      const marker = L.marker([gov.lat, gov.lng], {
-        icon: goldIcon
-      }).addTo(map);
-
-      marker.bindPopup(
-        `<b>${gov.name}</b><br>اضغط لاكتشاف المحافظة`
-      );
-
-      marker.on("click", () => openGovernorate(gov));
-      markers.set(gov.name, marker);
-
-      const button = document.createElement("button");
-      button.className = "gov-btn";
-      button.textContent = "📍 " + gov.name;
-      button.dataset.name = gov.name;
-      button.addEventListener("click", () => openGovernorate(gov));
-
-      list.appendChild(button);
-    });
-
-    // البحث عن محافظة
-    document.getElementById("search").addEventListener("input", function () {
-      const value = this.value.trim();
-
-      document.querySelectorAll(".gov-btn").forEach((button) => {
-        button.style.display = button.dataset.name.includes(value)
-          ? "block"
-          : "none";
-      });
-    });
-  </script>
+  <script src="destinations.js"></script>
 </body>
 </html>
