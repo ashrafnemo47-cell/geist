@@ -1,6 +1,6 @@
-
 /* =========================================
    PHARAOH EGYPT - ROYAL SMOOTH EDITION
+   Complete Responsive CSS
 ========================================= */
 
 * {
@@ -81,23 +81,60 @@ img {
 }
 
 /* =========================================
-   HEADER
+   INTRO VIDEO
+========================================= */
+
+#intro-screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  z-index: 999999;
+  overflow: hidden;
+  background: #06132c;
+  transition:
+    opacity 1s ease,
+    visibility 1s ease;
+}
+
+#intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+#intro-screen.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* =========================================
+   ROYAL HEADER
 ========================================= */
 
 .header {
-  height: 86px;
+  height: 88px;
   position: absolute;
-  z-index: 20;
+  z-index: 1000;
   top: 0;
   left: 0;
   right: 0;
-  padding: 0 5%;
+  padding: 0 4%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(120deg, #030916f5, #0b1c38ed);
-  border-bottom: 1px solid #e5b44d77;
-  box-shadow: 0 8px 25px #0005;
+  gap: 22px;
+  background: linear-gradient(
+    110deg,
+    rgba(3, 9, 22, 0.97),
+    rgba(10, 28, 54, 0.95),
+    rgba(3, 9, 22, 0.97)
+  );
+  border-bottom: 1px solid #e9b74388;
+  box-shadow: 0 8px 30px #0007;
+  backdrop-filter: blur(14px);
 }
 
 .logo {
@@ -106,17 +143,18 @@ img {
   gap: 10px;
   direction: ltr;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .logo-icon {
   font-size: 43px;
   color: var(--gold);
-  text-shadow: 0 0 15px #e9b74388;
+  text-shadow: 0 0 18px #e9b74388;
 }
 
 .logo b {
   display: block;
-  font: 800 23px "Playfair Display";
+  font: 800 22px "Playfair Display";
   letter-spacing: 1px;
   color: #ffda7d;
 }
@@ -131,12 +169,16 @@ img {
 
 .header nav {
   display: flex;
-  gap: clamp(10px, 1.6vw, 25px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.35vw, 21px);
+  flex: 1;
+  min-width: 0;
 }
 
 .header nav a {
   position: relative;
-  padding: 10px 0;
+  padding: 12px 0;
   font-size: 12px;
   font-weight: 800;
   color: #eee5d6;
@@ -147,31 +189,63 @@ img {
 .header nav a::after {
   content: "";
   position: absolute;
-  bottom: 0;
+  bottom: 3px;
   right: 0;
   width: 0;
   height: 2px;
-  background: var(--gold);
+  border-radius: 5px;
+  background: linear-gradient(90deg, #d49a29, #ffe29a);
+  box-shadow: 0 0 10px #e9b74388;
   transition: width var(--transition);
 }
 
-.header nav a:hover {
-  color: var(--gold);
+.header nav a:hover,
+.header nav a.active {
+  color: var(--gold2);
 }
 
-.header nav a:hover::after {
+.header nav a:hover::after,
+.header nav a.active::after {
   width: 100%;
 }
 
+/* =========================================
+   HEADER ACTIONS
+========================================= */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Language Button */
+
 .lang-btn {
-  background: #0c1932;
-  border: 1px solid #a38b5b;
-  border-radius: 28px;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: linear-gradient(145deg, #172b48, #081326);
+  border: 1px solid #b9954d;
+  border-radius: 25px;
   color: #fff;
-  padding: 10px 15px;
+  padding: 9px 15px;
   cursor: pointer;
   white-space: nowrap;
   font-size: 11px;
+  font-weight: 800;
+  transition: var(--transition);
+}
+
+.lang-btn:hover {
+  background: linear-gradient(145deg, #ffe29a, #d49a29);
+  color: #07152f;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px #e9b74344;
 }
 
 .lang-btn span {
@@ -179,30 +253,122 @@ img {
   font-size: 16px;
 }
 
-.menu-btn {
+.lang-btn:hover span {
+  color: #07152f;
+}
+
+/* Google Translate */
+
+.language-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  max-width: 180px;
+  position: relative;
+}
+
+#google_translate_element {
+  display: block;
+  max-width: 100%;
+}
+
+#google_translate_element .goog-te-gadget {
+  color: #fff !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 11px !important;
+}
+
+#google_translate_element .goog-te-gadget span {
   display: none;
-  background: none;
-  border: 0;
-  color: var(--gold);
-  font-size: 25px;
+}
+
+#google_translate_element select {
+  width: 100%;
+  max-width: 170px;
+  min-height: 40px;
+  padding: 7px 25px 7px 10px;
+  border: 1px solid #b9954d;
+  border-radius: 22px;
+  outline: none;
+  background: linear-gradient(145deg, #172b48, #081326);
+  color: #fff;
+  font-family: "Cairo", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
   cursor: pointer;
 }
 
+#google_translate_element select option {
+  background: #07152f;
+  color: #fff;
+}
+
+/* Theme Button */
+
 .theme-toggle {
-  width: 45px;
-  height: 45px;
+  width: 43px;
+  height: 43px;
   flex-shrink: 0;
+  display: grid;
+  place-items: center;
   border: 1px solid var(--gold);
   border-radius: 50%;
   background: #ffffff12;
   color: white;
-  font-size: 21px;
+  font-size: 20px;
   cursor: pointer;
-  transition: transform var(--transition);
+  transition: var(--transition);
 }
 
 .theme-toggle:hover {
-  transform: rotate(15deg);
+  transform: rotate(20deg);
+  background: #e9b74322;
+  box-shadow: 0 0 15px #e9b74344;
+}
+
+/* Mobile Menu Button */
+
+.menu-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid #e9b74366;
+  border-radius: 10px;
+  color: var(--gold);
+  font-size: 24px;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+}
+
+/* =========================================
+   DATE & CLOCK
+========================================= */
+
+.egypt-datetime {
+  position: relative;
+  z-index: 15;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 88px;
+  padding: 11px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  color: #ffe29a;
+  background: linear-gradient(90deg, #030916, #102444, #030916);
+  border-bottom: 1px solid #e9b74355;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.clock-divider {
+  color: var(--gold);
+  font-size: 19px;
 }
 
 /* =========================================
@@ -1299,13 +1465,16 @@ footer > a:last-child {
     background-position: 150% 0;
     opacity: 0;
   }
+
   97% {
     opacity: 1;
   }
+
   99% {
     background-position: -150% 0;
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -1349,18 +1518,23 @@ footer > a:last-child {
 .pharaoh-animation span:nth-child(2) {
   animation-delay: 0.2s;
 }
+
 .pharaoh-animation span:nth-child(3) {
   animation-delay: 0.4s;
 }
+
 .pharaoh-animation span:nth-child(4) {
   animation-delay: 0.6s;
 }
+
 .pharaoh-animation span:nth-child(5) {
   animation-delay: 0.8s;
 }
+
 .pharaoh-animation span:nth-child(6) {
   animation-delay: 1s;
 }
+
 .pharaoh-animation span:nth-child(7) {
   animation-delay: 1.2s;
 }
@@ -1375,39 +1549,10 @@ footer > a:last-child {
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-7px);
   }
-}
-
-/* =========================================
-   DATE & CLOCK
-========================================= */
-
-.egypt-datetime {
-  position: relative;
-  z-index: 15;
-  width: 100%;
-  min-height: 48px;
-  margin-top: 86px;
-  padding: 12px 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  color: #ffe29a;
-  background: linear-gradient(90deg, #030916, #07152f, #030916);
-  border-bottom: 1px solid #e9b74355;
-  font-family: "Cairo", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.clock-divider {
-  color: var(--gold);
-  font-size: 19px;
 }
 
 /* =========================================
@@ -1464,7 +1609,8 @@ footer > a:last-child {
   opacity: 0.09;
 }
 
-/* إظهار الجو الملكي من خلال الأقسام */
+/* Transparent sections */
+
 .intro,
 .services,
 .destinations,
@@ -1543,6 +1689,7 @@ body.light-mode .night-sky {
   100% {
     transform: translate3d(0, 0, 0);
   }
+
   50% {
     transform: translate3d(-8px, -9px, 0);
   }
@@ -1553,6 +1700,7 @@ body.light-mode .night-sky {
     transform: translateY(0);
     opacity: 0.45;
   }
+
   100% {
     transform: translateY(-8px);
     opacity: 1;
@@ -1577,24 +1725,40 @@ body.light-mode {
 }
 
 body.light-mode .header {
-  background: #ffffffed !important;
+  background: rgba(255, 255, 255, 0.96) !important;
   border-bottom: 1px solid #e8dfcb;
-  box-shadow: 0 5px 18px #0000000d;
+  box-shadow: 0 5px 20px #00000012;
 }
 
-body.light-mode .header nav a,
-body.light-mode .logo b,
-body.light-mode .logo small {
+body.light-mode .header nav a {
   color: #172033;
+}
+
+body.light-mode .header nav a:hover {
+  color: #a87920;
+}
+
+body.light-mode .logo b {
+  color: #8d641d;
+}
+
+body.light-mode .logo small {
+  color: #586273;
 }
 
 body.light-mode .logo-icon {
   color: #b88625;
 }
 
-body.light-mode .lang-btn {
+body.light-mode .lang-btn,
+body.light-mode #google_translate_element select {
   background: #f5f5f5;
   color: #172033;
+  border-color: #c9a85f;
+}
+
+body.light-mode #google_translate_element .goog-te-gadget {
+  color: #172033 !important;
 }
 
 body.light-mode .intro,
@@ -1750,6 +1914,23 @@ body.light-mode .theme-toggle {
   right: 20px;
 }
 
+.ltr .header nav {
+  direction: ltr;
+}
+
+.ltr .header nav a::after {
+  right: auto;
+  left: 0;
+}
+
+.ltr .header-actions {
+  direction: ltr;
+}
+
+.ltr .header nav.open {
+  text-align: left;
+}
+
 /* =========================================
    ANIMATIONS
 ========================================= */
@@ -1772,15 +1953,8 @@ body.light-mode .theme-toggle {
 
 @media (max-width: 1100px) {
   .header {
-    padding: 0 3%;
-  }
-
-  .logo b {
-    font-size: 19px;
-  }
-
-  .logo small {
-    font-size: 8px;
+    padding: 0 2.5%;
+    gap: 12px;
   }
 
   .header nav {
@@ -1791,8 +1965,20 @@ body.light-mode .theme-toggle {
     font-size: 10px;
   }
 
+  .logo b {
+    font-size: 18px;
+  }
+
+  .logo-icon {
+    font-size: 35px;
+  }
+
+  .logo small {
+    font-size: 8px;
+  }
+
   .lang-btn {
-    padding: 8px;
+    padding: 8px 10px;
   }
 
   .service-grid {
@@ -1812,22 +1998,32 @@ body.light-mode .theme-toggle {
   .header {
     height: 72px;
     padding: 0 4%;
+    gap: 8px;
+  }
+
+  .logo {
+    gap: 6px;
   }
 
   .logo-icon {
-    font-size: 34px;
+    font-size: 31px;
   }
 
   .logo b {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .logo small {
     font-size: 7px;
   }
 
+  .header-actions {
+    gap: 6px;
+  }
+
   .menu-btn {
-    display: block;
+    display: grid;
+    place-items: center;
     order: 3;
   }
 
@@ -1837,11 +2033,15 @@ body.light-mode .theme-toggle {
     top: 72px;
     right: 0;
     left: 0;
-    background: #07152f;
-    padding: 20px 7%;
+    width: 100%;
+    padding: 18px 7% 23px;
     flex-direction: column;
-    gap: 17px;
+    align-items: stretch;
+    gap: 8px;
+    background: rgba(5, 16, 36, 0.98);
     border-bottom: 1px solid var(--gold);
+    box-shadow: 0 15px 25px #0008;
+    backdrop-filter: blur(15px);
   }
 
   .header nav.open {
@@ -1849,18 +2049,49 @@ body.light-mode .theme-toggle {
   }
 
   .header nav a {
+    display: block;
+    padding: 11px 5px;
     font-size: 13px;
+    border-bottom: 1px solid #e9b74318;
+  }
+
+  .header nav a::after {
+    display: none;
   }
 
   .lang-btn {
+    min-height: 37px;
+    padding: 7px 9px;
     font-size: 10px;
-    padding: 8px 10px;
+  }
+
+  .language-wrapper {
+    min-width: 90px;
+    max-width: 115px;
+  }
+
+  #google_translate_element select {
+    min-height: 36px;
+    max-width: 115px;
+    font-size: 10px;
+    padding: 5px;
   }
 
   .theme-toggle {
-    width: 38px;
-    height: 38px;
-    font-size: 18px;
+    width: 37px;
+    height: 37px;
+    font-size: 17px;
+  }
+
+  .egypt-datetime {
+    margin-top: 72px;
+    padding: 10px 6px;
+    gap: 8px;
+    font-size: 10px;
+  }
+
+  .clock-divider {
+    font-size: 16px;
   }
 
   .hero {
@@ -2051,17 +2282,6 @@ body.light-mode .theme-toggle {
     width: 100%;
   }
 
-  .egypt-datetime {
-    margin-top: 72px;
-    padding: 11px 8px;
-    gap: 9px;
-    font-size: 11px;
-  }
-
-  .clock-divider {
-    font-size: 16px;
-  }
-
   .night-moon {
     width: 65px;
     height: 65px;
@@ -2084,43 +2304,343 @@ body.light-mode .theme-toggle {
     height: 46px;
     border-radius: 14px;
   }
-}
-#intro-screen {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100dvh;
-  z-index: 999999;
-  overflow: hidden;
-  background: #06132c;
-}
 
-#intro-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* الموبايل */
-@media (max-width: 768px) {
   #intro-video {
-    width: 100%;
-    height: 100%;
     object-fit: contain;
+  }
+
+  .ltr .header nav {
+    right: 0;
+    left: 0;
   }
 }
 
-/* الكمبيوتر */
+/* =========================================
+   DESKTOP INTRO VIDEO
+========================================= */
+
 @media (min-width: 769px) {
   #intro-video {
     object-fit: cover;
   }
 }
 
-#intro-screen.hide {
+/* =========================================
+   ACCESSIBILITY & SMOOTHNESS
+========================================= */
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* إخفاء شريط Google Translate العلوي */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+/* منع الصفحة من النزول بسبب الشريط */
+html,
+body {
+  top: 0 !important;
+  margin-top: 0 !important;
+  position: static !important;
+}
+
+/* إخفاء رسالة الترجمة */
+.goog-te-balloon-frame {
+  display: none !important;
+}
+
+/* إخفاء عناصر Google الإضافية */
+#goog-gt-tt,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+/* إخفاء المساحة العلوية */
+body > .skiptranslate {
+  display: none !important;
+}
+
+/* =========================================
+   PHARAOH EGYPT - LIGHT ANIMATIONS
+   انيميشن خفيفة وسلسة
+========================================= */
+
+/* ظهور العناصر عند النزول */
+.animate-section {
   opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: 1s;
+  transform: translateY(18px);
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+
+  will-change: opacity, transform;
+}
+
+/* الحالة بعد الظهور */
+.animate-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* حركة الكروت */
+.card,
+.destination-card,
+.service-card,
+.gallery-item {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover,
+.destination-card:hover,
+.service-card:hover {
+  transform: translateY(-4px);
+}
+
+/* حركة الصور */
+.card img,
+.destination-card img,
+.gallery-item img {
+  transition: transform 0.4s ease;
+}
+
+.card:hover img,
+.destination-card:hover img,
+.gallery-item:hover img {
+  transform: scale(1.035);
+}
+
+/* حركة الأزرار */
+button,
+.btn {
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+button:hover,
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+button:active,
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* ظهور محتوى الواجهة الرئيسية */
+.hero-content {
+  animation: heroAppear 0.8s ease both;
+}
+
+@keyframes heroAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* تقليل الحركة للأجهزة التي تطلب ذلك */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-section {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* تحسين الأداء على الشاشات الصغيرة */
+@media (max-width: 768px) {
+  .animate-section {
+    transform: translateY(10px);
+    transition-duration: 0.4s;
+  }
+
+  .card:hover,
+  .destination-card:hover,
+  .service-card:hover {
+    transform: none;
+  }
+}
+
+/* =========================================
+   PHARAOH EGYPT - PREMIUM LIGHT ANIMATIONS
+========================================= */
+
+/* ظهور الأقسام تدريجياً */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s ease;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* الصور */
+.service-card img,
+.gallery-grid img,
+.intro-image2 img {
+  transition: transform 0.45s ease;
+}
+
+.service-card:hover img,
+.gallery-grid figure:hover img,
+.intro-image2:hover img {
+  transform: scale(1.035);
+}
+
+/* كروت الخدمات */
+.service-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+/* الوجهات السياحية */
+.destination {
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+.destination:hover {
+  transform: translateY(-5px);
+}
+
+/* أزرار الموقع */
+.gold-btn,
+.outline-btn,
+.under-link,
+.send-btn {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.gold-btn:hover,
+.outline-btn:hover {
+  transform: translateY(-3px);
+}
+
+.gold-btn:active,
+.outline-btn:active {
+  transform: scale(0.97);
+}
+
+/* ظهور الواجهة الرئيسية */
+.hero-content {
+  animation: heroEntrance 1s ease both;
+}
+
+@keyframes heroEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* حركة بسيطة لشعار الفراعنة */
+.hero-seal {
+  animation: sealFloat 4s ease-in-out infinite;
+}
+
+@keyframes sealFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* احترام إعداد تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* تحسين الهاتف */
+@media (max-width: 768px) {
+  .reveal {
+    transform: translateY(12px);
+    transition-duration: 0.4s;
+  }
+
+  .service-card:hover,
+  .destination:hover {
+    transform: none;
+  }
+
+  .hero-seal {
+    animation: none;
+  }
 }
