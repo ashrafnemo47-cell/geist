@@ -1,83 +1,77 @@
 
 "use strict";
 
-// ==================================
-// PHARAOH EGYPT - SETTINGS SYSTEM
-// ==================================
+// PHARAOH EGYPT - CENTRAL SETTINGS
 
-const SETTINGS = {
-  languageKey: "pharaoh_language",
-  themeKey: "pharaoh_theme"
+const PHARAOH_SETTINGS = {
+  language: "pharaoh_language",
+  theme: "pharaoh_theme"
 };
 
-// قراءة الإعدادات المحفوظة
-function getSiteSettings() {
-  return {
-    language: localStorage.getItem(SETTINGS.languageKey) || "ar",
-    theme: localStorage.getItem(SETTINGS.themeKey) || "dark"
-  };
+// حفظ الإعدادات
+function saveCurrentSettings() {
+  const language =
+    document.documentElement.lang === "en" ? "en" : "ar";
+
+  const theme = document.body.classList.contains("light-mode")
+    ? "light"
+    : "dark";
+
+  localStorage.setItem(PHARAOH_SETTINGS.language, language);
+  localStorage.setItem(PHARAOH_SETTINGS.theme, theme);
 }
 
 // تطبيق اللغة
-function applySiteLanguage(language) {
+window.setSiteLanguage = function(language) {
   const lang = language === "en" ? "en" : "ar";
-
-  localStorage.setItem(SETTINGS.languageKey, lang);
 
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
 
-  document.body.classList.toggle("english-mode", lang === "en");
+  localStorage.setItem(PHARAOH_SETTINGS.language, lang);
 
   window.dispatchEvent(
     new CustomEvent("pharaoh-language-change", {
       detail: { language: lang }
     })
   );
-}
+};
 
-// تطبيق الوضع الليلي أو النهاري
-function applySiteTheme(theme) {
-  const selectedTheme = theme === "light" ? "light" : "dark";
+// تطبيق المظهر
+window.setSiteTheme = function(theme) {
+  const selected = theme === "light" ? "light" : "dark";
 
-  localStorage.setItem(SETTINGS.themeKey, selectedTheme);
+  document.body.classList.toggle("light-mode", selected === "light");
+  document.body.classList.toggle("dark-mode", selected === "dark");
 
-  document.body.classList.toggle(
-    "light-mode",
-    selectedTheme === "light"
-  );
-
-  document.body.classList.toggle(
-    "dark-mode",
-    selectedTheme === "dark"
-  );
+  localStorage.setItem(PHARAOH_SETTINGS.theme, selected);
 
   window.dispatchEvent(
     new CustomEvent("pharaoh-theme-change", {
-      detail: { theme: selectedTheme }
+      detail: { theme: selected }
     })
   );
-}
+};
 
-// تغيير اللغة من الصفحة الرئيسية
-function setSiteLanguage(language) {
-  applySiteLanguage(language);
-}
+// تحميل الإعدادات المحفوظة
+const savedLanguage =
+  localStorage.getItem(PHARAOH_SETTINGS.language) || "ar";
 
-// تغيير المظهر من الصفحة الرئيسية
-function setSiteTheme(theme) {
-  applySiteTheme(theme);
-}
+const savedTheme =
+  localStorage.getItem(PHARAOH_SETTINGS.theme) || "dark";
 
-// تحميل الإعدادات عند فتح أي صفحة
-document.addEventListener("DOMContentLoaded", () => {
-  const settings = getSiteSettings();
+window.setSiteLanguage(savedLanguage);
+window.setSiteTheme(savedTheme);
 
-  applySiteLanguage(settings.language);
-  applySiteTheme(settings.theme);
+// مراقبة تغييرات اللغة والمظهر من script.js
+const settingsObserver = new MutationObserver(saveCurrentSettings);
+
+settingsObserver.observe(document.documentElement, {
+  attributes: true,
+  attributeFilter: ["lang", "dir"]
 });
 
-// إتاحة الدوال لباقي ملفات الموقع
-window.setSiteLanguage = setSiteLanguage;
-window.setSiteTheme = setSiteTheme;
-window.getSiteSettings = getSiteSettings;
+settingsObserver.observe(document.body, {
+  attributes: true,
+  attributeFilter: ["class"]
+});
