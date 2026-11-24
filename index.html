@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -58,7 +57,7 @@
         <a href="#about" data-i18n="navAbout">عن الشركة</a>
         <a href="#services" data-i18n="navServices">خدماتنا</a>
         <a href="#destinations" data-i18n="navPlaces">الوجهات</a>
-        <a href="destinations.html" data-i18n="navMap">خريطة مصر السياحية</a>
+        <a href="destinations.html">خريطة مصر السياحية</a>
         <a href="#gallery" data-i18n="navGallery">معرض الصور</a>
         <a href="#booking" data-i18n="navBooking">احجز الآن</a>
         <a href="#contact" data-i18n="navContact">تواصل معنا</a>
@@ -275,17 +274,30 @@
         </div>
 
         <div class="pharaoh-animation" aria-label="PHARAOH EGYPT">
-          <span>P</span><span>H</span><span>A</span><span>R</span><span>A</span>
-          <span>O</span><span>H</span>
+          <span>P</span>
+          <span>H</span>
+          <span>A</span>
+          <span>R</span>
+          <span>A</span>
+          <span>O</span>
+          <span>H</span>
+
           <span class="word-space"></span>
-          <span>E</span><span>G</span><span>Y</span><span>P</span><span>T</span>
+
+          <span>E</span>
+          <span>G</span>
+          <span>Y</span>
+          <span>P</span>
+          <span>T</span>
         </div>
 
         <div class="destination-grid">
           <a
             class="destination large reveal"
             href="#booking"
-            style="--photo: url('https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1100&q=85');"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1100&q=85&quot;);
+            "
           >
             <small>01 / PYRAMIDS</small>
             <b data-i18n="placePyramids">الأهرامات</b>
@@ -296,7 +308,9 @@
           <a
             class="destination reveal"
             href="#booking"
-            style="--photo: url('https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=900&q=85');"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=900&q=85&quot;);
+            "
           >
             <small>02 / ASWAN</small>
             <b data-i18n="placeAswan">أسوان</b>
@@ -307,7 +321,9 @@
           <a
             class="destination reveal"
             href="#booking"
-            style="--photo: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85');"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85&quot;);
+            "
           >
             <small>03 / HURGHADA</small>
             <b data-i18n="placeHurghada">الغردقة</b>
@@ -318,7 +334,9 @@
           <a
             class="destination reveal"
             href="#booking"
-            style="--photo: url('https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=900&q=85');"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=900&q=85&quot;);
+            "
           >
             <small>04 / CAIRO</small>
             <b data-i18n="placeCairo">القاهرة</b>
@@ -329,7 +347,9 @@
           <a
             class="destination reveal"
             href="#booking"
-            style="--photo: url('https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=85');"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=85&quot;);
+            "
           >
             <small>05 / RED SEA</small>
             <b data-i18n="placeRedSea">البحر الأحمر</b>
@@ -425,17 +445,33 @@
             <div class="form-grid">
               <label>
                 <span data-i18n="nameLabel">الاسم بالكامل *</span>
-                <input id="name" required autocomplete="name" placeholder="اكتب اسمك" />
+                <input
+                  id="name"
+                  required
+                  autocomplete="name"
+                  placeholder="اكتب اسمك"
+                />
               </label>
 
               <label>
                 <span data-i18n="phoneLabel">رقم الهاتف / واتساب *</span>
-                <input id="phone" required type="tel" autocomplete="tel" placeholder="+20 1xxxxxxxxx" />
+                <input
+                  id="phone"
+                  required
+                  type="tel"
+                  autocomplete="tel"
+                  placeholder="+20 1xxxxxxxxx"
+                />
               </label>
 
               <label>
                 <span data-i18n="emailLabel">البريد الإلكتروني (اختياري)</span>
-                <input id="email" type="email" autocomplete="email" placeholder="name@example.com" />
+                <input
+                  id="email"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="name@example.com"
+                />
               </label>
 
               <label>
@@ -447,10 +483,18 @@
                 <span data-i18n="serviceLabel">نوع الخدمة *</span>
                 <select id="service" required>
                   <option value="رحلة سياحية / Tour">رحلة سياحية / Tour</option>
-                  <option value="نقل خاص / Private transfer">نقل خاص / Private transfer</option>
-                  <option value="استقبال مطار / Airport pickup">استقبال مطار / Airport pickup</option>
-                  <option value="رحلة بين المدن / Intercity trip">رحلة بين المدن / Intercity trip</option>
-                  <option value="رحلة مخصصة / Custom trip">رحلة مخصصة / Custom trip</option>
+                  <option value="نقل خاص / Private transfer">
+                    نقل خاص / Private transfer
+                  </option>
+                  <option value="استقبال مطار / Airport pickup">
+                    استقبال مطار / Airport pickup
+                  </option>
+                  <option value="رحلة بين المدن / Intercity trip">
+                    رحلة بين المدن / Intercity trip
+                  </option>
+                  <option value="رحلة مخصصة / Custom trip">
+                    رحلة مخصصة / Custom trip
+                  </option>
                 </select>
               </label>
 
@@ -461,11 +505,14 @@
                   <option value="أسوان / Aswan">أسوان / Aswan</option>
                   <option value="الغردقة / Hurghada">الغردقة / Hurghada</option>
                   <option value="القاهرة / Cairo">القاهرة / Cairo</option>
-                  <option value="البحر الأحمر / Red Sea">البحر الأحمر / Red Sea</option>
+                  <option value="البحر الأحمر / Red Sea">
+                    البحر الأحمر / Red Sea
+                  </option>
                   <option value="وجهة أخرى / Other">وجهة أخرى / Other</option>
                 </select>
               </label>
 
+              <!-- TRIP DATE -->
               <label>
                 <span data-i18n="dateLabel">تاريخ الرحلة</span>
                 <input id="date" type="date" />
@@ -491,7 +538,11 @@
 
               <label class="full">
                 <span data-i18n="detailsLabel">تفاصيل أو طلبات إضافية</span>
-                <textarea id="details" rows="4" placeholder="اكتب أي تفاصيل تساعدنا في تجهيز رحلتك..."></textarea>
+                <textarea
+                  id="details"
+                  rows="4"
+                  placeholder="اكتب أي تفاصيل تساعدنا في تجهيز رحلتك..."
+                ></textarea>
               </label>
             </div>
 
@@ -501,7 +552,8 @@
             </button>
 
             <small class="privacy-note" data-i18n="privacyNote">
-              لن يتم إرسال البيانات تلقائياً؛ ستراجع الرسالة بنفسك داخل واتساب قبل إرسالها.
+              لن يتم إرسال البيانات تلقائياً؛ ستراجع الرسالة بنفسك داخل واتساب
+              قبل إرسالها.
             </small>
 
             <p id="formError" class="form-error" role="alert"></p>
@@ -522,9 +574,17 @@
                 أخبرنا بما تحتاجه وسنساعدك في تنسيق تفاصيل رحلتك.
               </p>
 
-              <div class="aside-feature">✦ <span data-i18n="asideFeature1">تواصل مباشر عبر واتساب</span></div>
-              <div class="aside-feature">✦ <span data-i18n="asideFeature2">اختر وجهتك وموعدك</span></div>
-              <div class="aside-feature">✦ <span data-i18n="asideFeature3">رحلات للأفراد والعائلات</span></div>
+              <div class="aside-feature">
+                ✦ <span data-i18n="asideFeature1">تواصل مباشر عبر واتساب</span>
+              </div>
+
+              <div class="aside-feature">
+                ✦ <span data-i18n="asideFeature2">اختر وجهتك وموعدك</span>
+              </div>
+
+              <div class="aside-feature">
+                ✦ <span data-i18n="asideFeature3">رحلات للأفراد والعائلات</span>
+              </div>
             </div>
           </aside>
         </div>
@@ -540,24 +600,37 @@
           <h2 data-i18n="contactTitle">تواصل معنا <em>واحجز رحلتك</em></h2>
 
           <p data-i18n="contactText">
-            اختر رقم التواصل المناسب لك. يسعدنا الرد على استفساراتك ومساعدتك في التخطيط.
+            اختر رقم التواصل المناسب لك. يسعدنا الرد على استفساراتك ومساعدتك في
+            التخطيط.
           </p>
         </div>
 
         <div class="contact-numbers reveal">
-          <a href="https://wa.me/201028348346" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://wa.me/201028348346"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <small>WHATSAPP 01</small>
             <b dir="ltr">010 2834 8346</b>
             <span>WhatsApp ↗</span>
           </a>
 
-          <a href="https://wa.me/201021023647" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://wa.me/201021023647"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <small>WHATSAPP 02</small>
             <b dir="ltr">010 2102 3647</b>
             <span>WhatsApp ↗</span>
           </a>
 
-          <a href="https://wa.me/201287230388" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://wa.me/201287230388"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <small>WHATSAPP 03</small>
             <b dir="ltr">012 8723 0388</b>
             <span>WhatsApp ↗</span>
@@ -572,6 +645,7 @@
 
       <p data-i18n="footerText">اكتشف مصر معنا، واجعل رحلتك ذكرى لا تُنسى.</p>
 
+      <!-- SOCIAL MEDIA -->
       <div class="social-links">
         <a
           href="https://www.facebook.com/share/1JiXGa4X41/"
@@ -582,7 +656,9 @@
           title="Facebook"
         >
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5h1.7V3.7c-.3 0-1.3-.1-2.4-.1-2.5 0-4.2 1.5-4.2 4.3v2H7.4V13h2.8v8h3.3z" />
+            <path
+              d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5h1.7V3.7c-.3 0-1.3-.1-2.4-.1-2.5 0-4.2 1.5-4.2 4.3v2H7.4V13h2.8v8h3.3z"
+            />
           </svg>
         </a>
 
@@ -610,7 +686,9 @@
           title="WhatsApp"
         >
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7a8.5 8.5 0 1 1 16.1-4zm-8.5-7a7 7 0 0 0-6 10.6l.2.4-.8 2.7 2.8-.8.4.2A7 7 0 1 0 12 4.8zm4 10.1c-.2-.1-1.3-.7-1.5-.8s-.4-.1-.5.1-.6.8-.8.9-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.8 6.8 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.5l.4-.4c.1-.1.2-.3.2-.4s0-.3-.1-.4-.5-1.2-.7-1.6c-.2-.4-.4-.3-.5-.3h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.1.9 2.2a8.5 8.5 0 0 0 3.3 2.9c.5.2.9.4 1.2.4.5.2 1 .1 1.4.1.4-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1s-.2-.2-.4-.3z" />
+            <path
+              d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7a8.5 8.5 0 1 1 16.1-4zm-8.5-7a7 7 0 0 0-6 10.6l.2.4-.8 2.7 2.8-.8.4.2A7 7 0 1 0 12 4.8zm4 10.1c-.2-.1-1.3-.7-1.5-.8s-.4-.1-.5.1-.6.8-.8.9-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.8 6.8 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.5l.4-.4c.1-.1.2-.3.2-.4s0-.3-.1-.4-.5-1.2-.7-1.6c-.2-.4-.4-.3-.5-.3h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.1.9 2.2a8.5 8.5 0 0 0 3.3 2.9c.5.2.9.4 1.2.4.5.2 1 .1 1.4.1.4-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1s-.2-.2-.4-.3z"
+            />
           </svg>
         </a>
       </div>
@@ -633,40 +711,6 @@
       ◉
     </a>
 
-    <!-- SCRIPTS -->
     <script src="script.js"></script>
-    <script src="site-settings.js"></script>
-
-    <!-- استقبال الوجهة القادمة من صفحة الخريطة -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const destinationName = params.get("destination");
-
-        if (!destinationName) return;
-
-        const destinationSelect = document.getElementById("destination");
-
-        if (!destinationSelect) return;
-
-        let option = Array.from(destinationSelect.options).find(
-          (item) => item.value === destinationName
-        );
-
-        if (!option) {
-          option = document.createElement("option");
-          option.value = destinationName;
-          option.textContent = destinationName;
-          destinationSelect.appendChild(option);
-        }
-
-        destinationSelect.value = destinationName;
-
-        document.getElementById("booking")?.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      });
-    </script>
   </body>
 </html>
