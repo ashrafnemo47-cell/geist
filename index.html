@@ -712,5 +712,39 @@
     </a>
 
     <script src="script.js"></script>
+    
+<script>
+  (() => {
+    const params = new URLSearchParams(window.location.search);
+    const destinationName = params.get("destination");
+
+    if (!destinationName) return;
+
+    const destinationSelect = document.getElementById("destination");
+
+    if (!destinationSelect) return;
+
+    let option = Array.from(destinationSelect.options).find(
+      (item) => item.value === destinationName
+    );
+
+    if (!option) {
+      option = document.createElement("option");
+      option.value = destinationName;
+      option.textContent = destinationName;
+      destinationSelect.appendChild(option);
+    }
+
+    destinationSelect.value = destinationName;
+
+    window.addEventListener("load", () => {
+      document.getElementById("booking")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  })();
+</script>
+
   </body>
 </html>
