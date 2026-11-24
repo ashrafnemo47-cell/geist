@@ -131,27 +131,35 @@ document.addEventListener("DOMContentLoaded", () => {
   // تغيير اللغة وحفظها
   // =====================================
 
-  function setLanguage(next) {
-    lang = next === "en" ? "en" : "ar";
+ 
+function setLanguage(next) {
+  lang = next === "en" ? "en" : "ar";
 
-    try {
-      localStorage.setItem("pharaoh_language", lang);
-    } catch (error) {}
+  try {
+    localStorage.setItem("pharaoh_language", lang);
+  } catch (error) {}
 
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
 
-    document.body.classList.toggle("ltr", lang === "en");
+  document.body.classList.toggle("ltr", lang === "en");
 
-    document.querySelectorAll("[data-i18n]").forEach((element) => {
-      const key = element.dataset.i18n;
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.dataset.i18n;
 
-      if (lang === "en" && translations.en[key]) {
-        element.innerHTML = translations.en[key];
-      } else if (element.dataset.original !== undefined) {
-        element.innerHTML = element.dataset.original;
-      }
-    });
+    if (lang === "en" && translations.en[key]) {
+      element.innerHTML = translations.en[key];
+    } else if (element.dataset.original !== undefined) {
+      element.innerHTML = element.dataset.original;
+    }
+  });
+
+  // تحديث أسماء المحافظات والمعالم حسب اللغة
+  if (window.pharaohUpdateDestinationLanguage) {
+    window.pharaohUpdateDestinationLanguage();
+  }
+}
+
 
     const langLabel = $("#langBtn b");
 
@@ -528,3 +536,421 @@ Additional details: ${val("details")}`;
     createNightSky();
   }
 })();
+
+/* =========================================
+   PHARAOH EGYPT
+   محافظات مصر الـ27 والمعالم السياحية
+========================================= */
+
+const pharaohEgyptPlaces = [
+  {
+    ar: "القاهرة", en: "Cairo",
+    places: [
+      ["المتحف المصري", "The Egyptian Museum"],
+      ["خان الخليلي", "Khan el-Khalili"],
+      ["شارع المعز", "Al-Muizz Street"],
+      ["قلعة صلاح الدين", "Salah El-Din Citadel"],
+      ["المتحف القومي للحضارة", "National Museum of Egyptian Civilization"],
+      ["قصر عابدين", "Abdeen Palace"]
+    ]
+  },
+  {
+    ar: "الجيزة", en: "Giza",
+    places: [
+      ["أهرامات الجيزة", "Giza Pyramids"],
+      ["أبو الهول", "Great Sphinx"],
+      ["المتحف المصري الكبير", "Grand Egyptian Museum"],
+      ["سقارة", "Saqqara"],
+      ["أهرامات دهشور", "Dahshur Pyramids"],
+      ["قرية الحرانية", "Harrania Village"]
+    ]
+  },
+  {
+    ar: "الإسكندرية", en: "Alexandria",
+    places: [
+      ["مكتبة الإسكندرية", "Bibliotheca Alexandrina"],
+      ["قلعة قايتباي", "Qaitbay Citadel"],
+      ["قصر المنتزه", "Montaza Palace"],
+      ["المسرح الروماني", "Roman Theatre"],
+      ["مقابر كوم الشقافة", "Catacombs of Kom El Shoqafa"],
+      ["عمود السواري", "Pompey's Pillar"]
+    ]
+  },
+  {
+    ar: "القليوبية", en: "Qalyubia",
+    places: [
+      ["القناطر الخيرية", "El Qanater El Khayreya"],
+      ["قناطر محمد علي", "Mohamed Ali Barrages"],
+      ["قصر محمد علي بشبرا", "Mohamed Ali Palace in Shubra"]
+    ]
+  },
+  {
+    ar: "المنوفية", en: "Menoufia",
+    places: [
+      ["متحف السادات", "Anwar Sadat Museum"],
+      ["مسجد سيدي شبل", "Sidi Shebl Mosque"],
+      ["شبين الكوم", "Shebin El-Kom"]
+    ]
+  },
+  {
+    ar: "الغربية", en: "Gharbia",
+    places: [
+      ["مسجد السيد البدوي", "El-Sayed El-Badawi Mosque"],
+      ["متحف طنطا", "Tanta Museum"],
+      ["سمنود", "Samanoud"]
+    ]
+  },
+  {
+    ar: "كفر الشيخ", en: "Kafr El Sheikh",
+    places: [
+      ["محمية بحيرة البرلس", "Burullus Lake Protectorate"],
+      ["شاطئ بلطيم", "Baltim Beach"],
+      ["متحف كفر الشيخ", "Kafr El Sheikh Museum"],
+      ["كنيسة سخا", "Sakha Church"]
+    ]
+  },
+  {
+    ar: "الدقهلية", en: "Dakahlia",
+    places: [
+      ["دار ابن لقمان", "Dar Ibn Luqman"],
+      ["متحف المنصورة", "Mansoura Museum"],
+      ["جمصة", "Gamasa"],
+      ["المنصورة", "Mansoura"]
+    ]
+  },
+  {
+    ar: "دمياط", en: "Damietta",
+    places: [
+      ["رأس البر", "Ras El Bar"],
+      ["عزبة البرج", "Ezbet El Borg"],
+      ["مسجد عمرو بن العاص", "Amr Ibn Al-Aas Mosque"],
+      ["شاطئ دمياط الجديدة", "New Damietta Beach"]
+    ]
+  },
+  {
+    ar: "الشرقية", en: "Sharqia",
+    places: [
+      ["تل بسطة", "Tell Basta"],
+      ["صان الحجر", "San El-Hagar"],
+      ["تل الضبعة", "Tell El-Dab'a"],
+      ["بلبيس", "Bilbeis"]
+    ]
+  },
+  {
+    ar: "بورسعيد", en: "Port Said",
+    places: [
+      ["متحف بورسعيد الحربي", "Port Said Military Museum"],
+      ["فنار بورسعيد", "Port Said Lighthouse"],
+      ["بورفؤاد", "Port Fouad"],
+      ["شاطئ بورسعيد", "Port Said Beach"]
+    ]
+  },
+  {
+    ar: "الإسماعيلية", en: "Ismailia",
+    places: [
+      ["بحيرة التمساح", "Lake Timsah"],
+      ["متحف الإسماعيلية", "Ismailia Museum"],
+      ["قناة السويس", "Suez Canal"],
+      ["حدائق الملاحة", "El-Malahah Gardens"]
+    ]
+  },
+  {
+    ar: "السويس", en: "Suez",
+    places: [
+      ["العين السخنة", "Ain Sokhna"],
+      ["عيون موسى", "Moses Springs"],
+      ["متحف السويس القومي", "Suez National Museum"],
+      ["جبل عتاقة", "Ataka Mountain"]
+    ]
+  },
+  {
+    ar: "شمال سيناء", en: "North Sinai",
+    places: [
+      ["شاطئ العريش", "El-Arish Beach"],
+      ["محمية الزرانيق", "Zaranik Protectorate"],
+      ["منطقة الفرما الأثرية", "Pelusium Archaeological Site"],
+      ["العريش", "El-Arish"]
+    ]
+  },
+  {
+    ar: "جنوب سيناء", en: "South Sinai",
+    places: [
+      ["شرم الشيخ", "Sharm El Sheikh"],
+      ["دهب", "Dahab"],
+      ["دير سانت كاترين", "Saint Catherine Monastery"],
+      ["محمية رأس محمد", "Ras Mohammed Protectorate"],
+      ["نويبع", "Nuweiba"],
+      ["طابا", "Taba"]
+    ]
+  },
+  {
+    ar: "البحر الأحمر", en: "Red Sea",
+    places: [
+      ["الغردقة", "Hurghada"],
+      ["الجونة", "El Gouna"],
+      ["مرسى علم", "Marsa Alam"],
+      ["جزر الجفتون", "Giftun Islands"],
+      ["محمية وادي الجمال", "Wadi El Gemal Protectorate"],
+      ["سهل حشيش", "Sahl Hasheesh"]
+    ]
+  },
+  {
+    ar: "مطروح", en: "Matrouh",
+    places: [
+      ["واحة سيوة", "Siwa Oasis"],
+      ["حمام كليوباترا", "Cleopatra's Bath"],
+      ["شاطئ عجيبة", "Agiba Beach"],
+      ["مرسى مطروح", "Marsa Matrouh"],
+      ["العلمين الجديدة", "New Alamein"]
+    ]
+  },
+  {
+    ar: "الفيوم", en: "Fayoum",
+    places: [
+      ["وادي الريان", "Wadi El Rayan"],
+      ["وادي الحيتان", "Wadi El Hitan"],
+      ["بحيرة قارون", "Lake Qarun"],
+      ["قرية تونس", "Tunis Village"],
+      ["مدينة ماضي", "Medinet Madi"]
+    ]
+  },
+  {
+    ar: "بني سويف", en: "Beni Suef",
+    places: [
+      ["هرم ميدوم", "Meidum Pyramid"],
+      ["متحف بني سويف", "Beni Suef Museum"],
+      ["إهناسيا", "Ihnasya"],
+      ["محمية كهف وادي سنور", "Wadi Sannur Cave Protectorate"]
+    ]
+  },
+  {
+    ar: "المنيا", en: "Minya",
+    places: [
+      ["تل العمارنة", "Tell El-Amarna"],
+      ["مقابر بني حسن", "Beni Hasan Tombs"],
+      ["تونة الجبل", "Tuna El-Gebel"],
+      ["متحف ملوي", "Mallawi Museum"],
+      ["دير أبو حنس", "Deir Abu Hinnis"]
+    ]
+  },
+  {
+    ar: "أسيوط", en: "Assiut",
+    places: [
+      ["دير المحرق", "Deir El-Muharraq"],
+      ["مقابر مير", "Meir Tombs"],
+      ["متحف أسيوط", "Assiut Museum"],
+      ["مسجد المجاهدين", "Al-Mujahideen Mosque"]
+    ]
+  },
+  {
+    ar: "سوهاج", en: "Sohag",
+    places: [
+      ["معبد أبيدوس", "Abydos Temple"],
+      ["الدير الأبيض", "White Monastery"],
+      ["الدير الأحمر", "Red Monastery"],
+      ["متحف سوهاج القومي", "Sohag National Museum"],
+      ["أخميم", "Akhmim"]
+    ]
+  },
+  {
+    ar: "قنا", en: "Qena",
+    places: [
+      ["معبد دندرة", "Dendera Temple"],
+      ["مدينة نقادة", "Naqada"],
+      ["مدينة قوص", "Qus"],
+      ["قنا", "Qena"]
+    ]
+  },
+  {
+    ar: "الأقصر", en: "Luxor",
+    places: [
+      ["معبد الكرنك", "Karnak Temple"],
+      ["معبد الأقصر", "Luxor Temple"],
+      ["وادي الملوك", "Valley of the Kings"],
+      ["معبد حتشبسوت", "Hatshepsut Temple"],
+      ["مدينة هابو", "Medinet Habu"],
+      ["تمثالا ممنون", "Colossi of Memnon"],
+      ["متحف الأقصر", "Luxor Museum"],
+      ["متحف التحنيط", "Mummification Museum"]
+    ]
+  },
+  {
+    ar: "أسوان", en: "Aswan",
+    places: [
+      ["معبد فيلة", "Philae Temple"],
+      ["أبو سمبل", "Abu Simbel"],
+      ["القرية النوبية", "Nubian Village"],
+      ["السد العالي", "Aswan High Dam"],
+      ["المسلة الناقصة", "Unfinished Obelisk"],
+      ["جزيرة النباتات", "Botanical Island"]
+    ]
+  },
+  {
+    ar: "الوادي الجديد", en: "New Valley",
+    places: [
+      ["الصحراء البيضاء", "White Desert"],
+      ["واحة الفرافرة", "Farafra Oasis"],
+      ["واحة الداخلة", "Dakhla Oasis"],
+      ["واحة الخارجة", "Kharga Oasis"],
+      ["قرية القصر", "Al-Qasr Village"]
+    ]
+  },
+  {
+    ar: "البحيرة", en: "Beheira",
+    places: [
+      ["مدينة رشيد", "Rashid"],
+      ["أديرة وادي النطرون", "Wadi El Natrun Monasteries"],
+      ["مدينة إدكو", "Edku"],
+      ["متحف رشيد", "Rashid Museum"]
+    ]
+  }
+];
+
+// =========================================
+// بناء قائمة المحافظات
+// =========================================
+
+function pharaohCurrentLanguage() {
+  return localStorage.getItem("pharaoh_language") || "ar";
+}
+
+function pharaohFillGovernorates() {
+  const governorateSelect = document.getElementById("destination");
+  const attractionSelect = document.getElementById("attraction");
+
+  if (!governorateSelect || !attractionSelect) return;
+
+  const language = pharaohCurrentLanguage();
+  const oldGovernorate = governorateSelect.value;
+
+  governorateSelect.innerHTML = "";
+
+  const first = document.createElement("option");
+  first.value = "";
+  first.textContent = language === "en"
+    ? "Choose a governorate"
+    : "اختر المحافظة";
+
+  governorateSelect.appendChild(first);
+
+  pharaohEgyptPlaces.forEach((governorate) => {
+    const option = document.createElement("option");
+    option.value = governorate.ar;
+    option.textContent = language === "en"
+      ? governorate.en
+      : governorate.ar;
+
+    governorateSelect.appendChild(option);
+  });
+
+  if (pharaohEgyptPlaces.some(g => g.ar === oldGovernorate)) {
+    governorateSelect.value = oldGovernorate;
+  }
+
+  pharaohFillAttractions();
+}
+
+// =========================================
+// بناء قائمة المعالم السياحية
+// =========================================
+
+function pharaohFillAttractions(selectedPlace = "") {
+  const governorateSelect = document.getElementById("destination");
+  const attractionSelect = document.getElementById("attraction");
+
+  if (!governorateSelect || !attractionSelect) return;
+
+  const language = pharaohCurrentLanguage();
+
+  const governorate = pharaohEgyptPlaces.find(
+    item => item.ar === governorateSelect.value
+  );
+
+  attractionSelect.innerHTML = "";
+
+  if (!governorate) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = language === "en"
+      ? "Choose a governorate first"
+      : "اختر المحافظة أولاً";
+
+    attractionSelect.appendChild(option);
+    attractionSelect.disabled = true;
+    return;
+  }
+
+  const first = document.createElement("option");
+  first.value = "";
+  first.textContent = language === "en"
+    ? "Choose a tourist attraction"
+    : "اختر المعلم السياحي";
+
+  attractionSelect.appendChild(first);
+
+  governorate.places.forEach(([ar, en]) => {
+    const option = document.createElement("option");
+    option.value = ar;
+    option.textContent = language === "en" ? en : ar;
+    attractionSelect.appendChild(option);
+  });
+
+  attractionSelect.disabled = false;
+
+  if (selectedPlace) {
+    attractionSelect.value = selectedPlace;
+  }
+}
+
+// =========================================
+// تشغيل القوائم
+// =========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const governorateSelect = document.getElementById("destination");
+
+  if (!governorateSelect) return;
+
+  pharaohFillGovernorates();
+
+  governorateSelect.addEventListener("change", () => {
+    pharaohFillAttractions();
+  });
+
+  // استقبال بيانات الحجز القادمة من الخريطة
+  const params = new URLSearchParams(window.location.search);
+  const governorate = params.get("governorate");
+  const attraction = params.get("attraction");
+
+  if (governorate) {
+    governorateSelect.value = governorate;
+    pharaohFillAttractions(attraction || "");
+
+    const booking = document.getElementById("booking");
+
+    if (booking) {
+      setTimeout(() => {
+        booking.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 600);
+    }
+  }
+});
+
+// =========================================
+// تحديث القوائم عند تغيير اللغة
+// =========================================
+
+window.addEventListener("storage", (event) => {
+  if (event.key === "pharaoh_language") {
+    pharaohFillGovernorates();
+  }
+});
+
+// استدعاء هذه الدالة من setLanguage عند تغيير اللغة
+window.pharaohUpdateDestinationLanguage = function () {
+  pharaohFillGovernorates();
+};
+
