@@ -1,4 +1,3 @@
-
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -168,14 +167,11 @@ document.addEventListener("DOMContentLoaded", () => {
       name: ["اكتب اسمك", "Enter your name"],
       phone: ["+20 1xxxxxxxxx", "+20 1xxxxxxxxx"],
       country: ["مثال: مصر", "e.g. Egypt"],
-      pickup: [
-        "اسم الفندق أو مكان الاستقبال",
-        "Hotel name or pickup location"
-      ],
+      pickup: ["اسم الفندق أو مكان الاستقبال", "Hotel name or pickup location"],
       details: [
         "اكتب أي تفاصيل تساعدنا في تجهيز رحلتك...",
-        "Tell us anything that will help us prepare your trip..."
-      ]
+        "Tell us anything that will help us prepare your trip...",
+      ],
     };
 
     Object.entries(placeholders).forEach(([id, values]) => {
@@ -303,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       {
         threshold: 0.12,
-      }
+      },
     );
 
     document.querySelectorAll(".reveal").forEach((element) => {
@@ -325,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date();
 
     const localDate = new Date(
-      today.getTime() - today.getTimezoneOffset() * 60000
+      today.getTime() - today.getTimezoneOffset() * 60000,
     )
       .toISOString()
       .slice(0, 10);
@@ -348,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "phone",
         "service",
         "destination",
-        "attraction"
+        "attraction",
       ];
 
       const missing = required.some((id) => {
@@ -443,10 +439,7 @@ Additional details: ${val("details")}`;
     const themeColor = $('meta[name="theme-color"]');
 
     if (themeColor) {
-      themeColor.setAttribute(
-        "content",
-        isLight ? "#f5f0e5" : "#06132c"
-      );
+      themeColor.setAttribute("content", isLight ? "#f5f0e5" : "#06132c");
     }
 
     if (themeToggle) {
@@ -454,12 +447,12 @@ Additional details: ${val("details")}`;
 
       themeToggle.setAttribute(
         "aria-label",
-        isLight ? "تفعيل الوضع الداكن" : "تفعيل الوضع الفاتح"
+        isLight ? "تفعيل الوضع الداكن" : "تفعيل الوضع الفاتح",
       );
 
       themeToggle.setAttribute(
         "title",
-        isLight ? "الوضع الداكن" : "الوضع الفاتح"
+        isLight ? "الوضع الداكن" : "الوضع الفاتح",
       );
     }
   }
@@ -555,225 +548,249 @@ Additional details: ${val("details")}`;
 
 const pharaohEgyptPlaces = [
   {
-    ar: "القاهرة", en: "Cairo",
+    ar: "القاهرة",
+    en: "Cairo",
     places: [
       ["المتحف المصري", "The Egyptian Museum"],
       ["خان الخليلي", "Khan el-Khalili"],
       ["شارع المعز", "Al-Muizz Street"],
       ["قلعة صلاح الدين", "Salah El-Din Citadel"],
       ["المتحف القومي للحضارة", "National Museum of Egyptian Civilization"],
-      ["قصر عابدين", "Abdeen Palace"]
-    ]
+      ["قصر عابدين", "Abdeen Palace"],
+    ],
   },
   {
-    ar: "الجيزة", en: "Giza",
+    ar: "الجيزة",
+    en: "Giza",
     places: [
       ["أهرامات الجيزة", "Giza Pyramids"],
       ["أبو الهول", "Great Sphinx"],
       ["المتحف المصري الكبير", "Grand Egyptian Museum"],
       ["سقارة", "Saqqara"],
       ["أهرامات دهشور", "Dahshur Pyramids"],
-      ["قرية الحرانية", "Harrania Village"]
-    ]
+      ["قرية الحرانية", "Harrania Village"],
+    ],
   },
   {
-    ar: "الإسكندرية", en: "Alexandria",
+    ar: "الإسكندرية",
+    en: "Alexandria",
     places: [
       ["مكتبة الإسكندرية", "Bibliotheca Alexandrina"],
       ["قلعة قايتباي", "Qaitbay Citadel"],
       ["قصر المنتزه", "Montaza Palace"],
       ["المسرح الروماني", "Roman Theatre"],
       ["مقابر كوم الشقافة", "Catacombs of Kom El Shoqafa"],
-      ["عمود السواري", "Pompey's Pillar"]
-    ]
+      ["عمود السواري", "Pompey's Pillar"],
+    ],
   },
   {
-    ar: "القليوبية", en: "Qalyubia",
+    ar: "القليوبية",
+    en: "Qalyubia",
     places: [
       ["القناطر الخيرية", "El Qanater El Khayreya"],
       ["قناطر محمد علي", "Mohamed Ali Barrages"],
-      ["قصر محمد علي بشبرا", "Mohamed Ali Palace in Shubra"]
-    ]
+      ["قصر محمد علي بشبرا", "Mohamed Ali Palace in Shubra"],
+    ],
   },
   {
-    ar: "المنوفية", en: "Menoufia",
+    ar: "المنوفية",
+    en: "Menoufia",
     places: [
       ["متحف السادات", "Anwar Sadat Museum"],
       ["مسجد سيدي شبل", "Sidi Shebl Mosque"],
-      ["شبين الكوم", "Shebin El-Kom"]
-    ]
+      ["شبين الكوم", "Shebin El-Kom"],
+    ],
   },
   {
-    ar: "الغربية", en: "Gharbia",
+    ar: "الغربية",
+    en: "Gharbia",
     places: [
       ["مسجد السيد البدوي", "El-Sayed El-Badawi Mosque"],
       ["متحف طنطا", "Tanta Museum"],
-      ["سمنود", "Samanoud"]
-    ]
+      ["سمنود", "Samanoud"],
+    ],
   },
   {
-    ar: "كفر الشيخ", en: "Kafr El Sheikh",
+    ar: "كفر الشيخ",
+    en: "Kafr El Sheikh",
     places: [
       ["محمية بحيرة البرلس", "Burullus Lake Protectorate"],
       ["شاطئ بلطيم", "Baltim Beach"],
       ["متحف كفر الشيخ", "Kafr El Sheikh Museum"],
-      ["كنيسة سخا", "Sakha Church"]
-    ]
+      ["كنيسة سخا", "Sakha Church"],
+    ],
   },
   {
-    ar: "الدقهلية", en: "Dakahlia",
+    ar: "الدقهلية",
+    en: "Dakahlia",
     places: [
       ["دار ابن لقمان", "Dar Ibn Luqman"],
       ["متحف المنصورة", "Mansoura Museum"],
       ["جمصة", "Gamasa"],
-      ["المنصورة", "Mansoura"]
-    ]
+      ["المنصورة", "Mansoura"],
+    ],
   },
   {
-    ar: "دمياط", en: "Damietta",
+    ar: "دمياط",
+    en: "Damietta",
     places: [
       ["رأس البر", "Ras El Bar"],
       ["عزبة البرج", "Ezbet El Borg"],
       ["مسجد عمرو بن العاص", "Amr Ibn Al-Aas Mosque"],
-      ["شاطئ دمياط الجديدة", "New Damietta Beach"]
-    ]
+      ["شاطئ دمياط الجديدة", "New Damietta Beach"],
+    ],
   },
   {
-    ar: "الشرقية", en: "Sharqia",
+    ar: "الشرقية",
+    en: "Sharqia",
     places: [
       ["تل بسطة", "Tell Basta"],
       ["صان الحجر", "San El-Hagar"],
       ["تل الضبعة", "Tell El-Dab'a"],
-      ["بلبيس", "Bilbeis"]
-    ]
+      ["بلبيس", "Bilbeis"],
+    ],
   },
   {
-    ar: "بورسعيد", en: "Port Said",
+    ar: "بورسعيد",
+    en: "Port Said",
     places: [
       ["متحف بورسعيد الحربي", "Port Said Military Museum"],
       ["فنار بورسعيد", "Port Said Lighthouse"],
       ["بورفؤاد", "Port Fouad"],
-      ["شاطئ بورسعيد", "Port Said Beach"]
-    ]
+      ["شاطئ بورسعيد", "Port Said Beach"],
+    ],
   },
   {
-    ar: "الإسماعيلية", en: "Ismailia",
+    ar: "الإسماعيلية",
+    en: "Ismailia",
     places: [
       ["بحيرة التمساح", "Lake Timsah"],
       ["متحف الإسماعيلية", "Ismailia Museum"],
       ["قناة السويس", "Suez Canal"],
-      ["حدائق الملاحة", "El-Malahah Gardens"]
-    ]
+      ["حدائق الملاحة", "El-Malahah Gardens"],
+    ],
   },
   {
-    ar: "السويس", en: "Suez",
+    ar: "السويس",
+    en: "Suez",
     places: [
       ["العين السخنة", "Ain Sokhna"],
       ["عيون موسى", "Moses Springs"],
       ["متحف السويس القومي", "Suez National Museum"],
-      ["جبل عتاقة", "Ataka Mountain"]
-    ]
+      ["جبل عتاقة", "Ataka Mountain"],
+    ],
   },
   {
-    ar: "شمال سيناء", en: "North Sinai",
+    ar: "شمال سيناء",
+    en: "North Sinai",
     places: [
       ["شاطئ العريش", "El-Arish Beach"],
       ["محمية الزرانيق", "Zaranik Protectorate"],
       ["منطقة الفرما الأثرية", "Pelusium Archaeological Site"],
-      ["العريش", "El-Arish"]
-    ]
+      ["العريش", "El-Arish"],
+    ],
   },
   {
-    ar: "جنوب سيناء", en: "South Sinai",
+    ar: "جنوب سيناء",
+    en: "South Sinai",
     places: [
       ["شرم الشيخ", "Sharm El Sheikh"],
       ["دهب", "Dahab"],
       ["دير سانت كاترين", "Saint Catherine Monastery"],
       ["محمية رأس محمد", "Ras Mohammed Protectorate"],
       ["نويبع", "Nuweiba"],
-      ["طابا", "Taba"]
-    ]
+      ["طابا", "Taba"],
+    ],
   },
   {
-    ar: "البحر الأحمر", en: "Red Sea",
+    ar: "البحر الأحمر",
+    en: "Red Sea",
     places: [
       ["الغردقة", "Hurghada"],
       ["الجونة", "El Gouna"],
       ["مرسى علم", "Marsa Alam"],
       ["جزر الجفتون", "Giftun Islands"],
       ["محمية وادي الجمال", "Wadi El Gemal Protectorate"],
-      ["سهل حشيش", "Sahl Hasheesh"]
-    ]
+      ["سهل حشيش", "Sahl Hasheesh"],
+    ],
   },
   {
-    ar: "مطروح", en: "Matrouh",
+    ar: "مطروح",
+    en: "Matrouh",
     places: [
       ["واحة سيوة", "Siwa Oasis"],
       ["حمام كليوباترا", "Cleopatra's Bath"],
       ["شاطئ عجيبة", "Agiba Beach"],
       ["مرسى مطروح", "Marsa Matrouh"],
-      ["العلمين الجديدة", "New Alamein"]
-    ]
+      ["العلمين الجديدة", "New Alamein"],
+    ],
   },
   {
-    ar: "الفيوم", en: "Fayoum",
+    ar: "الفيوم",
+    en: "Fayoum",
     places: [
       ["وادي الريان", "Wadi El Rayan"],
       ["وادي الحيتان", "Wadi El Hitan"],
       ["بحيرة قارون", "Lake Qarun"],
       ["قرية تونس", "Tunis Village"],
-      ["مدينة ماضي", "Medinet Madi"]
-    ]
+      ["مدينة ماضي", "Medinet Madi"],
+    ],
   },
   {
-    ar: "بني سويف", en: "Beni Suef",
+    ar: "بني سويف",
+    en: "Beni Suef",
     places: [
       ["هرم ميدوم", "Meidum Pyramid"],
       ["متحف بني سويف", "Beni Suef Museum"],
       ["إهناسيا", "Ihnasya"],
-      ["محمية كهف وادي سنور", "Wadi Sannur Cave Protectorate"]
-    ]
+      ["محمية كهف وادي سنور", "Wadi Sannur Cave Protectorate"],
+    ],
   },
   {
-    ar: "المنيا", en: "Minya",
+    ar: "المنيا",
+    en: "Minya",
     places: [
       ["تل العمارنة", "Tell El-Amarna"],
       ["مقابر بني حسن", "Beni Hasan Tombs"],
       ["تونة الجبل", "Tuna El-Gebel"],
       ["متحف ملوي", "Mallawi Museum"],
-      ["دير أبو حنس", "Deir Abu Hinnis"]
-    ]
+      ["دير أبو حنس", "Deir Abu Hinnis"],
+    ],
   },
   {
-    ar: "أسيوط", en: "Assiut",
+    ar: "أسيوط",
+    en: "Assiut",
     places: [
       ["دير المحرق", "Deir El-Muharraq"],
       ["مقابر مير", "Meir Tombs"],
       ["متحف أسيوط", "Assiut Museum"],
-      ["مسجد المجاهدين", "Al-Mujahideen Mosque"]
-    ]
+      ["مسجد المجاهدين", "Al-Mujahideen Mosque"],
+    ],
   },
   {
-    ar: "سوهاج", en: "Sohag",
+    ar: "سوهاج",
+    en: "Sohag",
     places: [
       ["معبد أبيدوس", "Abydos Temple"],
       ["الدير الأبيض", "White Monastery"],
       ["الدير الأحمر", "Red Monastery"],
       ["متحف سوهاج القومي", "Sohag National Museum"],
-      ["أخميم", "Akhmim"]
-    ]
+      ["أخميم", "Akhmim"],
+    ],
   },
   {
-    ar: "قنا", en: "Qena",
+    ar: "قنا",
+    en: "Qena",
     places: [
       ["معبد دندرة", "Dendera Temple"],
       ["مدينة نقادة", "Naqada"],
       ["مدينة قوص", "Qus"],
-      ["قنا", "Qena"]
-    ]
+      ["قنا", "Qena"],
+    ],
   },
   {
-    ar: "الأقصر", en: "Luxor",
+    ar: "الأقصر",
+    en: "Luxor",
     places: [
       ["معبد الكرنك", "Karnak Temple"],
       ["معبد الأقصر", "Luxor Temple"],
@@ -782,39 +799,42 @@ const pharaohEgyptPlaces = [
       ["مدينة هابو", "Medinet Habu"],
       ["تمثالا ممنون", "Colossi of Memnon"],
       ["متحف الأقصر", "Luxor Museum"],
-      ["متحف التحنيط", "Mummification Museum"]
-    ]
+      ["متحف التحنيط", "Mummification Museum"],
+    ],
   },
   {
-    ar: "أسوان", en: "Aswan",
+    ar: "أسوان",
+    en: "Aswan",
     places: [
       ["معبد فيلة", "Philae Temple"],
       ["أبو سمبل", "Abu Simbel"],
       ["القرية النوبية", "Nubian Village"],
       ["السد العالي", "Aswan High Dam"],
       ["المسلة الناقصة", "Unfinished Obelisk"],
-      ["جزيرة النباتات", "Botanical Island"]
-    ]
+      ["جزيرة النباتات", "Botanical Island"],
+    ],
   },
   {
-    ar: "الوادي الجديد", en: "New Valley",
+    ar: "الوادي الجديد",
+    en: "New Valley",
     places: [
       ["الصحراء البيضاء", "White Desert"],
       ["واحة الفرافرة", "Farafra Oasis"],
       ["واحة الداخلة", "Dakhla Oasis"],
       ["واحة الخارجة", "Kharga Oasis"],
-      ["قرية القصر", "Al-Qasr Village"]
-    ]
+      ["قرية القصر", "Al-Qasr Village"],
+    ],
   },
   {
-    ar: "البحيرة", en: "Beheira",
+    ar: "البحيرة",
+    en: "Beheira",
     places: [
       ["مدينة رشيد", "Rashid"],
       ["أديرة وادي النطرون", "Wadi El Natrun Monasteries"],
       ["مدينة إدكو", "Edku"],
-      ["متحف رشيد", "Rashid Museum"]
-    ]
-  }
+      ["متحف رشيد", "Rashid Museum"],
+    ],
+  },
 ];
 
 // =========================================
@@ -847,38 +867,32 @@ function pharaohFillGovernorates() {
 
   const first = document.createElement("option");
   first.value = "";
-  first.textContent = language === "en"
-    ? "Choose a governorate"
-    : "اختر المحافظة";
+  first.textContent =
+    language === "en" ? "Choose a governorate" : "اختر المحافظة";
 
   governorateSelect.appendChild(first);
 
   pharaohEgyptPlaces.forEach((governorate) => {
     const option = document.createElement("option");
     option.value = governorate.ar;
-    option.textContent = language === "en"
-      ? governorate.en
-      : governorate.ar;
+    option.textContent = language === "en" ? governorate.en : governorate.ar;
 
     governorateSelect.appendChild(option);
   });
 
-  if (pharaohEgyptPlaces.some(g => g.ar === oldGovernorate)) {
+  if (pharaohEgyptPlaces.some((g) => g.ar === oldGovernorate)) {
     governorateSelect.value = oldGovernorate;
   }
 
   const selectedGovernorate = pharaohEgyptPlaces.find(
-    g => g.ar === governorateSelect.value
+    (g) => g.ar === governorateSelect.value,
   );
 
-  const attractionExists = selectedGovernorate &&
-    selectedGovernorate.places.some(
-      place => place[0] === oldAttraction
-    );
+  const attractionExists =
+    selectedGovernorate &&
+    selectedGovernorate.places.some((place) => place[0] === oldAttraction);
 
-  pharaohFillAttractions(
-    attractionExists ? oldAttraction : ""
-  );
+  pharaohFillAttractions(attractionExists ? oldAttraction : "");
 }
 
 // =========================================
@@ -894,7 +908,7 @@ function pharaohFillAttractions(selectedPlace = "") {
   const language = pharaohCurrentLanguage();
 
   const governorate = pharaohEgyptPlaces.find(
-    item => item.ar === governorateSelect.value
+    (item) => item.ar === governorateSelect.value,
   );
 
   attractionSelect.innerHTML = "";
@@ -902,9 +916,8 @@ function pharaohFillAttractions(selectedPlace = "") {
   if (!governorate) {
     const option = document.createElement("option");
     option.value = "";
-    option.textContent = language === "en"
-      ? "Choose a governorate first"
-      : "اختر المحافظة أولاً";
+    option.textContent =
+      language === "en" ? "Choose a governorate first" : "اختر المحافظة أولاً";
 
     attractionSelect.appendChild(option);
     attractionSelect.disabled = true;
@@ -913,9 +926,8 @@ function pharaohFillAttractions(selectedPlace = "") {
 
   const first = document.createElement("option");
   first.value = "";
-  first.textContent = language === "en"
-    ? "Choose a tourist attraction"
-    : "اختر المعلم السياحي";
+  first.textContent =
+    language === "en" ? "Choose a tourist attraction" : "اختر المعلم السياحي";
 
   attractionSelect.appendChild(first);
 
@@ -931,7 +943,7 @@ function pharaohFillAttractions(selectedPlace = "") {
 
   if (
     selectedPlace &&
-    governorate.places.some(place => place[0] === selectedPlace)
+    governorate.places.some((place) => place[0] === selectedPlace)
   ) {
     attractionSelect.value = selectedPlace;
   }
@@ -958,7 +970,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (governorate) {
     const governorateExists = pharaohEgyptPlaces.some(
-      item => item.ar === governorate
+      (item) => item.ar === governorate,
     );
 
     if (governorateExists) {
@@ -971,7 +983,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
           booking.scrollIntoView({
             behavior: "smooth",
-            block: "start"
+            block: "start",
           });
         }, 600);
       }
@@ -992,3 +1004,38 @@ window.addEventListener("storage", (event) => {
 window.pharaohUpdateDestinationLanguage = function () {
   pharaohFillGovernorates();
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const intro = document.getElementById("intro-screen");
+  const video = document.getElementById("intro-video");
+
+  if (!intro || !video) return;
+
+  // منع إعادة المقدمة في نفس جلسة التصفح
+  if (sessionStorage.getItem("pharaoh_intro_played")) {
+    intro.remove();
+    return;
+  }
+
+  sessionStorage.setItem("pharaoh_intro_played", "true");
+
+  video.muted = true;
+  video.controls = false;
+  video.load();
+
+  function finishIntro() {
+    if (!intro.isConnected) return;
+
+    intro.classList.add("hide");
+
+    setTimeout(() => {
+      intro.remove();
+    }, 1000);
+  }
+
+  video.addEventListener("ended", finishIntro);
+
+  video.play().catch((error) => {
+    console.log("Video playback error:", error);
+  });
+});
