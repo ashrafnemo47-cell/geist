@@ -1,207 +1,132 @@
 "use strict";
 
+// =========================================
+// PHARAOH EGYPT - MAIN SCRIPT
+// Google Translate + Booking + Theme + Menu
+// =========================================
+
 document.addEventListener("DOMContentLoaded", () => {
+  // ظهور العناصر أثناء التمرير
+  const revealElements = document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: "0px 0px 40px 0px",
+      },
+    );
+
+    revealElements.forEach((element) => {
+      revealObserver.observe(element);
+    });
+  } else {
+    revealElements.forEach((element) => {
+      element.classList.add("show");
+    });
+  }
+
   const $ = (selector) => document.querySelector(selector);
 
-  let lang = "ar";
-
   // =====================================
-  // الترجمات
+  // قراءة اللغة من Google Translate
   // =====================================
 
-  const translations = {
-    en: {
-      navMap: "Egypt Tourist Map",
-      navHome: "Home",
-      navAbout: "About",
-      navServices: "Services",
-      navPlaces: "Destinations",
-      navGallery: "Gallery",
-      navBooking: "Book Now",
-      navContact: "Contact",
+  function getGoogleLanguage() {
+    // أولاً: قراءة اللغة من قائمة Google Translate
+    const googleSelect = document.querySelector(".goog-te-combo");
 
-      heroEyebrow: "LUXOR, EGYPT · YOUR GATEWAY TO ANCIENT HISTORY",
-      heroRibbon: "Tourist transportation & private trips across Egypt",
-      heroText:
-        "Discover the magic of Egypt from the heart of Luxor. Enjoy tours, private transfers and airport pickups — a comfortable experience from the very first message.",
-      heroBook: "PLAN YOUR TRIP NOW ↗",
-      heroExplore: "EXPLORE DESTINATIONS",
-      heroPrivate: "Private trips",
-      heroFlexible: "Flexible schedules",
-      heroEasy: "Easy booking",
-
-      aboutKicker: "WELCOME TO EGYPT",
-      aboutTitle:
-        "Your journey is more than a transfer, <em>it is an experience to remember.</em>",
-      aboutText:
-        "At PHARAOH EGYPT, we help you discover Egypt through tourist transportation and private trips. Choose your destination and trip details, and we'll contact you to arrange an experience that fits your needs.",
-      aboutPoint1: "Your comfort matters",
-      aboutPoint2: "Many destinations",
-      aboutPoint3: "Direct communication",
-      aboutLink: "Start planning your trip ↗",
-
-      servicesKicker: "WHAT WE OFFER",
-      servicesTitle: "Our <em>Services</em>",
-      servicesIntro:
-        "Everything you need to travel and explore Egypt, all in one place.",
-      service1: "Luxor sightseeing tours",
-      service1p:
-        "Discover Luxor and Karnak temples, the Valley of the Kings and both banks of the Nile.",
-      service2: "Private transfers",
-      service2p:
-        "Transportation for individuals, families and groups, arranged around your needs.",
-      service3: "Intercity trips",
-      service3p:
-        "Travel from Luxor to Aswan, Hurghada, Cairo and other destinations.",
-      service4: "Airport & hotel transfers",
-      service4p:
-        "Airport pickups and drop-offs to hotels and your accommodation.",
-
-      destKicker: "CHOOSE YOUR DESTINATION",
-      destTitle: "Egypt… <em>a world of stories</em>",
-      destIntro:
-        "From ancient pharaonic sites to Red Sea beaches, choose the place you've dreamed of visiting.",
-      placeLuxor: "Luxor",
-      placeLuxorSub: "The capital of ancient history",
-      placeAswan: "Aswan",
-      placeAswanSub: "Nile serenity in the south",
-      placeHurghada: "Hurghada",
-      placeHurghadaSub: "Red Sea and beaches",
-      placeCairo: "Cairo",
-      placeCairoSub: "Pyramids and the heart of Egypt",
-      placePyramids: "The Pyramids",
-      placeRedSea: "Red Sea",
-      placeRedSeaSub: "Coastal escapes and relaxation",
-
-      galleryKicker: "MOMENTS IN EGYPT",
-      galleryTitle: "Photo <em>Gallery</em>",
-      galleryIntro: "A glimpse of the places and experiences waiting for you.",
-      gallery1: "Timeless Egyptian monuments",
-      gallery2: "The Giza Pyramids",
-      gallery3: "The beauty of the Nile",
-      gallery4: "Magic of the south",
-      gallery5: "Red Sea beaches",
-
-      bookingKicker: "YOUR FIRST STEP",
-      bookingTitle: "Plan your trip <em>with us</em>",
-      bookingIntro:
-        "Fill in your details and trip preferences. WhatsApp will open with a prepared message for you to review and send.",
-      formTitle: "Trip details",
-      formSub: "Please enter the information so we can contact you",
-      nameLabel: "Full name *",
-      phoneLabel: "Phone / WhatsApp number *",
-      emailLabel: "Email (optional)",
-      countryLabel: "Nationality / Country",
-      serviceLabel: "Service type *",
-      destinationLabel: "Destination *",
-      attractionLabel: "Tourist attraction *",
-      dateLabel: "Trip date",
-      peopleLabel: "Number of travelers",
-      pickupLabel: "Pickup location / Hotel",
-      detailsLabel: "Additional details or requests",
-      sendBtn: "Send booking request via WhatsApp",
-      privacyNote:
-        "Your information is not sent automatically. Review the message in WhatsApp before sending.",
-
-      asideTitle: "Your next journey<br><em>starts right here.</em>",
-      asideText: "Tell us what you need and we'll help coordinate your trip.",
-      asideFeature1: "Direct contact through WhatsApp",
-      asideFeature2: "Choose your destination and date",
-      asideFeature3: "Trips for individuals and families",
-
-      contactKicker: "WE ARE HERE TO HELP",
-      contactTitle: "Contact us <em>and book your trip</em>",
-      contactText:
-        "Choose the contact number that works for you. We are happy to answer your questions and help you plan.",
-      footerText: "Discover Egypt with us and make your journey unforgettable.",
-    },
-  };
-
-  // =====================================
-  // حفظ النصوص العربية الأصلية
-  // =====================================
-
-  document.querySelectorAll("[data-i18n]").forEach((element) => {
-    if (element.dataset.original === undefined) {
-      element.dataset.original = element.innerHTML;
+    if (googleSelect && googleSelect.value) {
+      return googleSelect.value;
     }
-  });
 
-  // =====================================
-  // تغيير اللغة
-  // =====================================
-
-  function setLanguage(next) {
-    lang = next === "en" ? "en" : "ar";
-
+    // ثانياً: قراءة اللغة المحفوظة في Cookie
     try {
-      localStorage.setItem("pharaoh_language", lang);
-    } catch (error) {}
+      const cookies = document.cookie.split(";");
 
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-    document.body.classList.toggle("ltr", lang === "en");
+      const translateCookie = cookies.find((cookie) =>
+        cookie.trim().startsWith("googtrans="),
+      );
 
-    document.querySelectorAll("[data-i18n]").forEach((element) => {
-      const key = element.dataset.i18n;
+      if (translateCookie) {
+        const value = decodeURIComponent(
+          translateCookie.trim().split("=").slice(1).join("="),
+        );
 
-      if (lang === "en" && translations.en[key]) {
-        element.innerHTML = translations.en[key];
-      } else if (element.dataset.original !== undefined) {
-        element.innerHTML = element.dataset.original;
+        const parts = value.split("/");
+        return parts[parts.length - 1] || "ar";
       }
-    });
+    } catch (error) {
+      console.log("Language detection error:", error);
+    }
 
-    // تحديث أسماء المحافظات والمعالم
+    return "ar";
+  }
+
+  // =====================================
+  // تحديد اتجاه الصفحة حسب اللغة
+  // =====================================
+
+  function applyLanguageDirection() {
+    const language = getGoogleLanguage();
+
+    const rtlLanguages = ["ar", "fa", "ur", "he", "ps", "sd", "ug", "yi"];
+
+    const isRTL = rtlLanguages.includes(language);
+
+    document.documentElement.lang = language;
+    document.documentElement.dir = isRTL ? "rtl" : "ltr";
+
+    document.body.classList.toggle("ltr", !isRTL);
+    document.body.classList.toggle("rtl", isRTL);
+
+    updateEgyptDateTime();
+
     if (window.pharaohUpdateDestinationLanguage) {
       window.pharaohUpdateDestinationLanguage();
     }
-
-    const langLabel = $("#langBtn b");
-
-    if (langLabel) {
-      langLabel.textContent = lang === "ar" ? "English" : "العربية";
-    }
-
-    const placeholders = {
-      name: ["اكتب اسمك", "Enter your name"],
-      phone: ["+20 1xxxxxxxxx", "+20 1xxxxxxxxx"],
-      country: ["مثال: مصر", "e.g. Egypt"],
-      pickup: ["اسم الفندق أو مكان الاستقبال", "Hotel name or pickup location"],
-      details: [
-        "اكتب أي تفاصيل تساعدنا في تجهيز رحلتك...",
-        "Tell us anything that will help us prepare your trip...",
-      ],
-    };
-
-    Object.entries(placeholders).forEach(([id, values]) => {
-      const element = $("#" + id);
-
-      if (element) {
-        element.placeholder = lang === "ar" ? values[0] : values[1];
-      }
-    });
-
-    updateEgyptDateTime();
-  }
-
-  const langBtn = $("#langBtn");
-
-  if (langBtn) {
-    langBtn.addEventListener("click", () => {
-      setLanguage(lang === "ar" ? "en" : "ar");
-    });
   }
 
   // =====================================
-  // مزامنة اللغة بين الصفحات
+  // متابعة تغيير اللغة من Google Translate
   // =====================================
 
-  window.addEventListener("storage", (event) => {
-    if (event.key === "pharaoh_language" && event.newValue) {
-      setLanguage(event.newValue);
+  function watchGoogleTranslate() {
+    const googleSelect = document.querySelector(".goog-te-combo");
+
+    if (!googleSelect || googleSelect.dataset.pharaohReady === "true") {
+      return;
     }
-  });
+
+    googleSelect.dataset.pharaohReady = "true";
+
+    googleSelect.addEventListener("change", () => {
+      setTimeout(applyLanguageDirection, 300);
+      setTimeout(applyLanguageDirection, 1000);
+    });
+  }
+
+  // مراقبة ظهور قائمة Google Translate
+  if ("MutationObserver" in window) {
+    const translateObserver = new MutationObserver(() => {
+      watchGoogleTranslate();
+    });
+
+    translateObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  }
+
+  watchGoogleTranslate();
 
   // =====================================
   // التاريخ والساعة
@@ -214,21 +139,34 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!dateElement || !timeElement) return;
 
     const now = new Date();
-    const locale = lang === "ar" ? "ar-EG" : "en-GB";
+    const language = getGoogleLanguage();
 
-    dateElement.textContent = now.toLocaleDateString(locale, {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    let locale = language || "ar-EG";
 
-    timeElement.textContent = now.toLocaleTimeString(locale, {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    });
+    if (language === "ar") {
+      locale = "ar-EG";
+    } else if (language === "en") {
+      locale = "en-GB";
+    }
+
+    try {
+      dateElement.textContent = now.toLocaleDateString(locale, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+      timeElement.textContent = now.toLocaleTimeString(locale, {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      });
+    } catch (error) {
+      dateElement.textContent = now.toLocaleDateString("ar-EG");
+      timeElement.textContent = now.toLocaleTimeString("ar-EG");
+    }
   }
 
   updateEgyptDateTime();
@@ -339,6 +277,9 @@ document.addEventListener("DOMContentLoaded", () => {
     bookingForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
+      const language = getGoogleLanguage();
+      const isArabic = language === "ar";
+
       const required = [
         "name",
         "phone",
@@ -356,10 +297,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (missing) {
         if (formError) {
-          formError.textContent =
-            lang === "ar"
-              ? "من فضلك أكمل الاسم ورقم الهاتف ونوع الخدمة والمحافظة والمعلم السياحي."
-              : "Please complete your name, phone number, service type, destination and tourist attraction.";
+          formError.textContent = isArabic
+            ? "من فضلك أكمل الاسم ورقم الهاتف ونوع الخدمة والمحافظة والمعلم السياحي."
+            : "Please complete your name, phone number, service type, destination and tourist attraction.";
         }
 
         return;
@@ -374,13 +314,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         return (
           (element && element.value.trim()) ||
-          (lang === "ar" ? "لم يحدد" : "Not specified")
+          (isArabic ? "لم يحدد" : "Not specified")
         );
       };
 
-      const msg =
-        lang === "ar"
-          ? `طلب حجز جديد - PHARAOH EGYPT
+      // رسالة الحجز بالعربية أو الإنجليزية
+      // اللغات الأخرى تستخدم الإنجليزية كرسالة بديلة
+
+      const msg = isArabic
+        ? `طلب حجز جديد - PHARAOH EGYPT
 
 الاسم: ${val("name")}
 الهاتف: ${val("phone")}
@@ -393,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
 عدد المسافرين: ${val("people")}
 مكان الاستقبال: ${val("pickup")}
 تفاصيل إضافية: ${val("details")}`
-          : `New booking request - PHARAOH EGYPT
+        : `New booking request - PHARAOH EGYPT
 
 Name: ${val("name")}
 Phone: ${val("phone")}
@@ -492,21 +434,65 @@ Additional details: ${val("details")}`;
   });
 
   // =====================================
-  // تشغيل اللغة المحفوظة
+  // تشغيل اتجاه اللغة عند فتح الصفحة
   // =====================================
 
-  let savedLanguage = "ar";
+  applyLanguageDirection();
 
-  try {
-    savedLanguage = localStorage.getItem("pharaoh_language") || "ar";
-  } catch (error) {}
+  // =====================================
+  // شاشة المقدمة والفيديو
+  // =====================================
 
-  setLanguage(savedLanguage);
+  const intro = $("#intro-screen");
+  const video = $("#intro-video");
+  const skipIntro = $("#skip-intro");
+
+  if (intro && video) {
+    function finishIntro() {
+      if (!intro.isConnected) return;
+
+      video.pause();
+      intro.classList.add("hide");
+
+      setTimeout(() => {
+        if (intro.isConnected) {
+          intro.remove();
+        }
+      }, 1000);
+    }
+
+    // زر تخطي المقدمة
+    if (skipIntro) {
+      skipIntro.addEventListener("click", finishIntro);
+    }
+
+    // منع إعادة المقدمة في نفس جلسة التصفح
+    try {
+      if (sessionStorage.getItem("pharaoh_intro_played")) {
+        intro.remove();
+      } else {
+        sessionStorage.setItem("pharaoh_intro_played", "true");
+
+        video.muted = true;
+        video.controls = false;
+        video.load();
+
+        video.addEventListener("ended", finishIntro);
+
+        video.play().catch((error) => {
+          console.log("Video playback error:", error);
+        });
+      }
+    } catch (error) {
+      video.muted = true;
+      video.play().catch(() => {});
+    }
+  }
 });
 
-/* =====================================
-   PHARAOH EGYPT - LIGHT NIGHT SKY
-===================================== */
+// =========================================
+// PHARAOH EGYPT - LIGHT NIGHT SKY
+// =========================================
 
 (() => {
   function createNightSky() {
@@ -541,10 +527,10 @@ Additional details: ${val("details")}`;
   }
 })();
 
-/* =========================================
-   PHARAOH EGYPT
-   محافظات مصر الـ27 والمعالم السياحية
-========================================= */
+// =========================================
+// PHARAOH EGYPT
+// محافظات مصر والمعالم السياحية
+// =========================================
 
 const pharaohEgyptPlaces = [
   {
@@ -838,15 +824,34 @@ const pharaohEgyptPlaces = [
 ];
 
 // =========================================
-// قراءة اللغة الحالية
+// قراءة اللغة الحالية من Google Translate
 // =========================================
 
 function pharaohCurrentLanguage() {
   try {
-    return localStorage.getItem("pharaoh_language") || "ar";
+    const googleSelect = document.querySelector(".goog-te-combo");
+
+    if (googleSelect && googleSelect.value) {
+      return googleSelect.value;
+    }
+
+    const translateCookie = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("googtrans="));
+
+    if (translateCookie) {
+      const value = decodeURIComponent(
+        translateCookie.trim().split("=").slice(1).join("="),
+      );
+
+      const parts = value.split("/");
+      return parts[parts.length - 1] || "ar";
+    }
   } catch (error) {
-    return "ar";
+    console.log("Could not read Google Translate language:", error);
   }
+
+  return "ar";
 }
 
 // =========================================
@@ -860,6 +865,8 @@ function pharaohFillGovernorates() {
   if (!governorateSelect || !attractionSelect) return;
 
   const language = pharaohCurrentLanguage();
+  const isArabic = language === "ar";
+
   const oldGovernorate = governorateSelect.value;
   const oldAttraction = attractionSelect.value;
 
@@ -867,15 +874,18 @@ function pharaohFillGovernorates() {
 
   const first = document.createElement("option");
   first.value = "";
-  first.textContent =
-    language === "en" ? "Choose a governorate" : "اختر المحافظة";
+  first.textContent = isArabic ? "اختر المحافظة" : "Choose a governorate";
 
   governorateSelect.appendChild(first);
 
   pharaohEgyptPlaces.forEach((governorate) => {
     const option = document.createElement("option");
+
+    // نحتفظ بالقيمة العربية حتى تعمل روابط الخريطة والحجز
     option.value = governorate.ar;
-    option.textContent = language === "en" ? governorate.en : governorate.ar;
+
+    // الإنجليزية هي النص الأساسي للغات غير العربية
+    option.textContent = isArabic ? governorate.ar : governorate.en;
 
     governorateSelect.appendChild(option);
   });
@@ -906,6 +916,7 @@ function pharaohFillAttractions(selectedPlace = "") {
   if (!governorateSelect || !attractionSelect) return;
 
   const language = pharaohCurrentLanguage();
+  const isArabic = language === "ar";
 
   const governorate = pharaohEgyptPlaces.find(
     (item) => item.ar === governorateSelect.value,
@@ -915,26 +926,34 @@ function pharaohFillAttractions(selectedPlace = "") {
 
   if (!governorate) {
     const option = document.createElement("option");
+
     option.value = "";
-    option.textContent =
-      language === "en" ? "Choose a governorate first" : "اختر المحافظة أولاً";
+    option.textContent = isArabic
+      ? "اختر المحافظة أولاً"
+      : "Choose a governorate first";
 
     attractionSelect.appendChild(option);
     attractionSelect.disabled = true;
+
     return;
   }
 
   const first = document.createElement("option");
+
   first.value = "";
-  first.textContent =
-    language === "en" ? "Choose a tourist attraction" : "اختر المعلم السياحي";
+  first.textContent = isArabic
+    ? "اختر المعلم السياحي"
+    : "Choose a tourist attraction";
 
   attractionSelect.appendChild(first);
 
   governorate.places.forEach(([ar, en]) => {
     const option = document.createElement("option");
+
+    // القيمة تظل عربية حتى لا تتعطل بيانات الحجز
     option.value = ar;
-    option.textContent = language === "en" ? en : ar;
+
+    option.textContent = isArabic ? ar : en;
 
     attractionSelect.appendChild(option);
   });
@@ -965,17 +984,33 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const params = new URLSearchParams(window.location.search);
-  const governorate = params.get("governorate");
-  const attraction = params.get("attraction");
 
-  if (governorate) {
-    const governorateExists = pharaohEgyptPlaces.some(
-      (item) => item.ar === governorate,
+  const governorateParam = params.get("governorate");
+  const attractionParam = params.get("attraction");
+
+  if (governorateParam) {
+    const selectedGovernorate = pharaohEgyptPlaces.find(
+      (item) =>
+        item.ar === governorateParam ||
+        item.en.toLowerCase() === governorateParam.toLowerCase(),
     );
 
-    if (governorateExists) {
-      governorateSelect.value = governorate;
-      pharaohFillAttractions(attraction || "");
+    if (selectedGovernorate) {
+      governorateSelect.value = selectedGovernorate.ar;
+
+      let selectedAttraction = attractionParam || "";
+
+      const matchingAttraction = selectedGovernorate.places.find(
+        (place) =>
+          place[0] === attractionParam ||
+          place[1].toLowerCase() === String(attractionParam).toLowerCase(),
+      );
+
+      if (matchingAttraction) {
+        selectedAttraction = matchingAttraction[0];
+      }
+
+      pharaohFillAttractions(selectedAttraction);
 
       const booking = document.getElementById("booking");
 
@@ -995,47 +1030,19 @@ document.addEventListener("DOMContentLoaded", () => {
 // تحديث القوائم عند تغيير اللغة
 // =========================================
 
-window.addEventListener("storage", (event) => {
-  if (event.key === "pharaoh_language") {
-    pharaohFillGovernorates();
-  }
-});
-
 window.pharaohUpdateDestinationLanguage = function () {
+  const governorateSelect = document.getElementById("destination");
+
+  if (!governorateSelect) return;
+
+  const oldGovernorate = governorateSelect.value;
+  const attractionSelect = document.getElementById("attraction");
+  const oldAttraction = attractionSelect ? attractionSelect.value : "";
+
   pharaohFillGovernorates();
+
+  if (oldGovernorate) {
+    governorateSelect.value = oldGovernorate;
+    pharaohFillAttractions(oldAttraction);
+  }
 };
-
-document.addEventListener("DOMContentLoaded", () => {
-  const intro = document.getElementById("intro-screen");
-  const video = document.getElementById("intro-video");
-
-  if (!intro || !video) return;
-
-  // منع إعادة المقدمة في نفس جلسة التصفح
-  if (sessionStorage.getItem("pharaoh_intro_played")) {
-    intro.remove();
-    return;
-  }
-
-  sessionStorage.setItem("pharaoh_intro_played", "true");
-
-  video.muted = true;
-  video.controls = false;
-  video.load();
-
-  function finishIntro() {
-    if (!intro.isConnected) return;
-
-    intro.classList.add("hide");
-
-    setTimeout(() => {
-      intro.remove();
-    }, 1000);
-  }
-
-  video.addEventListener("ended", finishIntro);
-
-  video.play().catch((error) => {
-    console.log("Video playback error:", error);
-  });
-});
