@@ -2994,3 +2994,17 @@ body.ltr .hero-content {
 .gallery-grid figure {
   min-width: 0;
 }
+/* إخفاء شعار التحميل الدائري الخاص بـ Google Translate */
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+.VIpgJd-ZVi9od-aZ2wEe-OiiCO,
+.VIpgJd-ZVi9od-aZ2wEe,
+.VIpgJd-ZVi9od-aZ2wEe-Jt5cK {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* منع ظهور طبقة تحميل الترجمة */
+.goog-te-spinner-pos {
+    display: none !important;
+}
