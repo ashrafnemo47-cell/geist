@@ -381,16 +381,23 @@
   </head>
 
   <body>
-    <!-- INTRO VIDEO -->
-    <div id="intro-screen">
-      <video id="intro-video" autoplay muted playsinline preload="auto">
-        <source src="./main.mp4" type="video/mp4" />
-        المتصفح لا يدعم تشغيل الفيديو.
-      </video>
+  
+<div id="pharaohIntro">
+  <div class="intro-fire"></div>
 
-      <button class="skip-intro" id="skip-intro" type="button">
-        تخطي المقدمة
-      </button>
+  <div class="intro-content">
+    <div class="pharaoh-letters">
+      <span>P</span><span>H</span><span>A</span>
+      <span>R</span><span>A</span><span>O</span><span>H</span>
+    </div>
+
+    <div class="egypt-word">EGYPT</div>
+    <p>DISCOVER THE LEGACY OF EGYPT</p>
+  </div>
+
+  <div id="introSparks"></div>
+</div>
+
     </div>
 
     <!-- ROYAL ATMOSPHERE -->
@@ -1970,5 +1977,49 @@
         });
       });
     </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sparks = document.getElementById("fireSparks");
+
+  if (!sparks) return;
+
+  for (let i = 0; i < 65; i++) {
+    const spark = document.createElement("span");
+
+    spark.style.left = Math.random() * 100 + "%";
+    spark.style.setProperty(
+      "--duration",
+      2 + Math.random() * 4 + "s"
+    );
+    spark.style.setProperty(
+      "--delay",
+      -Math.random() * 5 + "s"
+    );
+    spark.style.setProperty(
+      "--drift",
+      (Math.random() - .5) * 180 + "px"
+    );
+
+    sparks.appendChild(spark);
+  }
+});
+</script>
+
+<script>
+(() => {
+  const sparks = document.getElementById("introSparks");
+  if (!sparks) return;
+
+  for (let i = 0; i < 70; i++) {
+    const s = document.createElement("span");
+    s.style.left = Math.random() * 100 + "%";
+    s.style.animationDelay = Math.random() * 2 + "s";
+    s.style.animationDuration = (1 + Math.random() * 2) + "s";
+    sparks.appendChild(s);
+  }
+})();
+</script>
+
   </body>
 </html>
