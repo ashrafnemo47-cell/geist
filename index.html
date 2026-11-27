@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -22,8 +21,21 @@
 
     <link rel="stylesheet" href="style.css" />
 
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
+
     <style>
-      /* Language selector */
+      svg.VIpgJd-ZVi9od-aZ2wEe {
+        display: none !important;
+      }
+
       .language-wrapper {
         display: flex;
         align-items: center;
@@ -63,6 +75,10 @@
         display: none !important;
       }
 
+      body {
+        top: 0 !important;
+      }
+
       .skip-intro {
         position: absolute;
         bottom: 25px;
@@ -77,8 +93,236 @@
         font-family: inherit;
       }
 
-      body {
-        top: 0 !important;
+      .booking-contact-options {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 20px 0;
+      }
+
+      .booking-contact-btn {
+        padding: 12px 22px;
+        border: 1px solid #d9ad4a;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #142944, #071326);
+        color: #fff;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .booking-contact-btn:hover {
+        background: #d9ad4a;
+        color: #071326;
+        transform: translateY(-3px);
+        box-shadow: 0 7px 20px #d9ad4a44;
+      }
+
+      .datetime-widget {
+        position: fixed;
+        top: 115px;
+        left: 18px;
+        z-index: 900;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.35s ease;
+      }
+
+      .egypt-datetime {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 15px;
+        border: 1px solid rgba(233, 183, 67, 0.45);
+        border-radius: 18px;
+        background: rgba(6, 19, 44, 0.88);
+        color: #fff;
+        backdrop-filter: blur(14px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      }
+
+      .clock-emblem {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #e9b743;
+        font-size: 23px;
+      }
+
+      .clock-emblem::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border: 2px solid transparent;
+        border-top-color: #e9b743;
+        border-right-color: #e9b743;
+        border-radius: 50%;
+        animation: pharaohClockSpin 4s linear infinite;
+      }
+
+      .clock-emblem::after {
+        content: "";
+        position: absolute;
+        inset: 5px;
+        border: 1px dashed rgba(233, 183, 67, 0.55);
+        border-radius: 50%;
+        animation: pharaohClockSpin 8s linear infinite reverse;
+      }
+
+      @keyframes pharaohClockSpin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .datetime-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 125px;
+      }
+
+      .datetime-info span {
+        color: #d8c99f;
+        font-size: 11px;
+      }
+
+      .datetime-info strong {
+        color: #e9b743;
+        font-size: 17px;
+        direction: ltr;
+        text-align: right;
+        font-weight: 800;
+      }
+
+      .datetime-hide-btn {
+        width: 25px;
+        height: 25px;
+        border: 1px solid #e9b743;
+        border-radius: 50%;
+        background: #06132c;
+        color: #e9b743;
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      .datetime-widget.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(-20px);
+      }
+
+      .datetime-show-btn {
+        position: fixed;
+        top: 115px;
+        left: 18px;
+        z-index: 901;
+        width: 42px;
+        height: 42px;
+        border: 1px solid #e9b743;
+        border-radius: 50%;
+        background: #06132c;
+        color: #e9b743;
+        cursor: pointer;
+        font-size: 19px;
+        box-shadow: 0 5px 18px #0005;
+      }
+
+      .contact-numbers {
+        scroll-margin-top: 110px;
+      }
+
+      #bookingForm {
+        scroll-margin-top: 110px;
+      }
+
+      /* ===================================
+       3D EGYPTIAN GUARDIAN
+    =================================== */
+
+      .hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+      }
+
+      .guardian-scene {
+        position: absolute;
+        left: 2%;
+        top: 50%;
+        transform: translateY(-50%);
+        width: min(40vw, 500px);
+        height: min(78vh, 650px);
+        z-index: 4;
+        pointer-events: none;
+      }
+
+      #guardian3D {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      #guardian3D canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .guardian-particles {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .guardian-particle {
+        position: absolute;
+        bottom: -10px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: #ff9b22;
+        box-shadow: 0 0 12px 4px #ff5a00;
+        animation: guardianFire var(--duration) linear infinite;
+        animation-delay: var(--delay);
+      }
+
+      @keyframes guardianFire {
+        0% {
+          transform: translate3d(0, 0, 0) scale(0.5);
+          opacity: 0;
+        }
+
+        20% {
+          opacity: 1;
+        }
+
+        100% {
+          transform: translate3d(var(--drift), -500px, 0) scale(0);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .guardian-scene {
+          width: 290px;
+          height: 420px;
+          left: -20px;
+          top: 52%;
+          opacity: 0.85;
+        }
       }
 
       @media (max-width: 600px) {
@@ -91,6 +335,47 @@
           bottom: 15px;
           right: 15px;
         }
+
+        .booking-contact-options {
+          flex-direction: column;
+        }
+
+        .booking-contact-btn {
+          width: 100%;
+          max-width: 300px;
+        }
+
+        .datetime-widget {
+          top: 100px;
+          left: 8px;
+        }
+
+        .egypt-datetime {
+          padding: 7px 9px;
+          gap: 8px;
+        }
+
+        .clock-emblem {
+          width: 38px;
+          height: 38px;
+          font-size: 19px;
+        }
+
+        .datetime-info {
+          min-width: 105px;
+        }
+
+        .datetime-info strong {
+          font-size: 14px;
+        }
+
+        .guardian-scene {
+          width: 190px;
+          height: 300px;
+          left: -25px;
+          top: 38%;
+          opacity: 0.7;
+        }
       }
     </style>
   </head>
@@ -98,13 +383,7 @@
   <body>
     <!-- INTRO VIDEO -->
     <div id="intro-screen">
-      <video
-        id="intro-video"
-        autoplay
-        muted
-        playsinline
-        preload="auto"
-      >
+      <video id="intro-video" autoplay muted playsinline preload="auto">
         <source src="./main.mp4" type="video/mp4" />
         المتصفح لا يدعم تشغيل الفيديو.
       </video>
@@ -114,6 +393,7 @@
       </button>
     </div>
 
+    <!-- ROYAL ATMOSPHERE -->
     <div class="royal-atmosphere">
       <div class="aurora aurora-one"></div>
       <div class="aurora aurora-two"></div>
@@ -129,7 +409,12 @@
 
     <!-- HEADER -->
     <header class="header">
-      <button class="theme-toggle" id="themeToggle" aria-label="تغيير المظهر">
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="تغيير المظهر"
+      >
         ☀️
       </button>
 
@@ -141,69 +426,104 @@
         </span>
       </a>
 
-      <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+      <!-- زر القائمة -->
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="فتح القائمة"
+        aria-expanded="false"
+        aria-controls="nav"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
+      <!-- قائمة التنقل: عنصر nav واحد فقط -->
       <nav id="nav">
+        <div class="contact-menu-wrapper">
+          <button
+            class="contact-menu-btn"
+            id="contactMenuBtn"
+            type="button"
+            aria-expanded="false"
+            aria-controls="contactMenu"
+          >
+            تواصل معنا <span>⌄</span>
+          </button>
+
+          <div class="contact-dropdown" id="contactMenu">
+            <button type="button" class="contact-option" id="showWhatsApp">
+              <span>💬</span>
+              <span>تواصل عبر واتساب</span>
+            </button>
+
+            <button type="button" class="contact-option" id="goBooking">
+              <span>📝</span>
+              <span>تعبئة بيانات من الموقع</span>
+            </button>
+          </div>
+        </div>
+
         <a href="#home" data-i18n="navHome">الرئيسية</a>
         <a href="#about" data-i18n="navAbout">عن الشركة</a>
         <a href="#services" data-i18n="navServices">خدماتنا</a>
         <a href="#destinations" data-i18n="navPlaces">الوجهات</a>
-        <a href="destinations.html" data-i18n="navMap">
-          خريطة مصر السياحية
-        </a>
+        <a href="destinations.html" data-i18n="navMap">خريطة مصر السياحية</a>
         <a href="#gallery" data-i18n="navGallery">معرض الصور</a>
         <a href="#booking" data-i18n="navBooking">احجز الآن</a>
         <a href="#contact" data-i18n="navContact">تواصل معنا</a>
       </nav>
 
-      <!-- GOOGLE TRANSLATE -->
       <div class="language-wrapper">
         <div id="google_translate_element"></div>
       </div>
     </header>
 
-    <!-- LIVE DATE & TIME -->
-    <div class="egypt-datetime" dir="rtl">
-      <span id="liveDate"></span>
-      <span class="clock-divider">𓂀</span>
-      <span id="liveTime"></span>
-    </div>
-
     <main>
-      <!-- HERO -->
+      <!-- HERO SECTION -->
       <section class="hero" id="home">
+        <!-- الحارس ثلاثي الأبعاد: عنصر واحد فقط -->
+        <div id="guardianScene" class="guardian-scene">
+          <div id="guardian3D"></div>
+          <div class="guardian-particles" id="guardianParticles"></div>
+        </div>
+
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
 
         <div class="hero-content">
           <div class="eyebrow">
             <i></i>
-            <span data-i18n="heroEyebrow">
-              الأقصر، مصر · بوابتك لاكتشاف الحضارة
-            </span>
+            <span data-i18n="heroEyebrow"> مصر · بوابتك لاكتشاف الحضارة </span>
             <i></i>
           </div>
 
-          <div class="pyramid-mark">◢　△　◢</div>
+          <div class="pyramid-mark" aria-hidden="true">◢ <span>△</span> ◢</div>
 
           <h1 class="pharaoh-title">PHARAOH <em>EGYPT</em></h1>
+
+          <div class="hero-divider">
+            <span></span>
+            <b>𓋹</b>
+            <span></span>
+          </div>
 
           <div class="hero-ribbon" data-i18n="heroRibbon">
             خدمات النقل السياحي والرحلات الخاصة داخل مصر
           </div>
 
           <p data-i18n="heroText">
-            معنا تقدر تكتشف أجمل معالم مصر، من أشهر الأماكن إلى الكنوز الخفية التي لم يكتشفها الكثيرون بعد.
-
-نحن في خدمتكم على مدار 24 ساعة، لنساعدكم في تنظيم رحلاتكم وتقديم أفضل تجربة سياحية.
-
-نوفر خدماتنا في:
-الأقصر، أسوان، أبو سمبل، مرسى علم، الغردقة، والقاهرة.
+            معنا تقدر تكتشف أجمل معالم مصر، من أشهر الأماكن إلى الكنوز الخفية
+            التي لم يكتشفها الكثيرون بعد. نحن في خدمتكم على مدار 24 ساعة،
+            لنساعدكم في تنظيم رحلاتكم وتقديم أفضل تجربة سياحية. نوفر خدماتنا في:
+            الأقصر، أسوان، أبو سمبل، مرسى علم، الغردقة، والقاهرة.
           </p>
 
           <div class="hero-actions">
             <a class="gold-btn" href="#booking" data-i18n="heroBook">
-              خطط لرحلتك الآن　↗
+              خطط لرحلتك الآن ↗
             </a>
 
             <a class="outline-btn" href="#destinations" data-i18n="heroExplore">
@@ -212,20 +532,21 @@
           </div>
 
           <div class="hero-trust">
-            <span>✦ <b data-i18n="heroPrivate">رحلات خاصة</b></span>
-            <span>✦ <b data-i18n="heroFlexible">مواعيد مرنة</b></span>
-            <span>✦ <b data-i18n="heroEasy">حجز سهل</b></span>
+            <span
+              ><b>✦</b>
+              <strong data-i18n="heroPrivate">رحلات خاصة</strong></span
+            >
+            <span
+              ><b>✦</b>
+              <strong data-i18n="heroFlexible">مواعيد مرنة</strong></span
+            >
+            <span><b>✦</b> <strong data-i18n="heroEasy">حجز سهل</strong></span>
           </div>
         </div>
 
-        <div class="hero-scroll">
-          <span>SCROLL TO EXPLORE</span>
-          <i></i>
-        </div>
-
         <div class="hero-seal">
-          𓋹
-          <small>LAND OF<br />PHARAOHS</small>
+          <span>𓋹</span>
+          <small data-i18n="heroSeal">أرض الفراعنة</small>
         </div>
       </section>
 
@@ -237,9 +558,7 @@
         </div>
 
         <div class="intro-copy reveal">
-          <div class="kicker">
-            01 / <span data-i18n="aboutKicker">مرحباً بك في مصر</span>
-          </div>
+          <div class="kicker"></div>
 
           <h2 data-i18n="aboutTitle">
             رحلتك ليست مجرد انتقال،
@@ -268,24 +587,15 @@
       <section class="services section" id="services">
         <div class="section-head reveal">
           <div>
-            <div class="kicker">
-              02 / <span data-i18n="servicesKicker">ماذا نقدم؟</span>
-            </div>
-
+            <div class="kicker"></div>
             <h2 data-i18n="servicesTitle">خدماتنا <em>السياحية</em></h2>
           </div>
-
-          <p data-i18n="servicesIntro">
-            كل ما تحتاجه للتنقل واكتشاف مصر، في مكان واحد.
-          </p>
         </div>
 
         <div class="service-grid">
           <article class="service-card reveal">
-            <img src="191965.jpg" alt="الأقصر" />
-
+            <img src="191965.jpg" alt="معابد الأقصر" />
             <div class="service-body">
-              <small>01 · LUXOR TOURS</small>
               <h3 data-i18n="service1">رحلات سياحية داخل الأقصر</h3>
               <p data-i18n="service1p">
                 اكتشف معابد الأقصر والكرنك ووادي الملوك ومعالم البرين الشرقي
@@ -297,15 +607,163 @@
 
           <article class="service-card reveal">
             <img
-              src="https://expresstraveleg.com/wp-content/uploads/2025/01/11.jpg"
-              alt="سيارة نقل خاصة"
+              src="https://www.brooonzyah.net/wp-content/uploads/2021/12/%D8%A8%D8%AD%D8%AB-%D8%B9%D9%86-%D8%A3%D9%87%D8%B1%D8%A7%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%AC%D9%8A%D8%B2%D8%A9-650x400.jpg"
+              alt="أهرامات الجيزة"
             />
             <div class="service-body">
-              <small>02 · PRIVATE TRANSFERS</small>
-              <h3 data-i18n="service2">تنقلات خاصة</h3>
-              <p data-i18n="service2p">
-                خدمات تنقل للأفراد والعائلات والمجموعات حسب احتياجاتك.
+              <h3>رحلات الأهرامات والجيزة</h3>
+              <p>
+                زيارة أهرامات الجيزة وأبو الهول والاستمتاع بعظمة الحضارة
+                المصرية.
               </p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://www.kiwi.com/_next/image/?url=https:%2F%2Fimages.kiwi.com%2Fphotos%2Foriginals%2Faswan_eg.jpg&w=1920&q=60"
+              alt="أسوان"
+            />
+            <div class="service-body">
+              <h3>رحلات أسوان</h3>
+              <p>اكتشف السد العالي ومعبد فيلة وجمال النيل والقرى النوبية.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&w=900&q=85"
+              alt="البحر الأحمر"
+            />
+            <div class="service-body">
+              <h3>رحلات البحر الأحمر</h3>
+              <p>استمتع بالغردقة ومرسى علم والشواطئ والأنشطة البحرية.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=900&q=85"
+              alt="القاهرة"
+            />
+            <div class="service-body">
+              <h3>جولات القاهرة</h3>
+              <p>اكتشف القاهرة التاريخية والمتاحف والأسواق والأماكن الشهيرة.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=900&q=85"
+              alt="آثار مصر"
+            />
+            <div class="service-body">
+              <h3>جولات الآثار المصرية</h3>
+              <p>رحلات لاكتشاف تاريخ مصر القديم وآثارها ومعالمها الأثرية.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://magazine.eg.wedding/wp-content/uploads/2025/01/%D8%B4%D9%87%D8%B1-%D8%A7%D9%84%D8%B9%D8%B3%D9%84-%D9%81%D9%8A-%D8%A7%D9%84%D8%B4%D8%AA%D8%A7%D8%A1-%D8%AF%D8%A7%D8%AE%D9%84-%D9%85%D8%B5%D8%B1-1024x683.jpg.webp"
+              alt="المعابد المصرية"
+            />
+            <div class="service-body">
+              <h3>زيارة المعابد التاريخية</h3>
+              <p>
+                جولات بين المعابد المصرية القديمة والتعرف على أسرار الحضارة.
+              </p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=85"
+              alt="استقبال المطارات"
+            />
+            <div class="service-body">
+              <h3>استقبال وتوصيل المطارات</h3>
+              <p>
+                استقبال من المطار وتوصيل آمن ومريح إلى الفندق ومكان الإقامة.
+              </p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://expresstraveleg.com/wp-content/uploads/2025/01/11.jpg"
+              alt="سيارات خاصة"
+            />
+            <div class="service-body">
+              <h3>سيارات خاصة</h3>
+              <p>تنقلات خاصة للأفراد والعائلات والمجموعات بسيارات مريحة.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=900&q=85"
+              alt="رحلات المغامرات"
+            />
+            <div class="service-body">
+              <h3>رحلات المغامرات</h3>
+              <p>استمتع بتجارب المغامرة واستكشاف الطبيعة والصحراء المصرية.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85"
+              alt="رحلات الشواطئ"
+            />
+            <div class="service-body">
+              <h3>رحلات الشواطئ</h3>
+              <p>أوقات ممتعة على أجمل الشواطئ المصرية والاستمتاع بالبحر.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=900&q=85"
+              alt="رحلات نهر النيل"
+            />
+            <div class="service-body">
+              <h3>تجارب نهر النيل</h3>
+              <p>استمتع بجمال نهر النيل والرحلات النيلية والمناظر الساحرة.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=900&q=85"
+              alt="رحلات الطبيعة"
+            />
+            <div class="service-body">
+              <h3>رحلات الطبيعة</h3>
+              <p>اكتشف المناظر الطبيعية والواحات والمناطق المفتوحة في مصر.</p>
+              <a href="#booking">↗</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <img
+              src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85"
+              alt="رحلات الاستكشاف"
+            />
+            <div class="service-body">
+              <h3>رحلات الاستكشاف</h3>
+              <p>اكتشف وجهات جديدة وتجارب مختلفة في مختلف أنحاء مصر.</p>
               <a href="#booking">↗</a>
             </div>
           </article>
@@ -316,47 +774,35 @@
               alt="رحلات بين المدن"
             />
             <div class="service-body">
-              <small>03 · CITY TO CITY</small>
-              <h3 data-i18n="service3">رحلات بين المدن</h3>
-              <p data-i18n="service3p">
-                من الأقصر إلى أسوان والغردقة والقاهرة ووجهات أخرى.
-              </p>
+              <h3>رحلات بين المدن</h3>
+              <p>من الأقصر إلى أسوان والغردقة والقاهرة ووجهات أخرى.</p>
               <a href="#booking">↗</a>
             </div>
           </article>
 
           <article class="service-card reveal">
             <img
-              src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=85"
-              alt="طائرة"
+              src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=900&q=85"
+              alt="رحلات مخصصة"
             />
             <div class="service-body">
-              <small>04 · AIRPORT PICKUP</small>
-              <h3 data-i18n="service4">استقبال وتوصيل</h3>
-              <p data-i18n="service4p">
-                استقبال من المطارات وتوصيل إلى الفنادق ومكان إقامتك.
-              </p>
+              <h3>رحلات سياحية مخصصة</h3>
+              <p>اختر وجهتك ومدة رحلتك وسنساعدك في تنظيم تجربة تناسبك.</p>
               <a href="#booking">↗</a>
             </div>
           </article>
         </div>
+
+        <div class="egypt-gallery-grid" id="egyptGalleryGrid"></div>
       </section>
 
       <!-- DESTINATIONS -->
       <section class="destinations section" id="destinations">
         <div class="section-head reveal">
           <div>
-            <div class="kicker">
-              03 / <span data-i18n="destKicker">اختر وجهتك</span>
-            </div>
-
+            <div class="kicker"></div>
             <h2 data-i18n="destTitle">مصر… <em>عالم من الحكايات</em></h2>
           </div>
-
-          <p data-i18n="destIntro">
-            من آثار الفراعنة إلى شواطئ البحر الأحمر، اختر المكان الذي تحلم
-            بزيارته.
-          </p>
         </div>
 
         <div class="pharaoh-animation" aria-label="PHARAOH EGYPT">
@@ -366,41 +812,61 @@
         </div>
 
         <div class="destination-grid">
-          <a class="destination large reveal" href="#booking"
-            style="--photo: url(&quot;https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1100&q=85&quot;);">
-            <small>01 / PYRAMIDS</small>
+          <a
+            class="destination large reveal"
+            href="#booking"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1100&q=85&quot;);
+            "
+          >
             <b data-i18n="placePyramids">الأهرامات</b>
             <span data-i18n="placeLuxorSub">الحضارة القديمة</span>
             <i>↗</i>
           </a>
 
-          <a class="destination reveal" href="#booking"
-            style="--photo: url(&quot;https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=900&q=85&quot;);">
-            <small>02 / ASWAN</small>
+          <a
+            class="destination reveal"
+            href="#booking"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=900&q=85&quot;);
+            "
+          >
             <b data-i18n="placeAswan">أسوان</b>
             <span data-i18n="placeAswanSub">هدوء النيل وسحر الجنوب</span>
             <i>↗</i>
           </a>
 
-          <a class="destination reveal" href="#booking"
-            style="--photo: url(&quot;https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85&quot;);">
-            <small>03 / HURGHADA</small>
+          <a
+            class="destination reveal"
+            href="#booking"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85&quot;);
+            "
+          >
             <b data-i18n="placeHurghada">الغردقة</b>
             <span data-i18n="placeHurghadaSub">البحر الأحمر والشواطئ</span>
             <i>↗</i>
           </a>
 
-          <a class="destination reveal" href="#booking"
-            style="--photo: url(&quot;https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=900&q=85&quot;);">
-            <small>04 / CAIRO</small>
+          <a
+            class="destination reveal"
+            href="#booking"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=900&q=85&quot;);
+            "
+          >
             <b data-i18n="placeCairo">القاهرة</b>
             <span data-i18n="placeCairoSub">الأهرامات وقلب مصر</span>
             <i>↗</i>
           </a>
 
-          <a class="destination reveal" href="#booking"
-            style="--photo: url(&quot;https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=85&quot;);">
-            <small>05 / RED SEA</small>
+          <a
+            class="destination reveal"
+            href="#booking"
+            style="
+              --photo: url(&quot;https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=85&quot;);
+            "
+          >
             <b data-i18n="placeRedSea">البحر الأحمر</b>
             <span data-i18n="placeRedSeaSub">رحلات واسترخاء على الساحل</span>
             <i>↗</i>
@@ -412,9 +878,7 @@
       <section class="gallery section" id="gallery">
         <div class="section-head reveal">
           <div>
-            <div class="kicker">
-              04 / <span data-i18n="galleryKicker">لحظات من مصر</span>
-            </div>
+            <div class="kicker"></div>
             <h2 data-i18n="galleryTitle">معرض <em>الصور</em></h2>
           </div>
 
@@ -430,22 +894,34 @@
           </figure>
 
           <figure class="reveal">
-            <img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=900&q=85" alt="أهرامات الجيزة" />
+            <img
+              src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=900&q=85"
+              alt="أهرامات الجيزة"
+            />
             <figcaption data-i18n="gallery2">أهرامات الجيزة</figcaption>
           </figure>
 
           <figure class="reveal">
-            <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=85" alt="نهر النيل" />
+            <img
+              src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=85"
+              alt="نهر النيل"
+            />
             <figcaption data-i18n="gallery3">جمال النيل</figcaption>
           </figure>
 
           <figure class="reveal">
-            <img src="https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=900&q=85" alt="أسوان" />
+            <img
+              src="https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=900&q=85"
+              alt="أسوان"
+            />
             <figcaption data-i18n="gallery4">سحر الجنوب</figcaption>
           </figure>
 
           <figure class="reveal">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85" alt="البحر" />
+            <img
+              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=85"
+              alt="البحر"
+            />
             <figcaption data-i18n="gallery5">شواطئ البحر الأحمر</figcaption>
           </figure>
         </div>
@@ -454,11 +930,27 @@
       <!-- BOOKING -->
       <section class="booking-section section" id="booking">
         <div class="booking-heading reveal">
-          <div class="kicker">
-            05 / <span data-i18n="bookingKicker">خطوتك الأولى</span>
-          </div>
+          <div class="kicker"></div>
 
           <h2 data-i18n="bookingTitle">خطط لرحلتك <em>معنا</em></h2>
+
+          <div class="booking-contact-options">
+            <button
+              type="button"
+              class="booking-contact-btn"
+              data-contact-action="whatsapp"
+            >
+              💬 واتساب
+            </button>
+
+            <button
+              type="button"
+              class="booking-contact-btn"
+              data-contact-action="booking"
+            >
+              📝 تعبئة بيانات الحجز
+            </button>
+          </div>
 
           <p data-i18n="bookingIntro">
             املأ بياناتك وتفاصيل الرحلة، وسنفتح لك واتساب برسالة جاهزة لإرسال
@@ -472,24 +964,32 @@
               <span>𓂀</span>
               <div>
                 <b data-i18n="formTitle">بيانات الرحلة</b>
-                <small data-i18n="formSub">يرجى إدخال البيانات المطلوبة للتواصل معك</small>
+                <small data-i18n="formSub">
+                  يرجى إدخال البيانات المطلوبة للتواصل معك
+                </small>
               </div>
             </div>
 
             <div class="form-grid">
               <label>
                 <span data-i18n="nameLabel">الاسم بالكامل *</span>
-                <input id="name" required autocomplete="name" placeholder="اكتب اسمك" />
+                <input
+                  id="name"
+                  required
+                  autocomplete="name"
+                  placeholder="اكتب اسمك"
+                />
               </label>
 
               <label>
                 <span data-i18n="phoneLabel">رقم الهاتف / واتساب *</span>
-                <input id="phone" required type="tel" autocomplete="tel" placeholder="+20 1xxxxxxxxx" />
-              </label>
-
-              <label>
-                <span data-i18n="emailLabel">البريد الإلكتروني (اختياري)</span>
-                <input id="email" type="email" autocomplete="email" placeholder="name@example.com" />
+                <input
+                  id="phone"
+                  required
+                  type="tel"
+                  autocomplete="tel"
+                  placeholder="+20 1xxxxxxxxx"
+                />
               </label>
 
               <label>
@@ -501,10 +1001,18 @@
                 <span data-i18n="serviceLabel">نوع الخدمة *</span>
                 <select id="service" required>
                   <option value="رحلة سياحية / Tour">رحلة سياحية / Tour</option>
-                  <option value="نقل خاص / Private transfer">نقل خاص / Private transfer</option>
-                  <option value="استقبال مطار / Airport pickup">استقبال مطار / Airport pickup</option>
-                  <option value="رحلة بين المدن / Intercity trip">رحلة بين المدن / Intercity trip</option>
-                  <option value="رحلة مخصصة / Custom trip">رحلة مخصصة / Custom trip</option>
+                  <option value="نقل خاص / Private transfer">
+                    نقل خاص / Private transfer
+                  </option>
+                  <option value="استقبال مطار / Airport pickup">
+                    استقبال مطار / Airport pickup
+                  </option>
+                  <option value="رحلة بين المدن / Intercity trip">
+                    رحلة بين المدن / Intercity trip
+                  </option>
+                  <option value="رحلة مخصصة / Custom trip">
+                    رحلة مخصصة / Custom trip
+                  </option>
                 </select>
               </label>
 
@@ -522,24 +1030,6 @@
                 </select>
               </label>
 
-              <label>
-                <span data-i18n="dateLabel">تاريخ الرحلة</span>
-                <input id="date" type="date" />
-              </label>
-
-              <label>
-                <span data-i18n="peopleLabel">عدد المسافرين</span>
-                <select id="people">
-                  <option>1</option>
-                  <option selected>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7+</option>
-                </select>
-              </label>
-
               <label class="full">
                 <span data-i18n="pickupLabel">مكان الاستقبال / الفندق</span>
                 <input id="pickup" placeholder="اسم الفندق أو مكان الاستقبال" />
@@ -547,7 +1037,11 @@
 
               <label class="full">
                 <span data-i18n="detailsLabel">تفاصيل أو طلبات إضافية</span>
-                <textarea id="details" rows="4" placeholder="اكتب أي تفاصيل تساعدنا في تجهيز رحلتك..."></textarea>
+                <textarea
+                  id="details"
+                  rows="4"
+                  placeholder="اكتب أي تفاصيل تساعدنا في تجهيز رحلتك..."
+                ></textarea>
               </label>
             </div>
 
@@ -557,7 +1051,8 @@
             </button>
 
             <small class="privacy-note" data-i18n="privacyNote">
-              لن يتم إرسال البيانات تلقائياً؛ ستراجع الرسالة بنفسك داخل واتساب قبل إرسالها.
+              لن يتم إرسال البيانات تلقائياً؛ ستراجع الرسالة بنفسك داخل واتساب
+              قبل إرسالها.
             </small>
 
             <p id="formError" class="form-error" role="alert"></p>
@@ -578,9 +1073,17 @@
                 أخبرنا بما تحتاجه وسنساعدك في تنسيق تفاصيل رحلتك.
               </p>
 
-              <div class="aside-feature">✦ <span data-i18n="asideFeature1">تواصل مباشر عبر واتساب</span></div>
-              <div class="aside-feature">✦ <span data-i18n="asideFeature2">اختر وجهتك وموعدك</span></div>
-              <div class="aside-feature">✦ <span data-i18n="asideFeature3">رحلات للأفراد والعائلات</span></div>
+              <div class="aside-feature">
+                ✦ <span data-i18n="asideFeature1">تواصل مباشر عبر واتساب</span>
+              </div>
+
+              <div class="aside-feature">
+                ✦ <span data-i18n="asideFeature2">اختر وجهتك وموعدك</span>
+              </div>
+
+              <div class="aside-feature">
+                ✦ <span data-i18n="asideFeature3">رحلات للأفراد والعائلات</span>
+              </div>
             </div>
           </aside>
         </div>
@@ -589,31 +1092,42 @@
       <!-- CONTACT -->
       <section class="contact-section section" id="contact">
         <div class="contact-copy reveal">
-          <div class="kicker">
-            06 / <span data-i18n="contactKicker">نحن هنا لمساعدتك</span>
-          </div>
+          <div class="kicker"></div>
 
           <h2 data-i18n="contactTitle">تواصل معنا <em>واحجز رحلتك</em></h2>
 
           <p data-i18n="contactText">
-            اختر رقم التواصل المناسب لك. يسعدنا الرد على استفساراتك ومساعدتك في التخطيط.
+            اختر رقم التواصل المناسب لك. يسعدنا الرد على استفساراتك ومساعدتك في
+            التخطيط.
           </p>
         </div>
 
         <div class="contact-numbers reveal">
-          <a href="https://wa.me/201028348346" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://wa.me/201028348346"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <small>WHATSAPP 01</small>
             <b dir="ltr">010 2834 8346</b>
             <span>WhatsApp ↗</span>
           </a>
 
-          <a href="https://wa.me/201021023647" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://wa.me/201021023647"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <small>WHATSAPP 02</small>
             <b dir="ltr">010 2102 3647</b>
             <span>WhatsApp ↗</span>
           </a>
 
-          <a href="https://wa.me/201287230388" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://wa.me/201287230388"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <small>WHATSAPP 03</small>
             <b dir="ltr">012 8723 0388</b>
             <span>WhatsApp ↗</span>
@@ -626,18 +1140,32 @@
     <footer>
       <a class="footer-logo" href="#home">𓂀 PHARAOH EGYPT</a>
 
-      <p data-i18n="footerText">
-        اكتشف مصر معنا، واجعل رحلتك ذكرى لا تُنسى.
-      </p>
+      <p data-i18n="footerText">اكتشف مصر معنا، واجعل رحلتك ذكرى لا تُنسى.</p>
 
       <div class="social-links">
-        <a href="https://www.facebook.com/share/1JiXGa4X41/" class="social-icon facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+        <a
+          href="https://www.facebook.com/share/1JiXGa4X41/"
+          class="social-icon facebook"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+          title="Facebook"
+        >
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5h1.7V3.7c-.3 0-1.3-.1-2.4-.1-2.5 0-4.2 1.5-4.2 4.3v2H7.4V13h2.8v8h3.3z" />
+            <path
+              d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5h1.7V3.7c-.3 0-1.3-.1-2.4-.1-2.5 0-4.2 1.5-4.2 4.3v2H7.4V13h2.8v8h3.3z"
+            />
           </svg>
         </a>
 
-        <a href="https://www.instagram.com/" class="social-icon instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+        <a
+          href="https://www.instagram.com/"
+          class="social-icon instagram"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          title="Instagram"
+        >
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <rect x="3" y="3" width="18" height="18" rx="5" />
             <circle cx="12" cy="12" r="4" />
@@ -645,9 +1173,18 @@
           </svg>
         </a>
 
-        <a href="https://wa.me/201028348346" class="social-icon whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+        <a
+          href="https://wa.me/201028348346"
+          class="social-icon whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp"
+          title="WhatsApp"
+        >
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7a8.5 8.5 0 1 1 16.1-4zm-8.5-7a7 7 0 0 0-6 10.6l.2.4-.8 2.7 2.8-.8.4.2A7 7 0 1 0 12 4.8zm4 10.1c-.2-.1-1.3-.7-1.5-.8s-.4-.1-.5.1-.6.8-.8.9-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.8 6.8 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.5l.4-.4c.1-.1.2-.3.2-.4s0-.3-.1-.4-.5-1.2-.7-1.6c-.2-.4-.4-.3-.5-.3h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.1.9 2.2a8.5 8.5 0 0 0 3.3 2.9c.5.2.9.4 1.2.4.5.2 1 .1 1.4.1.4-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1s-.2-.2-.4-.3z" />
+            <path
+              d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7a8.5 8.5 0 1 1 16.1-4zm-8.5-7a7 7 0 0 0-6 10.6l.2.4-.8 2.7 2.8-.8.4.2A7 7 0 1 0 12 4.8zm4 10.1c-.2-.1-1.3-.7-1.5-.8s-.4-.1-.5.1-.6.8-.8.9-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.8 6.8 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.5l.4-.4c.1-.1.2-.3.2-.4s0-.3-.1-.4-.5-1.2-.7-1.6c-.2-.4-.4-.3-.5-.3h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.1.9 2.2a8.5 8.5 0 0 0 3.3 2.9c.5.2.9.4 1.2.4.5.2 1 .1 1.4.1.4-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1s-.2-.2-.4-.3z"
+            />
           </svg>
         </a>
       </div>
@@ -660,12 +1197,88 @@
     </footer>
 
     <!-- FLOATING WHATSAPP -->
-    <a class="float-wa" href="https://wa.me/201028348346" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <a
+      class="float-wa"
+      href="https://wa.me/201028348346"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="WhatsApp"
+    >
       ◉
     </a>
 
+    <!-- CONTACT MODAL -->
+    <div class="contact-modal" id="contactModal" aria-hidden="true">
+      <div class="contact-modal-content">
+        <div id="contactModalNumbers"></div>
+      </div>
+    </div>
+
     <!-- MAIN SCRIPT -->
     <script src="script.js"></script>
+
+    <!-- CONTACT NAVIGATION -->
+    <script>
+      document.addEventListener(
+        "click",
+        function (event) {
+          const target = event.target;
+
+          if (!(target instanceof Element)) return;
+
+          const whatsappButton = target.closest(
+            "#showWhatsApp, [data-contact-action='whatsapp']",
+          );
+
+          const bookingButton = target.closest(
+            "#goBooking, [data-contact-action='booking']",
+          );
+
+          if (!whatsappButton && !bookingButton) return;
+
+          event.preventDefault();
+          event.stopImmediatePropagation();
+
+          document
+            .getElementById("contactMenu")
+            ?.classList.remove("active", "open");
+
+          document
+            .getElementById("contactMenuBtn")
+            ?.setAttribute("aria-expanded", "false");
+
+          document.getElementById("nav")?.classList.remove("open");
+
+          if (whatsappButton) {
+            const numbers = document.querySelector(".contact-numbers");
+
+            numbers?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+
+            return;
+          }
+
+          if (bookingButton) {
+            const form = document.getElementById("bookingForm");
+            const nameInput = document.getElementById("name");
+
+            if (form) {
+              form.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+
+              setTimeout(function () {
+                nameInput?.focus({ preventScroll: true });
+              }, 700);
+            }
+          }
+        },
+        true,
+      );
+    </script>
 
     <!-- GOOGLE TRANSLATE -->
     <script>
@@ -673,56 +1286,688 @@
         new google.translate.TranslateElement(
           {
             pageLanguage: "ar",
-            autoDisplay: false
+            autoDisplay: false,
           },
-          "google_translate_element"
+          "google_translate_element",
         );
       }
     </script>
 
+    <script src="gallery.js" defer></script>
+
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <!-- INTRO SKIP + TRANSLATION DIRECTION -->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const skipButton = document.getElementById("skip-intro");
-        const intro = document.getElementById("intro-screen");
-        const video = document.getElementById("intro-video");
+      (function () {
+        function removeGoogleLoadingLogo() {
+          document
+            .querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf")
+            .forEach(function (element) {
+              element.remove();
+            });
+        }
 
-        if (skipButton && intro) {
-          skipButton.addEventListener("click", function () {
-            intro.classList.add("hide");
+        removeGoogleLoadingLogo();
 
-            if (video) {
-              video.pause();
+        const observer = new MutationObserver(function () {
+          removeGoogleLoadingLogo();
+        });
+
+        observer.observe(document.documentElement, {
+          childList: true,
+          subtree: true,
+        });
+      })();
+    </script>
+
+    <!-- ======================================
+     PHARAOH EGYPT - REAL 3D GUARDIAN
+======================================= -->
+
+    <script type="module">
+      import * as THREE from "three";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("guardian3D");
+        const particlesContainer = document.getElementById("guardianParticles");
+
+        if (!container) {
+          console.error("لم يتم العثور على guardian3D");
+          return;
+        }
+
+        // المشهد
+        const scene = new THREE.Scene();
+
+        // الكاميرا
+        const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+        camera.position.set(0, 0, 7.5);
+
+        // المحرك
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+          powerPreference: "high-performance",
+        });
+
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 2.2;
+        renderer.setClearColor(0x000000, 0);
+
+        container.appendChild(renderer.domElement);
+
+        // الإضاءة
+        scene.add(new THREE.HemisphereLight(0xffffff, 0x30200c, 2.2));
+        scene.add(new THREE.AmbientLight(0xffffff, 2.5));
+        const goldLight = new THREE.PointLight(0xffd36a, 130, 25);
+        goldLight.position.set(2, 3, 5);
+        scene.add(goldLight);
+
+        const blueLight = new THREE.PointLight(0x00cfff, 65, 16);
+        blueLight.position.set(-4, 1, 3);
+        scene.add(blueLight);
+
+        const fireLight = new THREE.PointLight(0xff4b12, 55, 15);
+        fireLight.position.set(0, -2, -3);
+        scene.add(fireLight);
+
+        const rimLight = new THREE.DirectionalLight(0xffe2a0, 3);
+        rimLight.position.set(-3, 5, -5);
+        scene.add(rimLight);
+
+        const frontLight = new THREE.DirectionalLight(0xffffff, 2.5);
+        frontLight.position.set(0, 2, 7);
+        scene.add(frontLight);
+
+        // مجموعة الحارس
+        const guardian = new THREE.Group();
+        scene.add(guardian);
+
+        let mixer = null;
+        let modelLoaded = false;
+
+        // تحميل المجسم الحقيقي
+        const loader = new GLTFLoader();
+
+        loader.load(
+          "./images/guardian.glb",
+
+          (gltf) => {
+            const model = gltf.scene;
+            guardian.add(model);
+
+            // حساب أبعاد المجسم ومركزه
+            const bounds = new THREE.Box3().setFromObject(model);
+            const size = bounds.getSize(new THREE.Vector3());
+            const center = bounds.getCenter(new THREE.Vector3());
+
+            const maxDimension = Math.max(size.x, size.y, size.z);
+
+            // تصغير وتوسيط المجسم بدقة
+            if (maxDimension > 0) {
+              const scale = 4 / maxDimension;
+
+              model.scale.setScalar(scale);
+
+              model.position.set(
+                -center.x * scale,
+                -center.y * scale,
+                -center.z * scale,
+              );
             }
 
-            sessionStorage.setItem("pharaoh_intro_played", "true");
+            // تحسين الإضاءة دون استبدال خامات المجسم
+            model.traverse((child) => {
+              if (!child.isMesh) return;
 
-            setTimeout(function () {
-              intro.remove();
-            }, 1000);
-          });
-        }
-      });
+              child.castShadow = true;
+              child.receiveShadow = true;
 
-      document.addEventListener("change", function (event) {
-        if (!event.target.classList.contains("goog-te-combo")) return;
+              const materials = Array.isArray(child.material)
+                ? child.material
+                : [child.material];
 
-        const language = event.target.value || "ar";
+              materials.forEach((material) => {
+                if (!material) return;
 
-        const rtlLanguages = [
-          "ar", "fa", "ur", "he", "ps", "sd"
-        ];
+                if (material.emissive) {
+                  material.emissiveIntensity = Math.max(
+                    material.emissiveIntensity || 0,
+                    0.12,
+                  );
+                }
 
-        document.documentElement.lang = language;
-        document.documentElement.dir =
-          rtlLanguages.includes(language) ? "rtl" : "ltr";
+                material.needsUpdate = true;
+              });
+            });
 
-        document.body.classList.toggle(
-          "ltr",
-          !rtlLanguages.includes(language)
+            // تشغيل حركات الملف إن وجدت
+            if (gltf.animations && gltf.animations.length > 0) {
+              mixer = new THREE.AnimationMixer(model);
+
+              gltf.animations.forEach((clip) => {
+                mixer.clipAction(clip).play();
+              });
+            }
+
+            modelLoaded = true;
+
+            console.log("تم تحميل الحارس المصري بنجاح");
+            console.log("أبعاد المجسم:", size);
+            console.log("عدد الحركات:", gltf.animations.length);
+          },
+
+          (progress) => {
+            if (progress.total > 0) {
+              const percentage = Math.round(
+                (progress.loaded / progress.total) * 100,
+              );
+
+              console.log("تحميل الحارس:", percentage + "%");
+            }
+          },
+
+          (error) => {
+            console.error("فشل تحميل guardian.glb:", error);
+          },
         );
+
+        // شرارات النار
+        if (particlesContainer) {
+          particlesContainer.innerHTML = "";
+
+          for (let i = 0; i < 35; i++) {
+            const particle = document.createElement("span");
+
+            particle.className = "guardian-particle";
+            particle.style.left = Math.random() * 100 + "%";
+
+            particle.style.setProperty(
+              "--duration",
+              2 + Math.random() * 3 + "s",
+            );
+
+            particle.style.setProperty("--delay", -Math.random() * 5 + "s");
+
+            particle.style.setProperty(
+              "--drift",
+              (Math.random() - 0.5) * 120 + "px",
+            );
+
+            particlesContainer.appendChild(particle);
+          }
+        }
+
+        // حركة الماوس واللمس
+        let targetX = 0;
+        let targetY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        window.addEventListener("pointermove", (event) => {
+          const rect = container.getBoundingClientRect();
+
+          const x = (event.clientX - rect.left) / rect.width;
+          const y = (event.clientY - rect.top) / rect.height;
+
+          targetX = THREE.MathUtils.clamp((x - 0.5) * 2, -1, 1);
+          targetY = THREE.MathUtils.clamp((y - 0.5) * 2, -1, 1);
+        });
+
+        window.addEventListener("pointerout", (event) => {
+          if (!event.relatedTarget) {
+            targetX = 0;
+            targetY = 0;
+          }
+        });
+
+        // ضبط الكاميرا
+        function updateCamera() {
+          const mobile = window.innerWidth <= 600;
+
+          camera.fov = mobile ? 42 : 35;
+          camera.position.set(0, 0, mobile ? 8.5 : 7.5);
+          camera.lookAt(0, 0, 0);
+          camera.updateProjectionMatrix();
+        }
+
+        // ضبط الحجم
+        function resize() {
+          const width = container.clientWidth;
+          const height = container.clientHeight;
+
+          if (!width || !height) return;
+
+          camera.aspect = width / height;
+          updateCamera();
+
+          renderer.setSize(width, height);
+        }
+
+        const observer = new ResizeObserver(resize);
+        observer.observe(container);
+
+        window.addEventListener("resize", resize);
+        resize();
+
+        // الحركة الرئيسية
+        const clock = new THREE.Clock();
+
+        function animate() {
+          requestAnimationFrame(animate);
+
+          const delta = clock.getDelta();
+          const time = clock.elapsedTime;
+
+          currentX += (targetX - currentX) * 0.055;
+          currentY += (targetY - currentY) * 0.055;
+
+          if (modelLoaded) {
+            guardian.rotation.y = currentX * 0.5;
+            guardian.rotation.x = -currentY * 0.15;
+
+            guardian.position.y = Math.sin(time * 1.3) * 0.035;
+
+            if (mixer) {
+              mixer.update(delta);
+            }
+          }
+
+          // حركة الإضاءة
+          goldLight.position.x = Math.sin(time * 0.7) * 3;
+          blueLight.position.y = Math.cos(time * 0.8) * 2;
+          fireLight.position.x = Math.sin(time * 1.1) * 2;
+
+          renderer.render(scene, camera);
+        }
+
+        animate();
+      });
+    </script>
+
+    <style>
+      .guardian-scene {
+        position: absolute;
+        left: 60%;
+        top: 60%;
+        transform: translateY(-50%);
+        width: min(43vw, 540px);
+        height: min(82vh, 720px);
+        z-index: 5;
+        pointer-events: none;
+      }
+
+      #guardian3D,
+      #guardian3D canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .guardian-scene {
+          width: 80vw;
+          height: 52vh;
+          left: -9%;
+          top: 62%;
+        }
+      }
+    </style>
+
+    <script type="module">
+      import * as THREE from "three";
+
+      const container = document.getElementById("guardian3D");
+
+      if (!container) {
+        console.error("guardian3D not found");
+      } else {
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+        camera.position.set(0, 2.2, 10);
+        camera.lookAt(0, 2.2, 0);
+
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.35;
+
+        container.appendChild(renderer.domElement);
+
+        // الإضاءة
+        scene.add(new THREE.AmbientLight(0xffffff, 1.8));
+
+        const goldLight = new THREE.DirectionalLight(0xffc45b, 4);
+        goldLight.position.set(4, 7, 5);
+        scene.add(goldLight);
+
+        const blueLight = new THREE.PointLight(0x00cfff, 20, 15);
+        blueLight.position.set(-3, 3, 4);
+        scene.add(blueLight);
+
+        const backLight = new THREE.PointLight(0xff6b19, 16, 15);
+        backLight.position.set(0, 5, -4);
+        scene.add(backLight);
+
+        // الخامات
+        const gold = new THREE.MeshStandardMaterial({
+          color: 0xd6a334,
+          metalness: 0.85,
+          roughness: 0.25,
+        });
+
+        const brightGold = new THREE.MeshStandardMaterial({
+          color: 0xffdc80,
+          metalness: 0.9,
+          roughness: 0.18,
+        });
+
+        const black = new THREE.MeshStandardMaterial({
+          color: 0x101522,
+          metalness: 0.72,
+          roughness: 0.3,
+        });
+
+        const dark = new THREE.MeshStandardMaterial({
+          color: 0x050914,
+          metalness: 0.5,
+          roughness: 0.4,
+        });
+
+        const blue = new THREE.MeshBasicMaterial({
+          color: 0x00eaff,
+        });
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        function sphere(parent, x, y, z, sx, sy, sz, material) {
+          const mesh = new THREE.Mesh(
+            new THREE.SphereGeometry(1, 32, 24),
+            material,
+          );
+          mesh.position.set(x, y, z);
+          mesh.scale.set(sx, sy, sz);
+          parent.add(mesh);
+          return mesh;
+        }
+
+        function cylinder(parent, x, y, z, r1, r2, h, material) {
+          const mesh = new THREE.Mesh(
+            new THREE.CylinderGeometry(r1, r2, h, 24),
+            material,
+          );
+          mesh.position.set(x, y, z);
+          parent.add(mesh);
+          return mesh;
+        }
+
+        function box(parent, x, y, z, sx, sy, sz, material) {
+          const mesh = new THREE.Mesh(
+            new THREE.BoxGeometry(sx, sy, sz),
+            material,
+          );
+          mesh.position.set(x, y, z);
+          parent.add(mesh);
+          return mesh;
+        }
+
+        // الجسم الرئيسي
+        const body = new THREE.Group();
+        group.add(body);
+
+        // الأرجل
+        for (const side of [-1, 1]) {
+          const leg = new THREE.Group();
+          leg.position.set(side * 0.48, 0.9, 0);
+          body.add(leg);
+
+          cylinder(leg, 0, -0.15, 0, 0.24, 0.3, 1.25, black);
+          sphere(leg, 0, -0.72, 0.12, 0.32, 0.18, 0.48, gold);
+
+          box(leg, 0, 0.25, 0.02, 0.55, 0.13, 0.56, gold);
+        }
+
+        // الحذاء الملكي
+        for (const side of [-1, 1]) {
+          sphere(body, side * 0.48, 0.12, 0.2, 0.34, 0.15, 0.5, brightGold);
+        }
+
+        // الدرع والصدر
+        sphere(body, 0, 2.65, 0, 0.88, 1.05, 0.46, black);
+        sphere(body, 0, 2.75, 0.36, 0.69, 0.72, 0.17, gold);
+        sphere(body, 0, 2.78, 0.48, 0.57, 0.57, 0.09, black);
+
+        // زخرفة صدرية
+        sphere(body, 0, 2.75, 0.58, 0.23, 0.3, 0.07, brightGold);
+
+        // خطوط الدرع
+        for (let i = -2; i <= 2; i++) {
+          box(body, i * 0.2, 2.35, 0.48, 0.055, 0.48, 0.055, brightGold);
+        }
+
+        // حزام
+        cylinder(body, 0, 1.85, 0, 0.65, 0.7, 0.22, gold);
+
+        box(body, 0, 1.83, 0.62, 0.28, 0.3, 0.08, brightGold);
+
+        // الذراعان
+        for (const side of [-1, 1]) {
+          const arm = new THREE.Group();
+          arm.position.set(side * 0.92, 2.95, 0);
+          body.add(arm);
+
+          sphere(arm, 0, -0.35, 0, 0.25, 0.48, 0.28, black);
+          sphere(arm, side * 0.04, -0.78, 0, 0.21, 0.35, 0.23, gold);
+          sphere(arm, 0, -1.05, 0.05, 0.19, 0.23, 0.21, dark);
+
+          cylinder(arm, 0, -0.45, 0.1, 0.29, 0.28, 0.15, brightGold);
+        }
+
+        // الرقبة
+        cylinder(body, 0, 3.55, 0, 0.34, 0.43, 0.5, gold);
+
+        // الرأس
+        const head = new THREE.Group();
+        head.position.set(0, 4.25, 0);
+        body.add(head);
+
+        // رأس ابن آوى
+        sphere(head, 0, 0, 0, 0.48, 0.65, 0.43, dark);
+
+        // الخطم الطويل
+        sphere(head, 0, -0.35, 0.38, 0.29, 0.25, 0.57, black);
+
+        // الأنف
+        sphere(head, 0, -0.3, 0.88, 0.16, 0.12, 0.14, gold);
+
+        // الأذنان
+        for (const side of [-1, 1]) {
+          const ear = new THREE.Mesh(
+            new THREE.ConeGeometry(0.2, 1.05, 4),
+            black,
+          );
+          ear.position.set(side * 0.32, 0.85, 0);
+          ear.rotation.z = side * -0.12;
+          head.add(ear);
+
+          const inner = sphere(
+            head,
+            side * 0.32,
+            0.78,
+            0.13,
+            0.09,
+            0.35,
+            0.045,
+            gold,
+          );
+        }
+
+        // العيون المضيئة
+        for (const side of [-1, 1]) {
+          sphere(head, side * 0.29, 0.05, 0.36, 0.13, 0.11, 0.09, gold);
+
+          const eye = sphere(
+            head,
+            side * 0.29,
+            0.05,
+            0.44,
+            0.07,
+            0.055,
+            0.045,
+            blue,
+          );
+        }
+
+        // التاج
+        cylinder(head, 0, 0.56, 0, 0.48, 0.4, 0.18, gold);
+
+        const crown = new THREE.Mesh(
+          new THREE.ConeGeometry(0.42, 0.55, 8),
+          brightGold,
+        );
+        crown.position.set(0, 0.85, 0);
+        head.add(crown);
+
+        // قرص الشمس خلف الرأس
+        const sun = new THREE.Mesh(
+          new THREE.TorusGeometry(0.48, 0.07, 16, 64),
+          brightGold,
+        );
+        sun.position.set(0, 0.65, -0.35);
+        head.add(sun);
+
+        // زخارف ذهبية على الجسم
+        for (let i = 0; i < 5; i++) {
+          const ring = new THREE.Mesh(
+            new THREE.TorusGeometry(0.32 + i * 0.035, 0.025, 8, 32),
+            gold,
+          );
+          ring.position.set(0, 2.25 - i * 0.13, 0.48);
+          body.add(ring);
+        }
+
+        // عباءة خلفية
+        const cape = new THREE.Mesh(new THREE.ConeGeometry(0.9, 2.1, 4), black);
+        cape.position.set(0, 2.1, -0.48);
+        cape.rotation.x = -Math.PI;
+        body.add(cape);
+
+        // منصة ذهبية
+        cylinder(group, 0, -0.05, 0, 1.1, 1.1, 0.18, gold);
+        cylinder(group, 0, -0.17, 0, 0.95, 1.05, 0.12, black);
+
+        // جزيئات مضيئة
+        const particles = new THREE.Group();
+        scene.add(particles);
+
+        for (let i = 0; i < 45; i++) {
+          const p = new THREE.Mesh(
+            new THREE.SphereGeometry(0.025 + Math.random() * 0.035, 8, 8),
+            new THREE.MeshBasicMaterial({
+              color: i % 2 ? 0xffc34c : 0x00dfff,
+            }),
+          );
+
+          p.position.set(
+            (Math.random() - 0.5) * 3,
+            Math.random() * 6,
+            (Math.random() - 0.5) * 1.5,
+          );
+
+          particles.add(p);
+        }
+
+        let mx = 0;
+        let my = 0;
+        let rx = 0;
+        let ry = 0;
+
+        window.addEventListener("pointermove", (e) => {
+          mx = (e.clientX / innerWidth - 0.5) * 2;
+          my = (e.clientY / innerHeight - 0.5) * 2;
+        });
+
+        function resize() {
+          const w = container.clientWidth;
+          const h = container.clientHeight;
+          if (!w || !h) return;
+
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h);
+        }
+
+        new ResizeObserver(resize).observe(container);
+        resize();
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+          requestAnimationFrame(animate);
+
+          const t = clock.getElapsedTime();
+
+          rx += (-my * 0.12 - rx) * 0.045;
+          ry += (mx * 0.35 - ry) * 0.045;
+
+          group.rotation.y = ry;
+          group.rotation.x = rx;
+          group.position.y = Math.sin(t * 1.2) * 0.07;
+
+          head.rotation.y = Math.sin(t * 0.7) * 0.04;
+
+          particles.children.forEach((p, i) => {
+            p.position.y += Math.sin(t + i) * 0.0015;
+            p.position.x += Math.cos(t * 0.5 + i) * 0.001;
+          });
+
+          blueLight.position.x = Math.sin(t) * 3;
+          goldLight.position.x = Math.cos(t * 0.6) * 3;
+
+          renderer.render(scene, camera);
+        }
+
+        animate();
+
+        console.log("Anubis Guardian initialized");
+      }
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggle = document.getElementById("menuToggle");
+        const nav = document.getElementById("nav");
+
+        if (!toggle || !nav) return;
+
+        // القائمة مغلقة عند البداية
+        nav.classList.remove("open");
+
+        toggle.addEventListener("click", () => {
+          const opened = nav.classList.toggle("open");
+
+          toggle.setAttribute("aria-expanded", opened);
+          toggle.setAttribute(
+            "aria-label",
+            opened ? "إغلاق القائمة" : "فتح القائمة",
+          );
+        });
+
+        nav.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            nav.classList.remove("open");
+            toggle.setAttribute("aria-expanded", "false");
+          });
+        });
       });
     </script>
   </body>
