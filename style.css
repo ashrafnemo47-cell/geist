@@ -4121,3 +4121,418 @@ iframe.goog-te-spinner-pos,
       drop-shadow(0 0 75px rgba(255, 190, 65, 0.35));
   }
 }
+
+/* ===== PHARAOH CINEMATIC FIRE INTRO ===== */
+
+.pharaoh-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  background: #020713;
+  animation: introDisappear 1s ease 5s forwards;
+}
+
+.pharaoh-logo {
+  position: relative;
+  z-index: 3;
+  width: min(85vw, 760px);
+  max-height: 75vh;
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(.45) translateY(70px);
+  filter:
+    brightness(.4)
+    drop-shadow(0 0 5px #ff8c00);
+  animation:
+    logoArrival 2s cubic-bezier(.16,1,.3,1) .4s forwards,
+    logoFire 1.2s ease-in-out 2.4s infinite alternate;
+}
+
+.fire-ring {
+  position: absolute;
+  width: min(75vw, 650px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle,
+      transparent 40%,
+      rgba(255, 120, 0, .12) 55%,
+      rgba(255, 50, 0, .35) 65%,
+      transparent 72%);
+  filter: blur(18px);
+  opacity: 0;
+  animation: fireRing 2s ease 1.3s forwards,
+             firePulse 1.5s ease-in-out 3s infinite alternate;
+}
+
+.intro-caption {
+  z-index: 4;
+  margin-top: 15px;
+  color: #ffd77a;
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-align: center;
+  opacity: 0;
+  animation: captionArrival 1s ease 2.5s forwards;
+  text-shadow: 0 0 15px #ff8c00;
+}
+
+.fire-sparks {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fire-sparks span {
+  position: absolute;
+  bottom: -20px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffcf57;
+  box-shadow:
+    0 0 8px #ff8c00,
+    0 0 18px #ff3c00;
+  animation: sparkRise var(--duration) linear var(--delay) infinite;
+}
+
+@keyframes logoArrival {
+  0% {
+    opacity: 0;
+    transform: scale(.45) translateY(70px);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.08) translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes logoFire {
+  from {
+    filter:
+      brightness(1.05)
+      drop-shadow(0 0 12px #ff9d00)
+      drop-shadow(0 0 25px #ff3c00);
+  }
+  to {
+    filter:
+      brightness(1.45)
+      drop-shadow(0 0 22px #ffe18a)
+      drop-shadow(0 0 50px #ff6500)
+      drop-shadow(0 0 75px #ff2600);
+  }
+}
+
+@keyframes fireRing {
+  from {
+    opacity: 0;
+    transform: scale(.4) rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.1) rotate(180deg);
+  }
+}
+
+@keyframes firePulse {
+  from {
+    filter: blur(15px);
+    transform: scale(.95);
+  }
+  to {
+    filter: blur(28px);
+    transform: scale(1.12);
+  }
+}
+
+@keyframes captionArrival {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sparkRise {
+  0% {
+    transform: translate(0, 0) scale(.5);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--drift), -100vh) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes introDisappear {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pharaoh-intro,
+  .pharaoh-logo,
+  .fire-ring,
+  .intro-caption {
+    animation-duration: .01ms;
+    animation-iteration-count: 1;
+  }
+}
+
+/* PHARAOH FAST CINEMATIC INTRO */
+
+.pharaoh-intro {
+  background:
+    radial-gradient(ellipse at center, #38200a 0%, #090d18 48%, #02040a 100%);
+  animation: introDisappear .65s ease 2.65s forwards;
+}
+
+.pharaoh-wordmark {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  perspective: 900px;
+}
+
+.falling-letters {
+  display: flex;
+  direction: ltr;
+  justify-content: center;
+  gap: clamp(2px, 1vw, 12px);
+}
+
+.falling-letters span {
+  display: inline-block;
+  color: #ffd36a;
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 10vw, 105px);
+  font-weight: 900;
+  line-height: 1;
+  text-shadow:
+    0 2px 0 #8c4c08,
+    0 5px 0 #603000,
+    0 0 15px #ffb52e,
+    0 0 35px #ff6500;
+  opacity: 0;
+  transform: translateY(-110vh) rotateX(90deg) scale(.5);
+  animation: letterFall .65s cubic-bezier(.16, 1.3, .3, 1) forwards;
+}
+
+.falling-letters span:nth-child(1) { animation-delay: .10s; }
+.falling-letters span:nth-child(2) { animation-delay: .17s; }
+.falling-letters span:nth-child(3) { animation-delay: .24s; }
+.falling-letters span:nth-child(4) { animation-delay: .31s; }
+.falling-letters span:nth-child(5) { animation-delay: .38s; }
+.falling-letters span:nth-child(6) { animation-delay: .45s; }
+.falling-letters span:nth-child(7) { animation-delay: .52s; }
+
+.egypt-title {
+  margin-top: 12px;
+  color: #fff0bf;
+  font-size: clamp(23px, 5vw, 42px);
+  font-weight: 800;
+  letter-spacing: .55em;
+  padding-left: .55em;
+  text-shadow:
+    0 0 12px #ffbd45,
+    0 0 30px #ff5a00;
+  opacity: 0;
+  transform: translateY(35px);
+  animation: egyptReveal .55s ease .9s forwards;
+}
+
+.intro-caption {
+  margin-top: 18px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #ffe1a0;
+  opacity: 0;
+  animation: captionArrival .4s ease 1.25s forwards;
+}
+
+/* سقوط الحروف */
+@keyframes letterFall {
+  0% {
+    opacity: 0;
+    transform: translateY(-110vh) rotateX(90deg) scale(.5);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(8px) rotateX(-12deg) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
+  }
+}
+
+@keyframes egyptReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* توهج النار */
+.pharaoh-intro::before {
+  content: "";
+  position: absolute;
+  bottom: -35%;
+  left: -15%;
+  width: 130%;
+  height: 75%;
+  background:
+    radial-gradient(ellipse, rgba(255, 90, 0, .4), transparent 65%);
+  filter: blur(35px);
+  animation: fireBurst .7s ease-in-out infinite alternate;
+}
+
+@keyframes fireBurst {
+  from { opacity: .45; transform: scale(.9); }
+  to { opacity: 1; transform: scale(1.12); }
+}
+
+.fire-ring {
+  animation:
+    fireRing .8s ease .5s forwards,
+    firePulse .6s ease-in-out 1.3s infinite alternate;
+}
+
+@keyframes introDisappear {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* PHARAOH INTRO */
+#pharaohIntro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #030713;
+  opacity: 1;
+  visibility: visible;
+  animation: introExit .5s ease 2.5s forwards;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+}
+
+.pharaoh-letters {
+  display: flex;
+  direction: ltr;
+  justify-content: center;
+  gap: 5px;
+}
+
+.pharaoh-letters span {
+  color: #ffd36a;
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 10vw, 100px);
+  font-weight: 900;
+  text-shadow: 0 0 15px #ff9d00, 0 0 40px #ff3b00;
+  opacity: 0;
+  animation: fallLetter .55s cubic-bezier(.2,1.5,.4,1) forwards;
+}
+
+.pharaoh-letters span:nth-child(1) { animation-delay: .1s; }
+.pharaoh-letters span:nth-child(2) { animation-delay: .18s; }
+.pharaoh-letters span:nth-child(3) { animation-delay: .26s; }
+.pharaoh-letters span:nth-child(4) { animation-delay: .34s; }
+.pharaoh-letters span:nth-child(5) { animation-delay: .42s; }
+.pharaoh-letters span:nth-child(6) { animation-delay: .50s; }
+.pharaoh-letters span:nth-child(7) { animation-delay: .58s; }
+
+.egypt-word {
+  color: #fff0bd;
+  font-size: clamp(25px, 5vw, 42px);
+  font-weight: bold;
+  letter-spacing: 12px;
+  padding-left: 12px;
+  margin-top: 12px;
+  opacity: 0;
+  animation: revealEgypt .5s ease .9s forwards;
+  text-shadow: 0 0 20px #ff8c00;
+}
+
+.intro-content p {
+  color: #ffdca0;
+  font-size: 10px;
+  letter-spacing: 3px;
+  opacity: 0;
+  animation: revealEgypt .5s ease 1.2s forwards;
+}
+
+.intro-fire {
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff650055, #ff180022 40%, transparent 70%);
+  filter: blur(35px);
+  animation: firePulse .5s infinite alternate;
+}
+
+#introSparks span {
+  position: absolute;
+  bottom: -15px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffbd45;
+  box-shadow: 0 0 12px #ff3b00;
+  animation: sparkUp 1.5s linear infinite;
+}
+
+@keyframes fallLetter {
+  from { opacity: 0; transform: translateY(-100vh) rotateX(90deg); }
+  to { opacity: 1; transform: translateY(0) rotateX(0); }
+}
+
+@keyframes revealEgypt {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes firePulse {
+  from { transform: scale(.8); opacity: .5; }
+  to { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes sparkUp {
+  from { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  to { transform: translateY(-100vh); opacity: 0; }
+}
+
+@keyframes introExit {
+  to { opacity: 0; visibility: hidden; }
+}
